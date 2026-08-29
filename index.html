@@ -1,31 +1,71 @@
-<button class="btn" onclick="agregarServidor()">+ Agregar Servidor</button>
-
-<script>
-    function agregarServidor() {
-        let nombre = prompt("Nombre del servidor (ej: Survival):");
-        let ruta = prompt("Ruta de la carpeta (ej: C:/Servers/Survival):");
-        
-        if (nombre && ruta) {
-            let nuevoServer = { nombre: nombre, ruta: ruta, fecha: new Date().toLocaleDateString() };
-            // Guardar en el navegador
-            let servers = JSON.parse(localStorage.getItem('misServers') || '[]');
-            servers.push(nuevoServer);
-            localStorage.setItem('misServers', JSON.stringify(servers));
-            location.reload(); // Recargar para ver el cambio
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servidor Minecraft - Comunidad</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
         }
-    }
+        header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://via.placeholder.com/1200x400');
+            background-size: cover;
+            padding: 60px 20px;
+        }
+        h1 { font-size: 2.5em; margin-bottom: 10px; color: #4CAF50; }
+        .ip-box {
+            background-color: #1e1e1e;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            font-size: 1.2em;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .btn-forum { background-color: #007acc; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        footer { margin-top: 50px; padding: 20px; background-color: #0a0a0a; color: #777; }
+    </style>
+</head>
+<body>
 
-    // Cargar al iniciar
-    let guardados = JSON.parse(localStorage.getItem('misServers') || '[]');
-    guardados.forEach(s => {
-        contenedor.innerHTML += `
-            <div class="card">
-                <div>
-                    <h3>${s.nombre}</h3>
-                    <p>Ruta: ${s.ruta}</p>
-                </div>
-                <button class="btn">Abrir Consola</button>
-            </div>
-        `;
-    });
-</script>
+    <header>
+        <h1>NOMBRE DE TU SERVIDOR</h1>
+        <p>Servidor de Supervivencia y Comunidad</p>
+        <div class="ip-box" onclick="navigator.clipboard.writeText('mc.tuservidor.com'); alert('¡IP copiada!');">
+            IP: <strong>mc.tuservidor.com</strong> (Haz clic para copiar)
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Bienvenido a la Comunidad</h2>
+        <p>Explorá nuestro foro oficial para enterarte de novedades, enviar sugerencias o hacer reportes.</p>
+        
+        <!-- Enlace directo a las Discusiones del Repositorio -->
+        <a href="https://github.com/TU-USUARIO/TU-REPOSITO/discussions" class="btn btn-forum" target="_blank">Ir al Foro de la Comunidad</a>
+        <a href="https://discord.gg/TU-DISCORD" class="btn" target="_blank">Unirse al Discord</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Servidor Minecraft - Alojado en GitHub Pages</p>
+    </footer>
+
+</body>
+</html>
