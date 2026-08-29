@@ -44,7 +44,7 @@
             position: fixed;
             bottom: 30px;
             left: 30px;
-            z-index: 1000;
+            z-index: 99999;
         }
 
         .mail-btn {
@@ -69,11 +69,10 @@
             background-color: #fff;
         }
 
-        /* Icono SVG incrustado de alta calidad */
+        /* Logo/Icono SVG Creado por Código (Estilo Cómic) */
         .mail-icon-svg {
-            width: 42px;
-            height: 42px;
-            fill: var(--ink);
+            width: 44px;
+            height: 44px;
             transition: transform 0.2s;
         }
 
@@ -113,7 +112,7 @@
             box-shadow: 10px 10px 0 var(--ink);
             display: flex;
             flex-direction: column;
-            z-index: 1001;
+            z-index: 100000;
             overflow: hidden;
             animation: popUp 0.2s ease-out;
         }
@@ -290,13 +289,20 @@
         <button class="btn-demo" onclick="addDemoMessage()">Simular Nuevo Mensaje 📨</button>
     </div>
 
-    <!-- WIDGET FLOTANTE DE CORREO -->
+    <!-- WIDGET FLOTANTE DE CORREO (Pégalo dentro de tu index.html antes de cerrar </body>) -->
     <div id="mail-widget" class="mail-widget">
         <div class="mail-btn" onclick="toggleMailModal()" title="Abrir Buzón">
-            <!-- Icono SVG integrado que carga al 100% sin requerir archivos externos -->
-            <svg class="mail-icon-svg" viewBox="0 0 24 24">
-                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            
+            <!-- LOGO CREADO POR CÓDIGO (SVG Vectorial Estilizado tipo Cómic) -->
+            <svg class="mail-icon-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <!-- Sombra de la carta base -->
+                <rect x="8" y="16" width="48" height="36" rx="4" fill="#1d3557" />
+                <!-- Cuerpo principal de la carta -->
+                <rect x="6" y="14" width="48" height="36" rx="4" fill="#fffcf2" stroke="#1d3557" stroke-width="4" />
+                <!-- Solapa superior de la carta con trazado tipo comic -->
+                <path d="M6 18 L30 36 L54 18" fill="none" stroke="#1d3557" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
+
             <div id="mail-badge" class="mail-badge hidden">0</div>
         </div>
 
@@ -312,13 +318,15 @@
     </div>
 
     <script>
-        // Cargar mensajes desde localStorage o iniciar con un array vacío
-        let messagesDB = JSON.parse(localStorage.getItem('standalone_mail_db')) || [
-            { id: 1, sender: "Admin_Hyxir", content: "¡Bienvenido al sistema de correo independiente del foro!", date: "12:30" }
+        // Clave sincronizada para conectarse con index.html y cualquier otra página del foro
+        const STORAGE_KEY = 'hyxir_network_mail_db';
+
+        let messagesDB = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
+            { id: 1, sender: "Admin_Hyxir", content: "¡Bienvenido al sistema de correo integrado del foro!", date: "12:30" }
         ];
 
         function saveMailData() {
-            localStorage.setItem('standalone_mail_db', JSON.stringify(messagesDB));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(messagesDB));
             updateMailWidget();
         }
 
@@ -326,7 +334,6 @@
             const modal = document.getElementById('mail-modal');
             modal.classList.toggle('hidden');
             
-            // Al abrir el buzón, limpiamos el contador de notificaciones no leídas
             if (!modal.classList.contains('hidden')) {
                 const badge = document.getElementById('mail-badge');
                 badge.classList.add('hidden');
@@ -335,6 +342,9 @@
         }
 
         function updateMailWidget() {
+            // Sincronizar por si se recibieron mensajes desde otra pestaña o index.html
+            messagesDB = JSON.parse(localStorage.getItem(STORAGE_KEY)) || messagesDB;
+            
             const mailBody = document.getElementById('mail-body');
             const badge = document.getElementById('mail-badge');
             
@@ -360,7 +370,6 @@
                     mailBody.appendChild(item);
                 });
 
-                // Mostrar badge con la cantidad de mensajes actuales
                 badge.innerText = messagesDB.length;
                 badge.classList.remove('hidden');
             }
@@ -381,7 +390,6 @@
             messagesDB.unshift(newMsg);
             saveMailData();
             
-            // Animación de rebote en el botón al recibir correo
             const btn = document.querySelector('.mail-btn');
             btn.style.transform = 'scale(1.2)';
             setTimeout(() => btn.style.transform = 'scale(1)', 200);
@@ -396,7 +404,13 @@
                 .replace(/'/g, '&#039;');
         }
 
-        // Inicializar al cargar la página
+        // Sincronización automática en tiempo real si se interactúa desde el index u otras páginas
+        window.addEventListener('storage', (e) => {
+            if (e.key === STORAGE_KEY) {
+                updateMailWidget();
+            }
+        });
+
         window.addEventListener('DOMContentLoaded', () => {
             updateMailWidget();
         });
