@@ -3,69 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servidor Minecraft - Comunidad</title>
+    <title>Hyxir Network - Portal Oficial</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212;
+            background-color: #0f0f14;
             color: #ffffff;
-            margin: 0;
-            padding: 0;
             text-align: center;
         }
         header {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://via.placeholder.com/1200x400');
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://via.placeholder.com/1200x400');
             background-size: cover;
-            padding: 60px 20px;
+            padding: 50px 20px;
+            border-bottom: 3px solid #7289da;
         }
-        h1 { font-size: 2.5em; margin-bottom: 10px; color: #4CAF50; }
+        h1 { font-size: 2.8em; color: #5865F2; text-shadow: 0 0 10px rgba(88,101,242,0.5); }
+        .subtitle { color: #aaaaaa; margin-top: 5px; font-size: 1.1em; }
+        
         .ip-box {
-            background-color: #1e1e1e;
+            background-color: #18191c;
             display: inline-block;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border-radius: 8px;
-            border: 1px solid #333;
+            border: 2px stroke #7289da;
+            border: 1px solid #2f3136;
             font-size: 1.2em;
-            margin: 15px 0;
+            margin: 20px 0;
             cursor: pointer;
+            transition: 0.2s;
         }
+        .ip-box:hover { background-color: #2f3136; }
+
+        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        
+        .card {
+            background-color: #1e1f24;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            border: 1px solid #2f3136;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px 0;
+            border-radius: 6px;
+            border: 1px solid #40444b;
+            background-color: #2f3136;
+            color: white;
+            font-size: 1em;
+        }
+
         .btn {
             display: inline-block;
-            padding: 12px 24px;
-            margin: 10px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0;
+            border-radius: 6px;
             font-weight: bold;
+            font-size: 1em;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        .btn-forum { background-color: #007acc; }
-        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
-        footer { margin-top: 50px; padding: 20px; background-color: #0a0a0a; color: #777; }
+        .btn-primary { background-color: #5865F2; color: white; }
+        .btn-primary:hover { background-color: #4752C4; }
+        .btn-discord { background-color: #23272A; color: #5865F2; border: 1px solid #5865F2; }
+        .btn-discord:hover { background-color: #5865F2; color: white; }
+        .btn-logout { background-color: #ed4245; color: white; margin-top: 15px; }
+
+        .hidden { display: none; }
+        footer { margin-top: 50px; padding: 20px; background-color: #0b0b0e; color: #555; font-size: 0.9em; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>NOMBRE DE TU SERVIDOR</h1>
-        <p>Servidor de Supervivencia y Comunidad</p>
-        <div class="ip-box" onclick="navigator.clipboard.writeText('mc.tuservidor.com'); alert('¡IP copiada!');">
-            IP: <strong>mc.tuservidor.com</strong> (Haz clic para copiar)
+        <h1>HYXIR NETWORK</h1>
+        <p class="subtitle">Comunidad & Servidor de Minecraft</p>
+        <div class="ip-box" onclick="navigator.clipboard.writeText('Hyxir.mc-games.xyz:19132'); alert('¡IP copiada al portapapeles!');">
+            IP: <strong>Hyxir.mc-games.xyz:19132</strong> (Clic para copiar)
         </div>
     </header>
 
     <div class="container">
-        <h2>Bienvenido a la Comunidad</h2>
-        <p>Explorá nuestro foro oficial para enterarte de novedades, enviar sugerencias o hacer reportes.</p>
         
-        <!-- Enlace directo a las Discusiones del Repositorio -->
-        <a href="https://github.com/TU-USUARIO/TU-REPOSITO/discussions" class="btn btn-forum" target="_blank">Ir al Foro de la Comunidad</a>
-        <a href="https://discord.gg/TU-DISCORD" class="btn" target="_blank">Unirse al Discord</a>
+        <!-- SECCIÓN 1: FORMULARIO DE INGRESO / REGISTRO -->
+        <div id="auth-section" class="card">
+            <h2>Acceso al Foro</h2>
+            <p style="color:#aaa; font-size:0.9em; margin-bottom: 15px;">Ingresá tu usuario de Minecraft para continuar al Foro de la comunidad.</p>
+            
+            <form id="login-form">
+                <label style="text-align: left; display: block; color: #ccc;">Usuario de Minecraft:</label>
+                <input type="text" id="username" placeholder="Ej: Player123" required>
+                <button type="submit" class="btn btn-primary">Ingresar al Foro</button>
+            </form>
+
+            <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">Unirse al Discord Oficial</a>
+        </div>
+
+        <!-- SECCIÓN 2: PANEL DE BIENVENIDA Y REDIRECCIÓN AL FORO -->
+        <div id="welcome-section" class="card hidden">
+            <h2>¡Hola, <span id="user-display" style="color:#5865F2;"></span>!</h2>
+            <p style="margin: 15px 0; color:#ccc;">Ya estás identificado en la red de <strong>Hyxir Network</strong>.</p>
+            
+            <!-- Cambiá este enlace por la URL de la pestaña Discussions de tu repositorio de GitHub -->
+            <a href="https://github.com/TU-USUARIO/TU-REPOSITORIO/discussions" class="btn btn-primary" target="_blank">Ir al Foro Oficial (GitHub Discussions)</a>
+            <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">Comunidad de Discord</a>
+            
+            <button onclick="logout()" class="btn btn-logout">Cerrar Sesión</button>
+        </div>
+
     </div>
 
     <footer>
-        <p>&copy; 2026 Servidor Minecraft - Alojado en GitHub Pages</p>
+        <p>&copy; 2026 Hyxir Network - Todos los derechos reservados.</p>
     </footer>
 
+    <script>
+        const authSection = document.getElementById('auth-section');
+        const welcomeSection = document.getElementById('welcome-section');
+        const userDisplay = document.getElementById('user-display');
+        const loginForm = document.getElementById('login-form');
+
+        // Comprobar si el usuario ya tiene sesión iniciada
+        const savedUser = localStorage.getItem('hyxir_user');
+
+        if (savedUser) {
+            showWelcome(savedUser);
+        }
+
+        // Manejar el envío del formulario
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const usernameInput = document.getElementById('username').value.trim();
+            if (usernameInput) {
+                localStorage.setItem('hyxir_user', usernameInput);
+                showWelcome(usernameInput);
+            }
+        });
+
+        function showWelcome(name) {
+            userDisplay.textContent = name;
+            authSection.classList.add('hidden');
+            welcomeSection.classList.remove('hidden');
+        }
+
+        function logout() {
+            localStorage.removeItem('hyxir_user');
+            welcomeSection.classList.add('hidden');
+            authSection.classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
