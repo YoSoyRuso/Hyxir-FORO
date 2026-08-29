@@ -3,116 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hyxir Network - Portal Oficial</title>
+    <title>Hyxir Network - Portal & Comunidad</title>
+    <!-- Fuentes de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: rgba(23, 26, 33, 0.85);
+            --primary: #5865F2;
+            --primary-hover: #4752C4;
+            --accent: #00f2fe;
+            --accent-glow: rgba(0, 242, 254, 0.4);
+            --danger: #ed4245;
+            --text-main: #f1f1f1;
+            --text-muted: #949ba4;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f0f14;
-            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(88, 101, 242, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0, 242, 254, 0.1) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* BANNER Y CABECERA */
+        header {
+            padding: 60px 20px 40px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(15,17,23,0.9) 0%, rgba(11,12,16,0) 100%);
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.2em;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #ffffff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px var(--accent-glow);
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* CONTENEDOR DE LA IP */
+        .ip-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .ip-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .ip-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* TARJETAS PRINCIPALES */
+        .main-container {
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            border-radius: 16px;
+            padding: 35px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
-        header {
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://via.placeholder.com/1200x400');
-            background-size: cover;
-            padding: 50px 20px;
-            border-bottom: 3px solid #7289da;
-        }
-        h1 { font-size: 2.8em; color: #5865F2; text-shadow: 0 0 10px rgba(88,101,242,0.5); }
-        .subtitle { color: #aaaaaa; margin-top: 5px; font-size: 1.1em; }
-        
-        .ip-box {
-            background-color: #18191c;
-            display: inline-block;
-            padding: 12px 25px;
-            border-radius: 8px;
-            border: 2px stroke #7289da;
-            border: 1px solid #2f3136;
-            font-size: 1.2em;
-            margin: 20px 0;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .ip-box:hover { background-color: #2f3136; }
 
-        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; }
-        
-        .card {
-            background-color: #1e1f24;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            border: 1px solid #2f3136;
+        .card h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6em;
+            margin-bottom: 10px;
         }
 
-        input {
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95em;
+            margin-bottom: 25px;
+        }
+
+        /* FORMULARIOS E INPUTS */
+        .form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .form-input {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0 20px 0;
-            border-radius: 6px;
-            border: 1px solid #40444b;
-            background-color: #2f3136;
-            color: white;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #fff;
             font-size: 1em;
+            outline: none;
+            transition: all 0.3s ease;
         }
 
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(88, 101, 242, 0.4);
+        }
+
+        /* BOTONES */
         .btn {
-            display: inline-block;
             width: 100%;
             padding: 14px;
-            margin: 8px 0;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 1em;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95em;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            margin-top: 5px;
         }
-        .btn-primary { background-color: #5865F2; color: white; }
-        .btn-primary:hover { background-color: #4752C4; }
-        .btn-discord { background-color: #23272A; color: #5865F2; border: 1px solid #5865F2; }
-        .btn-discord:hover { background-color: #5865F2; color: white; }
-        .btn-logout { background-color: #ed4245; color: white; margin-top: 15px; }
 
-        .hidden { display: none; }
-        footer { margin-top: 50px; padding: 20px; background-color: #0b0b0e; color: #555; font-size: 0.9em; }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #3b44a9);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
+        }
+
+        .btn-discord {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            margin-top: 12px;
+        }
+
+        .btn-discord:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            margin-top: 15px;
+        }
+
+        .btn-logout:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        /* MENSAJES DE ERROR Y MODOS */
+        .error-msg {
+            color: var(--danger);
+            font-size: 0.85em;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .toggle-link {
+            color: var(--accent);
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .hidden { display: none !important; }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.85em;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>HYXIR NETWORK</h1>
-        <p class="subtitle">Comunidad & Servidor de Minecraft</p>
-        <div class="ip-box" onclick="navigator.clipboard.writeText('Hyxir.mc-games.xyz:19132'); alert('¡IP copiada al portapapeles!');">
-            IP: <strong>Hyxir.mc-games.xyz:19132</strong> (Clic para copiar)
+        <h1 class="title">HYXIR NETWORK</h1>
+        <p class="subtitle">Servidor de Minecraft & Comunidad Oficial</p>
+        
+        <div class="ip-card" onclick="copyIP()">
+            <span>🎮</span>
+            <span>IP: <strong class="ip-text">Hyxir.mc-games.xyz:19132</strong></span>
+            <span style="font-size: 0.8em; color: var(--text-muted);">(Copiar)</span>
         </div>
     </header>
 
-    <div class="container">
+    <div class="main-container">
         
-        <!-- SECCIÓN 1: FORMULARIO DE INGRESO / REGISTRO -->
-        <div id="auth-section" class="card">
-            <h2>Acceso al Foro</h2>
-            <p style="color:#aaa; font-size:0.9em; margin-bottom: 15px;">Ingresá tu usuario de Minecraft para continuar al Foro de la comunidad.</p>
+        <!-- CARD DE AUTENTICACIÓN (LOGIN / REGISTRO) -->
+        <div id="auth-card" class="card">
+            <h2 id="auth-title">Iniciar Sesión</h2>
+            <p id="auth-desc">Ingresá tus credenciales para ingresar al foro.</p>
             
-            <form id="login-form">
-                <label style="text-align: left; display: block; color: #ccc;">Usuario de Minecraft:</label>
-                <input type="text" id="username" placeholder="Ej: Player123" required>
-                <button type="submit" class="btn btn-primary">Ingresar al Foro</button>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label>Usuario de Minecraft</label>
+                    <input type="text" id="username" class="form-input" placeholder="Ej: TuNickMinecraft" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <div id="error-message" class="error-msg">Contraseña incorrecta.</div>
+
+                <button type="submit" id="btn-submit" class="btn btn-primary">Ingresar al Foro</button>
             </form>
 
-            <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">Unirse al Discord Oficial</a>
+            <p style="margin-top: 20px; font-size: 0.85em;">
+                <span id="toggle-text">¿Entrás por primera vez?</span> 
+                <span id="toggle-btn" class="toggle-link" onclick="toggleAuthMode()">Registrarse</span>
+            </p>
+
+            <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">Unirse al Discord</a>
         </div>
 
-        <!-- SECCIÓN 2: PANEL DE BIENVENIDA Y REDIRECCIÓN AL FORO -->
-        <div id="welcome-section" class="card hidden">
-            <h2>¡Hola, <span id="user-display" style="color:#5865F2;"></span>!</h2>
-            <p style="margin: 15px 0; color:#ccc;">Ya estás identificado en la red de <strong>Hyxir Network</strong>.</p>
+        <!-- CARD DE BIENVENIDA (CUANDO YA INICIÓ SESIÓN) -->
+        <div id="welcome-card" class="card hidden">
+            <h2>¡Hola, <span id="user-display" style="color: var(--accent);"></span>!</h2>
+            <p>Sesión iniciada correctamente. Ya podés acceder a la comunidad.</p>
             
-            <!-- Cambiá este enlace por la URL de la pestaña Discussions de tu repositorio de GitHub -->
-            <a href="https://github.com/TU-USUARIO/TU-REPOSITORIO/discussions" class="btn btn-primary" target="_blank">Ir al Foro Oficial (GitHub Discussions)</a>
-            <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">Comunidad de Discord</a>
+            <!-- Link al foro de GitHub Discussions -->
+            <a href="https://github.com/TU-USUARIO/TU-REPOSITORIO/discussions" class="btn btn-primary" target="_blank">
+                💬 Entrar al Foro Oficial
+            </a>
+            
+            <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">
+                Comunidad en Discord
+            </a>
             
             <button onclick="logout()" class="btn btn-logout">Cerrar Sesión</button>
         </div>
@@ -120,42 +292,111 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Hyxir Network - Todos los derechos reservados.</p>
+        <p>&copy; 2026 Hyxir Network. Alojado en GitHub Pages.</p>
     </footer>
 
     <script>
-        const authSection = document.getElementById('auth-section');
-        const welcomeSection = document.getElementById('welcome-section');
+        let isRegisterMode = false;
+
+        const authTitle = document.getElementById('auth-title');
+        const authDesc = document.getElementById('auth-desc');
+        const btnSubmit = document.getElementById('btn-submit');
+        const toggleText = document.getElementById('toggle-text');
+        const toggleBtn = document.getElementById('toggle-btn');
+        const errorMessage = document.getElementById('error-message');
+
+        const authCard = document.getElementById('auth-card');
+        const welcomeCard = document.getElementById('welcome-card');
         const userDisplay = document.getElementById('user-display');
-        const loginForm = document.getElementById('login-form');
 
-        // Comprobar si el usuario ya tiene sesión iniciada
-        const savedUser = localStorage.getItem('hyxir_user');
-
-        if (savedUser) {
-            showWelcome(savedUser);
+        // Comprobar si hay sesión activa al cargar
+        const activeUser = localStorage.getItem('hyxir_active_user');
+        if (activeUser) {
+            showWelcome(activeUser);
         }
 
-        // Manejar el envío del formulario
-        loginForm.addEventListener('submit', function(e) {
+        // Alternar entre modo Registro e Inicio de Sesión
+        function toggleAuthMode() {
+            isRegisterMode = !isRegisterMode;
+            errorMessage.style.display = 'none';
+
+            if (isRegisterMode) {
+                authTitle.textContent = 'Crear Cuenta';
+                authDesc.textContent = 'Registrá tu usuario de Minecraft y crea tu clave.';
+                btnSubmit.textContent = 'Registrarse e Ingresar';
+                toggleText.textContent = '¿Ya tenés cuenta?';
+                toggleBtn.textContent = 'Iniciar Sesión';
+            } else {
+                authTitle.textContent = 'Iniciar Sesión';
+                authDesc.textContent = 'Ingresá tus credenciales para ingresar al foro.';
+                btnSubmit.textContent = 'Ingresar al Foro';
+                toggleText.textContent = '¿Entrás por primera vez?';
+                toggleBtn.textContent = 'Registrarse';
+            }
+        }
+
+        // Procesar formulario
+        document.getElementById('auth-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const usernameInput = document.getElementById('username').value.trim();
-            if (usernameInput) {
-                localStorage.setItem('hyxir_user', usernameInput);
-                showWelcome(usernameInput);
+            errorMessage.style.display = 'none';
+
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+
+            if (!user || !pass) return;
+
+            // Obtener base de datos local (Simulada / LocalStorage)
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_registered_users')) || {};
+
+            if (isRegisterMode) {
+                // REGISTRO
+                if (usersDB[user]) {
+                    showError('Este usuario de Minecraft ya está registrado. Iniciá sesión.');
+                    return;
+                }
+                // Guardar usuario y clave
+                usersDB[user] = pass;
+                localStorage.setItem('hyxir_registered_users', JSON.stringify(usersDB));
+                
+                // Iniciar sesión
+                localStorage.setItem('hyxir_active_user', user);
+                showWelcome(user);
+            } else {
+                // LOGIN
+                if (!usersDB[user]) {
+                    showError('El usuario no existe. Registrate primero.');
+                    return;
+                }
+                if (usersDB[user] !== pass) {
+                    showError('Contraseña incorrecta.');
+                    return;
+                }
+                // Contraseña correcta
+                localStorage.setItem('hyxir_active_user', user);
+                showWelcome(user);
             }
         });
 
-        function showWelcome(name) {
-            userDisplay.textContent = name;
-            authSection.classList.add('hidden');
-            welcomeSection.classList.remove('hidden');
+        function showError(msg) {
+            errorMessage.textContent = msg;
+            errorMessage.style.display = 'block';
+        }
+
+        function showWelcome(user) {
+            userDisplay.textContent = user;
+            authCard.classList.add('hidden');
+            welcomeCard.classList.remove('hidden');
         }
 
         function logout() {
-            localStorage.removeItem('hyxir_user');
-            welcomeSection.classList.add('hidden');
-            authSection.classList.remove('hidden');
+            localStorage.removeItem('hyxir_active_user');
+            welcomeCard.classList.add('hidden');
+            authCard.classList.remove('hidden');
+        }
+
+        function copyIP() {
+            navigator.clipboard.writeText('Hyxir.mc-games.xyz:19132');
+            alert('¡IP de Hyxir Network copiada!');
         }
     </script>
 </body>
