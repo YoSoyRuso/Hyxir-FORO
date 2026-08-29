@@ -459,13 +459,14 @@
             align-items: center;
             border-top: 1px solid rgba(0,0,0,0.1);
             padding-top: 10px;
+            gap: 10px;
         }
 
-        .like-btn {
+        .action-btn {
             background: #fff;
             border: 2px solid var(--ink);
             border-radius: 8px;
-            padding: 4px 10px;
+            padding: 4px 12px;
             cursor: pointer;
             font-family: 'Boogaloo', cursive;
             font-size: 1em;
@@ -474,11 +475,120 @@
             gap: 5px;
             transition: 0.1s;
             box-shadow: 2px 2px 0 var(--ink);
+            color: var(--text-dark);
         }
 
-        .like-btn:hover {
+        .action-btn:hover {
             transform: scale(1.05);
+            background-color: #f0f0f0;
+        }
+
+        .action-btn.liked {
             background-color: #ffe5ec;
+            color: var(--primary);
+            border-color: var(--primary-dark);
+        }
+
+        /* SECCIÓN DE COMENTARIOS */
+        .comments-section {
+            margin-top: 15px;
+            background: #fdfaf0;
+            border: 3px solid var(--ink);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.05);
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .comment-item {
+            background: #fff;
+            border: 2px solid var(--ink);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .comment-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid var(--ink);
+            image-rendering: pixelated;
+        }
+
+        .comment-author {
+            font-family: 'Bangers', cursive;
+            font-size: 1.1em;
+            color: var(--accent);
+        }
+
+        .comment-date {
+            font-size: 0.75em;
+            color: #888;
+        }
+
+        .comment-text {
+            font-size: 0.95em;
+            color: var(--text-dark);
+            white-space: pre-wrap;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .comment-input {
+            flex-grow: 1;
+            padding: 8px 12px;
+            border: 2px solid var(--ink);
+            border-radius: 8px;
+            font-family: 'Boogaloo', cursive;
+            font-size: 1em;
+            outline: none;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .comment-input:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-comment-submit {
+            background: var(--primary);
+            color: #fff;
+            border: 2px solid var(--ink);
+            border-radius: 8px;
+            padding: 0 15px;
+            font-family: 'Bangers', cursive;
+            font-size: 1.1em;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--ink);
+            transition: 0.1s;
+        }
+
+        .btn-comment-submit:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0 var(--ink);
         }
 
         .error-msg {
@@ -838,6 +948,18 @@
             }, 2000);
         }
 
+        function escapeHTML(str) {
+            return String(str).replace(/[&<>"']/g, function(m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[m];
+            });
+        }
+
         // LÓGICA DEL FORO (POSTS)
         document.getElementById('post-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -853,7 +975,8 @@
                 category: categoryInput.value,
                 title: titleInput.value.trim(),
                 content: contentInput.value.trim(),
-                likes: 0,
+                likedBy: [], // Array con los usuarios que le dieron like
+                comments: [], // Array para guardar comentarios
                 date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
             };
 
@@ -866,13 +989,82 @@
             loadPosts();
         });
 
-        function likePost(id) {
+        // Dar o quitar Like (1 solo por usuario)
+        function toggleLike(id) {
+            const activeUser = localStorage.getItem('hyxir_toon_user');
+            if (!activeUser) return;
+
             let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
             const post = posts.find(p => p.id === id);
             if (post) {
-                post.likes = (post.likes || 0) + 1;
+                if (!post.likedBy) {
+                    post.likedBy = [];
+                    if (post.likes) {
+                        // Migración de datos viejos
+                        for (let i = 0; i < post.likes; i++) post.likedBy.push('User_' + i);
+                    }
+                }
+
+                const index = post.likedBy.indexOf(activeUser);
+                if (index === -1) {
+                    post.likedBy.push(activeUser);
+                } else {
+                    post.likedBy.splice(index, 1);
+                }
+                
                 localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
                 loadPosts();
+            }
+        }
+
+        // Mostrar / Ocultar caja de comentarios
+        function toggleComments(id) {
+            const box = document.getElementById(`comments-box-${id}`);
+            if (box) {
+                box.classList.toggle('hidden');
+            }
+        }
+
+        // Agregar Comentario
+        function addComment(event, postId) {
+            event.preventDefault();
+            const activeUser = localStorage.getItem('hyxir_toon_user');
+            if (!activeUser) return;
+
+            const input = document.getElementById(`comment-input-${postId}`);
+            const text = input.value.trim();
+            if (!text) return;
+
+            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
+            const post = posts.find(p => p.id === postId);
+
+            if (post) {
+                if (!post.comments) post.comments = [];
+
+                post.comments.push({
+                    id: Date.now(),
+                    author: activeUser,
+                    text: text,
+                    date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
+                });
+
+                localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
+                loadPosts();
+                // Mantener desplegados los comentarios después de enviar
+                setTimeout(() => toggleComments(postId), 10);
+            }
+        }
+
+        // Eliminar Comentario
+        function deleteComment(postId, commentId) {
+            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
+            const post = posts.find(p => p.id === postId);
+
+            if (post && post.comments) {
+                post.comments = post.comments.filter(c => c.id !== commentId);
+                localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
+                loadPosts();
+                setTimeout(() => toggleComments(postId), 10);
             }
         }
 
@@ -903,7 +1095,15 @@
                     category: '📢 Anuncio',
                     title: '¡Bienvenidos al Foro Oficial de Hyxir Network!',
                     content: 'Recuerda respetar las reglas del servidor y mantener el respeto en cada publicación.',
-                    likes: 5,
+                    likedBy: ['StaffHyxir'],
+                    comments: [
+                        {
+                            id: 101,
+                            author: 'SteveGamer99',
+                            text: '¡Excelente foro! Saludos a todos.',
+                            date: 'Hoy 12:05'
+                        }
+                    ],
                     date: 'Hoy 12:00'
                 }
             ];
@@ -912,11 +1112,37 @@
             postsContainer.innerHTML = '';
 
             posts.forEach(post => {
+                if (!post.likedBy) post.likedBy = [];
+                if (!post.comments) post.comments = [];
+
                 const postEl = document.createElement('div');
                 postEl.className = 'post-card';
                 
                 const avatarUrl = getUserAvatar(post.author);
                 const canDelete = post.author === activeUser || activeUser === 'StaffHyxir';
+                const isLiked = post.likedBy.includes(activeUser);
+                const likesCount = post.likedBy.length;
+                const commentsCount = post.comments.length;
+
+                // Generar HTML de la lista de comentarios
+                let commentsHTML = '';
+                post.comments.forEach(c => {
+                    const cAvatar = getUserAvatar(c.author);
+                    const canDeleteC = c.author === activeUser || activeUser === 'StaffHyxir';
+                    commentsHTML += `
+                        <div class="comment-item">
+                            <div>
+                                <div class="comment-header">
+                                    <img src="${cAvatar}" class="comment-avatar" alt="Avatar">
+                                    <span class="comment-author">${escapeHTML(c.author)}</span>
+                                    <span class="comment-date">${c.date}</span>
+                                </div>
+                                <div class="comment-text">${escapeHTML(c.text)}</div>
+                            </div>
+                            ${canDeleteC ? `<button onclick="deleteComment(${post.id}, ${c.id})" class="btn-delete" style="padding:2px 6px; font-size:0.75em;" title="Eliminar Comentario">✕</button>` : ''}
+                        </div>
+                    `;
+                });
 
                 postEl.innerHTML = `
                     <div class="post-header">
@@ -929,23 +1155,36 @@
                         </div>
                         <span class="post-tag">${escapeHTML(post.category || '💬 General')}</span>
                     </div>
+
                     <div class="post-title-text">${escapeHTML(post.title)}</div>
                     <div class="post-body">${escapeHTML(post.content)}</div>
+
                     <div class="post-footer">
-                        <button class="like-btn" onclick="likePost(${post.id})">
-                            ❤️ <span>${post.likes || 0}</span>
-                        </button>
-                        ${canDelete ? `<button class="btn-delete" onclick="openDeleteModal(${post.id})">🗑️ Eliminar</button>` : ''}
+                        <div style="display: flex; gap: 10px;">
+                            <button onclick="toggleLike(${post.id})" class="action-btn ${isLiked ? 'liked' : ''}">
+                                ${isLiked ? '❤️' : '🤍'} ${likesCount} ${likesCount === 1 ? 'Me gusta' : 'Me gusta'}
+                            </button>
+                            <button onclick="toggleComments(${post.id})" class="action-btn">
+                                💬 ${commentsCount} ${commentsCount === 1 ? 'Comentario' : 'Comentarios'}
+                            </button>
+                        </div>
+                        ${canDelete ? `<button onclick="openDeleteModal(${post.id})" class="btn-delete">🗑️ Eliminar</button>` : ''}
+                    </div>
+
+                    <!-- CAJA DESPLEGABLE DE COMENTARIOS -->
+                    <div id="comments-box-${post.id}" class="comments-section hidden">
+                        <div class="comments-list">
+                            ${commentsHTML.length > 0 ? commentsHTML : '<p style="font-size:0.9em; color:#777; text-align:center;">¡Sé el primero en comentar!</p>'}
+                        </div>
+                        <form class="comment-form" onsubmit="addComment(event, ${post.id})">
+                            <input type="text" id="comment-input-${post.id}" class="comment-input" placeholder="Escribe un comentario..." required>
+                            <button type="submit" class="btn-comment-submit">Enviar</button>
+                        </form>
                     </div>
                 `;
+
                 postsContainer.appendChild(postEl);
             });
-        }
-
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
         }
     </script>
 </body>
