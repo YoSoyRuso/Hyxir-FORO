@@ -3,216 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hyxir Network - Portal & Comunidad</title>
-    <!-- Fuentes de Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Hyxir Network ⛏️ Portal Toon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Boogaloo&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0c10;
-            --card-bg: rgba(23, 26, 33, 0.85);
-            --primary: #5865F2;
-            --primary-hover: #4752C4;
-            --accent: #00f2fe;
-            --accent-glow: rgba(0, 242, 254, 0.4);
-            --danger: #ed4245;
-            --text-main: #f1f1f1;
-            --text-muted: #949ba4;
+            --bg-color: #ffd166; /* Amarillo Toon */
+            --paper-bg: #fffcf2; /* Color Papel */
+            --primary: #ef476f; /* Rosa/Rojo Vibrante */
+            --primary-dark: #c13153;
+            --accent: #118ab2; /* Azul Caricatura */
+            --accent-dark: #0c6a8a;
+            --danger: #d90429;
+            --text-dark: #073b4c;
+            --ink: #1d3557; /* Color Tinta para bordes */
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            /* Desactivar selección de texto para un toque más 'app' */
+            -webkit-user-select: none;
+            user-select: none;
+        }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Boogaloo', cursive;
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(circle at 20% 20%, rgba(88, 101, 242, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(0, 242, 254, 0.1) 0%, transparent 40%);
-            color: var(--text-main);
+                linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--ink);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            overflow-x: hidden;
         }
 
-        /* BANNER Y CABECERA */
+        /* BANNER TOON */
         header {
-            padding: 60px 20px 40px;
+            padding: 50px 20px 30px;
             text-align: center;
-            background: linear-gradient(180deg, rgba(15,17,23,0.9) 0%, rgba(11,12,16,0) 100%);
+            background-color: #073b4c;
+            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 10px, transparent 10px, transparent 20px);
+            border-bottom: 8px solid var(--ink);
+            transform: skewY(-2deg);
+            margin-top: -10px;
         }
+
+        header * { transform: skewY(2deg); } /* Enderezar contenido */
 
         .title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.2em;
-            font-weight: 800;
-            letter-spacing: 2px;
-            background: linear-gradient(90deg, #ffffff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px var(--accent-glow);
+            font-family: 'Bangers', cursive;
+            font-size: 4em;
+            font-weight: normal;
+            letter-spacing: 3px;
+            color: #fff;
+            -webkit-text-stroke: 3px var(--ink);
+            text-shadow: 6px 6px 0 var(--ink);
             margin-bottom: 5px;
         }
 
         .subtitle {
-            color: var(--text-muted);
-            font-size: 1.1em;
+            font-family: 'Boogaloo', cursive;
+            color: #fff;
+            font-size: 1.4em;
             letter-spacing: 1px;
             text-transform: uppercase;
+            -webkit-text-stroke: 1px var(--ink);
+            text-shadow: 2px 2px 0 var(--ink);
         }
 
-        /* CONTENEDOR DE LA IP */
+        /* TARJETA IP TOON */
         .ip-card {
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 12px 24px;
-            border-radius: 50px;
-            margin-top: 25px;
+            background: var(--paper-bg);
+            border: 5px solid var(--ink);
+            padding: 10px 20px;
+            border-radius: 15px;
+            margin-top: 30px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: 0.2s;
+            box-shadow: 6px 6px 0 var(--ink);
         }
 
         .ip-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
-            transform: translateY(-2px);
+            transform: translate(-3px, -3px) skewY(2deg);
+            box-shadow: 9px 9px 0 var(--ink);
+            background-color: #fff;
         }
 
         .ip-text {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            color: var(--accent);
+            font-size: 1.3em;
+            color: var(--text-dark);
+            -webkit-text-stroke: 1px rgba(0,0,0,0.2);
         }
 
-        /* TARJETAS PRINCIPALES */
+        /* CONTENEDOR PRINCIPAL */
         .main-container {
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 40px 20px;
+            z-index: 2;
         }
 
         .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(16px);
-            border-radius: 16px;
-            padding: 35px 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            background: var(--paper-bg);
+            border: 6px solid var(--ink);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 10px 10px 0 var(--ink);
             text-align: center;
+            position: relative;
+        }
+
+        /* Adorno caricaturesco */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border: 5px solid var(--ink);
+            border-radius: 50%;
+            z-index: -1;
         }
 
         .card h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.6em;
+            font-family: 'Bangers', cursive;
+            font-size: 2.2em;
+            color: var(--accent);
+            -webkit-text-stroke: 1.5px var(--ink);
+            text-shadow: 3px 3px 0 var(--ink);
             margin-bottom: 10px;
         }
 
         .card p {
-            color: var(--text-muted);
-            font-size: 0.95em;
-            margin-bottom: 25px;
+            color: var(--text-dark);
+            font-size: 1.1em;
+            margin-bottom: 30px;
         }
 
-        /* FORMULARIOS E INPUTS */
+        /* FORMULARIOS TOON */
         .form-group {
             text-align: left;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.85em;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 6px;
+            font-size: 1em;
+            color: var(--text-dark);
+            margin-bottom: 8px;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
         }
 
         .form-input {
             width: 100%;
-            padding: 14px 16px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1em;
+            padding: 15px 18px;
+            background: #fff;
+            border: 4px solid var(--ink);
+            border-radius: 10px;
+            color: var(--text-dark);
+            font-size: 1.1em;
+            font-family: 'Boogaloo', cursive;
             outline: none;
-            transition: all 0.3s ease;
+            transition: 0.2s;
+            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1);
         }
 
         .form-input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(88, 101, 242, 0.4);
+            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1), 4px 4px 0 var(--ink);
         }
 
-        /* BOTONES */
+        /* BOTONES TOON */
         .btn {
             width: 100%;
-            padding: 14px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.95em;
+            padding: 16px;
+            border-radius: 12px;
+            font-family: 'Bangers', cursive;
+            font-size: 1.3em;
             text-decoration: none;
-            border: none;
+            border: 4px solid var(--ink);
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: all 0.3s ease;
-            margin-top: 5px;
+            transition: 0.2s;
+            margin-top: 10px;
+            letter-spacing: 1px;
+            box-shadow: 4px 4px 0 var(--ink);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), #3b44a9);
+            background-color: var(--primary);
             color: #fff;
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+            -webkit-text-stroke: 1px var(--ink);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--ink);
+            background-color: var(--primary-dark);
         }
 
         .btn-discord {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            margin-top: 12px;
-        }
-
-        .btn-discord:hover {
-            background: var(--primary);
-            color: #fff;
-        }
-
-        .btn-logout {
-            background: transparent;
-            border: 1px solid var(--danger);
-            color: var(--danger);
+            background-color: #fff;
+            color: var(--accent);
+            -webkit-text-stroke: 1px var(--ink);
             margin-top: 15px;
         }
 
-        .btn-logout:hover {
-            background: var(--danger);
-            color: #fff;
+        .btn-discord:hover {
+            background-color: #f0f0f0;
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--ink);
         }
 
-        /* MENSAJES DE ERROR Y MODOS */
+        .btn-logout {
+            background-color: #fff;
+            color: var(--danger);
+            -webkit-text-stroke: 1px var(--ink);
+            margin-top: 20px;
+            font-size: 1em;
+        }
+
+        .btn-logout:hover {
+            background-color: #fff0f0;
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--ink);
+        }
+
+        /* MENSAJES */
         .error-msg {
             color: var(--danger);
-            font-size: 0.85em;
-            margin-top: 10px;
+            font-size: 0.95em;
+            margin: -10px 0 15px;
             display: none;
+            font-weight: bold;
         }
 
         .toggle-link {
-            color: var(--accent);
+            color: var(--primary);
             cursor: pointer;
             font-weight: 600;
             text-decoration: underline;
@@ -223,8 +266,11 @@
         footer {
             text-align: center;
             padding: 30px;
-            color: var(--text-muted);
-            font-size: 0.85em;
+            color: var(--ink);
+            font-size: 1em;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-top: 5px solid var(--ink);
+            z-index: 1;
         }
     </style>
 </head>
@@ -232,26 +278,25 @@
 
     <header>
         <h1 class="title">HYXIR NETWORK</h1>
-        <p class="subtitle">Servidor de Minecraft & Comunidad Oficial</p>
+        <p class="subtitle">¡Aventuras Cuadradas y Chetas!</p>
         
         <div class="ip-card" onclick="copyIP()">
-            <span>🎮</span>
+            <span>⛏️</span>
             <span>IP: <strong class="ip-text">Hyxir.mc-games.xyz:19132</strong></span>
-            <span style="font-size: 0.8em; color: var(--text-muted);">(Copiar)</span>
+            <span style="font-size: 0.9em; color: var(--text-dark); opacity: 0.7;">(Clic!)</span>
         </div>
     </header>
 
     <div class="main-container">
         
-        <!-- CARD DE AUTENTICACIÓN (LOGIN / REGISTRO) -->
         <div id="auth-card" class="card">
-            <h2 id="auth-title">Iniciar Sesión</h2>
-            <p id="auth-desc">Ingresá tus credenciales para ingresar al foro.</p>
+            <h2 id="auth-title">¡Entra al Foro!</h2>
+            <p id="auth-desc">Pon tus datos caricaturescos para seguir.</p>
             
             <form id="auth-form">
                 <div class="form-group">
-                    <label>Usuario de Minecraft</label>
-                    <input type="text" id="username" class="form-input" placeholder="Ej: TuNickMinecraft" required>
+                    <label>Tu Nick de Minecraft</label>
+                    <input type="text" id="username" class="form-input" placeholder="Ej: SteveGamer99" required>
                 </div>
                 
                 <div class="form-group">
@@ -259,31 +304,29 @@
                     <input type="password" id="password" class="form-input" placeholder="••••••••" required>
                 </div>
 
-                <div id="error-message" class="error-msg">Contraseña incorrecta.</div>
+                <div id="error-message" class="error-msg">¡Ups! Clave incorrecta.</div>
 
-                <button type="submit" id="btn-submit" class="btn btn-primary">Ingresar al Foro</button>
+                <button type="submit" id="btn-submit" class="btn btn-primary">¡Ingresar!</button>
             </form>
 
-            <p style="margin-top: 20px; font-size: 0.85em;">
-                <span id="toggle-text">¿Entrás por primera vez?</span> 
-                <span id="toggle-btn" class="toggle-link" onclick="toggleAuthMode()">Registrarse</span>
+            <p style="margin-top: 20px; font-size: 0.95em;">
+                <span id="toggle-text">¿Sos nuevo?</span> 
+                <span id="toggle-btn" class="toggle-link" onclick="toggleAuthMode()">¡Registrate acá!</span>
             </p>
 
-            <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">Unirse al Discord</a>
+            <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">Comunidad Discord</a>
         </div>
 
-        <!-- CARD DE BIENVENIDA (CUANDO YA INICIÓ SESIÓN) -->
         <div id="welcome-card" class="card hidden">
-            <h2>¡Hola, <span id="user-display" style="color: var(--accent);"></span>!</h2>
-            <p>Sesión iniciada correctamente. Ya podés acceder a la comunidad.</p>
+            <h2>¡Hola, <span id="user-display" style="color: var(--primary);"></span>!</h2>
+            <p>¡Ya estás logueado en la red más cheta de Minecraft!</p>
             
-            <!-- Link al foro de GitHub Discussions -->
             <a href="https://github.com/TU-USUARIO/TU-REPOSITORIO/discussions" class="btn btn-primary" target="_blank">
-                💬 Entrar al Foro Oficial
+                💬 Ir al Foro Toon
             </a>
             
             <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">
-                Comunidad en Discord
+                Discord Oficial
             </a>
             
             <button onclick="logout()" class="btn btn-logout">Cerrar Sesión</button>
@@ -292,7 +335,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Hyxir Network. Alojado en GitHub Pages.</p>
+        <p>&copy; 2026 Hyxir Network. Hecho a mano por el Staff.</p>
     </footer>
 
     <script>
@@ -309,33 +352,31 @@
         const welcomeCard = document.getElementById('welcome-card');
         const userDisplay = document.getElementById('user-display');
 
-        // Comprobar si hay sesión activa al cargar
-        const activeUser = localStorage.getItem('hyxir_active_user');
+        // Sesión activa?
+        const activeUser = localStorage.getItem('hyxir_toon_user');
         if (activeUser) {
             showWelcome(activeUser);
         }
 
-        // Alternar entre modo Registro e Inicio de Sesión
         function toggleAuthMode() {
             isRegisterMode = !isRegisterMode;
             errorMessage.style.display = 'none';
 
             if (isRegisterMode) {
-                authTitle.textContent = 'Crear Cuenta';
-                authDesc.textContent = 'Registrá tu usuario de Minecraft y crea tu clave.';
-                btnSubmit.textContent = 'Registrarse e Ingresar';
-                toggleText.textContent = '¿Ya tenés cuenta?';
-                toggleBtn.textContent = 'Iniciar Sesión';
+                authTitle.textContent = '¡Nuevos Amigos!';
+                authDesc.textContent = 'Crea tu usuario y clave para el Foro Toon.';
+                btnSubmit.textContent = '¡Registrarse!';
+                toggleText.textContent = '¿Ya viniste antes?';
+                toggleBtn.textContent = '¡Inicia sesión!';
             } else {
-                authTitle.textContent = 'Iniciar Sesión';
-                authDesc.textContent = 'Ingresá tus credenciales para ingresar al foro.';
-                btnSubmit.textContent = 'Ingresar al Foro';
-                toggleText.textContent = '¿Entrás por primera vez?';
-                toggleBtn.textContent = 'Registrarse';
+                authTitle.textContent = '¡Entra al Foro!';
+                authDesc.textContent = 'Pon tus datos caricaturescos para seguir.';
+                btnSubmit.textContent = '¡Ingresar!';
+                toggleText.textContent = '¿Sos nuevo?';
+                toggleBtn.textContent = '¡Registrate acá!';
             }
         }
 
-        // Procesar formulario
         document.getElementById('auth-form').addEventListener('submit', function(e) {
             e.preventDefault();
             errorMessage.style.display = 'none';
@@ -345,34 +386,28 @@
 
             if (!user || !pass) return;
 
-            // Obtener base de datos local (Simulada / LocalStorage)
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_registered_users')) || {};
+            // DB local simula DB compartida en GitHub Pages
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
 
             if (isRegisterMode) {
-                // REGISTRO
                 if (usersDB[user]) {
-                    showError('Este usuario de Minecraft ya está registrado. Iniciá sesión.');
+                    showError('¡Ese nick ya existe! Intenta loguearte.');
                     return;
                 }
-                // Guardar usuario y clave
                 usersDB[user] = pass;
-                localStorage.setItem('hyxir_registered_users', JSON.stringify(usersDB));
-                
-                // Iniciar sesión
-                localStorage.setItem('hyxir_active_user', user);
+                localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+                localStorage.setItem('hyxir_toon_user', user);
                 showWelcome(user);
             } else {
-                // LOGIN
                 if (!usersDB[user]) {
-                    showError('El usuario no existe. Registrate primero.');
+                    showError('¡Ese usuario no existe! Registrate.');
                     return;
                 }
                 if (usersDB[user] !== pass) {
-                    showError('Contraseña incorrecta.');
+                    showError('¡Clave incorrecta!');
                     return;
                 }
-                // Contraseña correcta
-                localStorage.setItem('hyxir_active_user', user);
+                localStorage.setItem('hyxir_toon_user', user);
                 showWelcome(user);
             }
         });
@@ -389,13 +424,18 @@
         }
 
         function logout() {
-            localStorage.removeItem('hyxir_active_user');
+            localStorage.removeItem('hyxir_toon_user');
             welcomeCard.classList.add('hidden');
             authCard.classList.remove('hidden');
         }
 
         function copyIP() {
-            navigator.clipboard.writeText('Hyxir.mc-games.xyz:19132');
+            const el = document.createElement('textarea');
+            el.value = 'Hyxir.mc-games.xyz:19132';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
             alert('¡IP de Hyxir Network copiada!');
         }
     </script>
