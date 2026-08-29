@@ -127,7 +127,6 @@
             text-align: center;
         }
 
-        /* Adorno caricaturesco */
         .card::before {
             content: '';
             position: absolute;
@@ -252,6 +251,24 @@
             box-shadow: 6px 6px 0 var(--ink);
         }
 
+        .btn-delete {
+            background: #fff;
+            border: 2px solid var(--ink);
+            border-radius: 8px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-family: 'Boogaloo', cursive;
+            font-size: 0.9em;
+            color: var(--danger);
+            transition: 0.1s;
+            box-shadow: 2px 2px 0 var(--ink);
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.05);
+            background-color: #ffe5ec;
+        }
+
         /* LAYOUT FORO DE 2 COLUMNAS */
         .forum-layout {
             display: grid;
@@ -278,16 +295,46 @@
             top: 20px;
         }
 
+        .avatar-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .avatar-container:hover .avatar-overlay {
+            opacity: 1;
+        }
+
         .avatar-img {
             width: 110px;
             height: 110px;
-            object-fit: contain;
+            object-fit: cover;
             border: 4px solid var(--ink);
             border-radius: 16px;
             background-color: #2b2b2b;
             box-shadow: 4px 4px 0 var(--ink);
             margin-bottom: 12px;
             image-rendering: pixelated;
+            display: block;
+        }
+
+        .avatar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 110px;
+            height: 110px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.9em;
+            opacity: 0;
+            transition: opacity 0.2s;
+            border: 4px solid var(--ink);
+            text-transform: uppercase;
         }
 
         .profile-name {
@@ -362,6 +409,7 @@
             background-color: #333;
             image-rendering: pixelated;
             box-shadow: 2px 2px 0 var(--ink);
+            object-fit: cover;
         }
 
         .post-author {
@@ -407,7 +455,7 @@
         .post-footer {
             margin-top: 15px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             border-top: 1px solid rgba(0,0,0,0.1);
             padding-top: 10px;
@@ -449,6 +497,44 @@
         }
 
         .hidden { display: none !important; }
+
+        /* MODAL DE CONFIRMACIÓN DE ELIMINACIÓN */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .modal-box {
+            background: var(--paper-bg);
+            border: 5px solid var(--ink);
+            border-radius: 15px;
+            padding: 25px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 8px 8px 0 var(--ink);
+        }
+
+        .modal-box h3 {
+            font-family: 'Bangers', cursive;
+            font-size: 1.8em;
+            color: var(--danger);
+            -webkit-text-stroke: 1px var(--ink);
+            margin-bottom: 10px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
 
         footer {
             text-align: center;
@@ -511,7 +597,13 @@
                 
                 <!-- COLUMNA IZQUIERDA: PERFIL -->
                 <div class="user-profile-box">
-                    <img src="https://i.ibb.co/3kWyN7z/minecraft-block.png" alt="Cubo Minecraft" class="avatar-img" id="user-avatar" onerror="this.src=DEFAULT_AVATAR_URL">
+                    <div class="avatar-container" onclick="document.getElementById('skin-file-input').click()">
+                        <img src="https://mc-heads.net/avatar/Steve/100" alt="Avatar" class="avatar-img" id="user-avatar">
+                        <div class="avatar-overlay">Cambiar Skin</div>
+                    </div>
+                    <!-- Input invisible para subir skin -->
+                    <input type="file" id="skin-file-input" accept="image/png" style="display: none;" onchange="handleSkinUpload(event)">
+                    
                     <div class="profile-name" id="user-display">Usuario</div>
                     <div class="profile-badge">⛏️ Miembro Oficial</div>
                     
@@ -563,14 +655,26 @@
 
     </div>
 
+    <!-- MODAL DE CONFIRMACIÓN -->
+    <div id="delete-modal" class="modal-backdrop hidden">
+        <div class="modal-box">
+            <h3>¿Eliminar publicación?</h3>
+            <p>¿Seguro que quieres eliminar esta publicación? Esta acción no se puede deshacer.</p>
+            <div class="modal-actions">
+                <button class="btn btn-logout" style="margin-top:0" onclick="confirmDeletePost()">Eliminar</button>
+                <button class="btn btn-discord" style="margin-top:0" onclick="closeDeleteModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2026 Hyxir Network. Hecho a mano por el Staff.</p>
     </footer>
 
     <script>
-        // Imagen del cubo por defecto
-        const DEFAULT_AVATAR_URL = 'https://i.ibb.co/3kWyN7z/minecraft-block.png';
+        const STEVE_AVATAR = 'https://mc-heads.net/avatar/Steve/100';
         let isRegisterMode = false;
+        let postToDeleteId = null;
 
         const authTitle = document.getElementById('auth-title');
         const authDesc = document.getElementById('auth-desc');
@@ -584,6 +688,7 @@
         const userDisplay = document.getElementById('user-display');
         const userAvatar = document.getElementById('user-avatar');
         const postsContainer = document.getElementById('posts-container');
+        const deleteModal = document.getElementById('delete-modal');
 
         // Sesión activa?
         const activeUser = localStorage.getItem('hyxir_toon_user');
@@ -626,7 +731,7 @@
                     showError('¡Ese nick ya existe! Intenta loguearte.');
                     return;
                 }
-                usersDB[user] = pass;
+                usersDB[user] = { pass: pass, skin: STEVE_AVATAR };
                 localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
                 localStorage.setItem('hyxir_toon_user', user);
                 showWelcome(user);
@@ -635,7 +740,8 @@
                     showError('¡Ese usuario no existe! Registrate.');
                     return;
                 }
-                if (usersDB[user] !== pass) {
+                const savedPass = typeof usersDB[user] === 'object' ? usersDB[user].pass : usersDB[user];
+                if (savedPass !== pass) {
                     showError('¡Clave incorrecta!');
                     return;
                 }
@@ -649,13 +755,17 @@
             errorMessage.style.display = 'block';
         }
 
-        function getSkinAvatar(username) {
-            return `https://mc-heads.net/avatar/${encodeURIComponent(username)}/100`;
+        function getUserAvatar(username) {
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            if (usersDB[username] && typeof usersDB[username] === 'object' && usersDB[username].skin) {
+                return usersDB[username].skin;
+            }
+            return STEVE_AVATAR;
         }
 
         function showWelcome(user) {
             userDisplay.textContent = user;
-            userAvatar.src = getSkinAvatar(user);
+            userAvatar.src = getUserAvatar(user);
             authCard.classList.add('hidden');
             welcomeCard.classList.remove('hidden');
             loadPosts();
@@ -665,6 +775,48 @@
             localStorage.removeItem('hyxir_toon_user');
             welcomeCard.classList.add('hidden');
             authCard.classList.remove('hidden');
+        }
+
+        /* RECORTE Y CARGA DE SKIN DE MINECRAFT */
+        function handleSkinUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 128;
+                    canvas.height = 128;
+                    const ctx = canvas.getContext('2d');
+                    ctx.imageSmoothingEnabled = false;
+
+                    // Recortar la cara base (Coordenadas Minecraft: x=8, y=8, w=8, h=8)
+                    ctx.drawImage(img, 8, 8, 8, 8, 0, 0, 128, 128);
+                    
+                    // Si tiene sombrero/segunda capa (Coordenadas: x=40, y=8, w=8, h=8), dibujarla encima
+                    ctx.drawImage(img, 40, 8, 8, 8, 0, 0, 128, 128);
+
+                    const croppedHeadDataUrl = canvas.toDataURL('image/png');
+                    const currentUsername = localStorage.getItem('hyxir_toon_user');
+                    
+                    let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+                    if (usersDB[currentUsername]) {
+                        if (typeof usersDB[currentUsername] === 'string') {
+                            usersDB[currentUsername] = { pass: usersDB[currentUsername], skin: croppedHeadDataUrl };
+                        } else {
+                            usersDB[currentUsername].skin = croppedHeadDataUrl;
+                        }
+                        localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+                    }
+
+                    userAvatar.src = croppedHeadDataUrl;
+                    loadPosts();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
         function copyIP() {
@@ -724,6 +876,25 @@
             }
         }
 
+        function openDeleteModal(id) {
+            postToDeleteId = id;
+            deleteModal.classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            postToDeleteId = null;
+            deleteModal.classList.add('hidden');
+        }
+
+        function confirmDeletePost() {
+            if (!postToDeleteId) return;
+            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
+            posts = posts.filter(p => p.id !== postToDeleteId);
+            localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
+            closeDeleteModal();
+            loadPosts();
+        }
+
         function loadPosts() {
             let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [
                 {
@@ -737,18 +908,20 @@
                 }
             ];
 
+            const activeUser = localStorage.getItem('hyxir_toon_user');
             postsContainer.innerHTML = '';
 
             posts.forEach(post => {
                 const postEl = document.createElement('div');
                 postEl.className = 'post-card';
                 
-                const avatarUrl = post.author === 'StaffHyxir' ? DEFAULT_AVATAR_URL : getSkinAvatar(post.author);
+                const avatarUrl = getUserAvatar(post.author);
+                const canDelete = post.author === activeUser || activeUser === 'StaffHyxir';
 
                 postEl.innerHTML = `
                     <div class="post-header">
                         <div class="post-author-info">
-                            <img src="${avatarUrl}" class="post-avatar" alt="Avatar" onerror="this.src=DEFAULT_AVATAR_URL">
+                            <img src="${avatarUrl}" class="post-avatar" alt="Avatar">
                             <div>
                                 <div class="post-author">${escapeHTML(post.author)}</div>
                                 <div class="post-date">${post.date}</div>
@@ -762,6 +935,7 @@
                         <button class="like-btn" onclick="likePost(${post.id})">
                             ❤️ <span>${post.likes || 0}</span>
                         </button>
+                        ${canDelete ? `<button class="btn-delete" onclick="openDeleteModal(${post.id})">🗑️ Eliminar</button>` : ''}
                     </div>
                 `;
                 postsContainer.appendChild(postEl);
