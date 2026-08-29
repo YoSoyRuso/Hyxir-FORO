@@ -17,6 +17,7 @@
             --text-dark: #073b4c;
             --ink: #1d3557; /* Color Tinta para bordes */
             --success: #06d6a0;
+            --warning: #ffb703;
         }
 
         * { 
@@ -269,6 +270,24 @@
             background-color: #ffe5ec;
         }
 
+        .btn-warn {
+            background: #fff;
+            border: 2px solid var(--ink);
+            border-radius: 8px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-family: 'Boogaloo', cursive;
+            font-size: 0.9em;
+            color: #d97706;
+            transition: 0.1s;
+            box-shadow: 2px 2px 0 var(--ink);
+        }
+
+        .btn-warn:hover {
+            transform: scale(1.05);
+            background-color: #fef3c7;
+        }
+
         /* LAYOUT FORO DE 2 COLUMNAS */
         .forum-layout {
             display: grid;
@@ -357,116 +376,56 @@
             box-shadow: 2px 2px 0 var(--ink);
         }
 
-        /* INSIGNIAS DE PERFIL (MATERIALES MINECRAFT) */
-        .badges-container {
-            margin-top: 15px;
-            padding-top: 12px;
-            border-top: 2px dashed var(--ink);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .badges-title {
-            font-family: 'Bangers', cursive;
-            font-size: 1.1em;
-            color: var(--text-dark);
-            letter-spacing: 0.5px;
-        }
-
-        .badges-grid {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .user-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
+        .profile-badge-staff {
+            background: var(--primary);
+            color: #fff;
+            border: 2px solid var(--ink);
+            padding: 4px 12px;
             border-radius: 8px;
-            border: 2.5px solid var(--ink);
-            font-size: 0.85em;
+            font-size: 0.95em;
             font-weight: bold;
+            margin-top: 5px;
             box-shadow: 2px 2px 0 var(--ink);
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.15s ease;
-        }
-
-        .user-badge:hover {
-            transform: scale(1.08);
-        }
-
-        /* Tooltip de requisitos */
-        .user-badge::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--ink);
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.8em;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease;
-            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
-            z-index: 10;
-        }
-
-        .user-badge:hover::after {
-            opacity: 1;
-        }
-
-        /* Materiales: Hierro, Diamante y Esmeralda */
-        .badge-iron {
-            background: linear-gradient(135deg, #e0e0e0 0%, #a8a8a8 100%);
-            color: var(--ink);
-            text-shadow: 1px 1px 0 rgba(255,255,255,0.8);
-        }
-
-        .badge-diamond {
-            background: linear-gradient(135deg, #70e4ef 0%, #2a9d8f 100%);
-            color: #fff;
             -webkit-text-stroke: 0.5px var(--ink);
-            text-shadow: 1px 1px 0 var(--ink);
-        }
-
-        .badge-emerald {
-            background: linear-gradient(135deg, #52b788 0%, #1b4332 100%);
-            color: #fff;
-            -webkit-text-stroke: 0.5px var(--ink);
-            text-shadow: 1px 1px 0 var(--ink);
         }
 
         /* ETIQUETAS ROL / DESTAQUE */
         .role-badge {
             font-family: 'Boogaloo', cursive;
-            font-size: 0.7em;
+            font-size: 0.75em;
             border: 1.5px solid var(--ink);
-            padding: 1px 6px;
+            padding: 2px 6px;
             border-radius: 6px;
             margin-left: 6px;
             box-shadow: 1px 1px 0 var(--ink);
             vertical-align: middle;
             display: inline-block;
             text-transform: uppercase;
+            font-weight: bold;
         }
 
-        .badge-author {
-            background-color: #ffbe0b;
-            color: #000;
-        }
-
-        .badge-first-comment {
+        .badge-staff-tag {
             background-color: #06d6a0;
             color: #000;
+        }
+
+        /* PANEL DE CONTROL DE STAFF */
+        .staff-panel {
+            background: #ffe5ec;
+            border: 3px solid var(--ink);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 15px;
+            box-shadow: 3px 3px 0 var(--ink);
+            text-align: left;
+        }
+
+        .staff-panel h4 {
+            font-family: 'Bangers', cursive;
+            font-size: 1.2em;
+            color: var(--danger);
+            margin-bottom: 8px;
+            text-align: center;
         }
 
         /* FEED DERECHA */
@@ -492,10 +451,6 @@
             padding: 20px;
             box-shadow: 5px 5px 0 var(--ink);
             transition: transform 0.2s;
-        }
-
-        .post-card:hover {
-            transform: translateY(-2px);
         }
 
         .post-header {
@@ -574,33 +529,6 @@
             gap: 10px;
         }
 
-        .action-btn {
-            background: #fff;
-            border: 2px solid var(--ink);
-            border-radius: 8px;
-            padding: 4px 12px;
-            cursor: pointer;
-            font-family: 'Boogaloo', cursive;
-            font-size: 1em;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: 0.1s;
-            box-shadow: 2px 2px 0 var(--ink);
-            color: var(--text-dark);
-        }
-
-        .action-btn:hover {
-            transform: scale(1.05);
-            background-color: #f0f0f0;
-        }
-
-        .action-btn.liked {
-            background-color: #ffe5ec;
-            color: var(--primary);
-            border-color: var(--primary-dark);
-        }
-
         /* SECCIÓN DE COMENTARIOS */
         .comments-section {
             margin-top: 15px;
@@ -622,19 +550,28 @@
             background: #fff;
             border: 2px solid var(--ink);
             border-radius: 8px;
-            padding: 8px 12px;
+            padding: 10px 12px;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px;
+            flex-direction: column;
+            gap: 4px;
             box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
+        }
+
+        .comment-item.warning-comment {
+            background: #fff5f5;
+            border: 3px solid var(--danger);
         }
 
         .comment-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+        }
+
+        .comment-user-box {
+            display: flex;
+            align-items: center;
             gap: 8px;
-            margin-bottom: 4px;
         }
 
         .comment-avatar {
@@ -720,7 +657,7 @@
 
         .hidden { display: none !important; }
 
-        /* MODAL DE CONFIRMACIÓN DE ELIMINACIÓN */
+        /* MODALES */
         .modal-backdrop {
             position: fixed;
             top: 0;
@@ -739,7 +676,8 @@
             border: 5px solid var(--ink);
             border-radius: 15px;
             padding: 25px;
-            max-width: 400px;
+            max-width: 420px;
+            width: 90%;
             text-align: center;
             box-shadow: 8px 8px 0 var(--ink);
         }
@@ -792,7 +730,7 @@
             <form id="auth-form">
                 <div class="form-group">
                     <label>Tu Nick de Minecraft</label>
-                    <input type="text" id="username" class="form-input" placeholder="Ej: SteveGamer99" required>
+                    <input type="text" id="username" class="form-input" placeholder="Ej: YoSoyRuso" required>
                 </div>
                 
                 <div class="form-group">
@@ -827,21 +765,19 @@
                     <input type="file" id="skin-file-input" accept="image/png" style="display: none;" onchange="handleSkinUpload(event)">
                     
                     <div class="profile-name" id="user-display">Usuario</div>
-                    <div class="profile-badge">⛏️ Miembro Oficial</div>
+                    <div id="user-role-badge" class="profile-badge">⛏️ Miembro Oficial</div>
 
-                    <!-- INSIGNIAS DE PERFIL ACTUALIZADAS -->
-                    <div class="badges-container">
-                        <span class="badges-title">🏆 Insignias de Minerales</span>
-                        <div class="badges-grid">
-                            <div class="user-badge badge-iron" data-tooltip="Requisito: 2 semanas activo en el foro">
-                                ⚔️ Hierro
-                            </div>
-                            <div class="user-badge badge-diamond" data-tooltip="Requisito: 2 meses activo en el foro">
-                                💎 Diamante
-                            </div>
-                            <div class="user-badge badge-emerald" data-tooltip="Requisito: 1 año activo en el foro">
-                                ❇️ Esmeralda
-                            </div>
+                    <!-- PANEL DE STAFF (Solo visible si es Staff) -->
+                    <div id="staff-admin-panel" class="staff-panel hidden">
+                        <h4>🛡️ Gestión de Staff</h4>
+                        <div class="form-group">
+                            <label style="font-size: 0.8em;">Acción rápida de Staff:</label>
+                            <input type="text" id="staff-target-user" class="form-input" placeholder="Nick de Jugador" style="font-size: 0.9em; padding: 6px;">
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <button onclick="adminGiveStaff()" class="btn btn-primary" style="font-size: 0.9em; padding: 6px; margin: 0;">Dar Rango STAFF</button>
+                            <button onclick="adminMuteUserPrompt()" class="btn btn-warn" style="font-size: 0.9em; padding: 6px; margin: 0;">Mutear Usuario</button>
+                            <button onclick="adminBanUser()" class="btn btn-logout" style="font-size: 0.9em; padding: 6px; margin: 0;">Banear Usuario</button>
                         </div>
                     </div>
                     
@@ -893,7 +829,7 @@
 
     </div>
 
-    <!-- MODAL DE CONFIRMACIÓN -->
+    <!-- MODAL DE CONFIRMACIÓN DE ELIMINACIÓN -->
     <div id="delete-modal" class="modal-backdrop hidden">
         <div class="modal-box">
             <h3>¿Eliminar publicación?</h3>
@@ -901,6 +837,22 @@
             <div class="modal-actions">
                 <button class="btn btn-logout" style="margin-top:0" onclick="confirmDeletePost()">Eliminar</button>
                 <button class="btn btn-discord" style="margin-top:0" onclick="closeDeleteModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE ADVERTENCIA STAFF -->
+    <div id="warn-modal" class="modal-backdrop hidden">
+        <div class="modal-box">
+            <h3 style="color: var(--warning);">⚠️ Advertir Publicación</h3>
+            <p style="margin-bottom: 10px; font-size: 0.95em;">Se enviará una advertencia formal de Staff en la publicación del usuario.</p>
+            <div class="form-group">
+                <label>Motivo de la advertencia:</label>
+                <input type="text" id="warn-reason-input" class="form-input" placeholder="Ej: Hablar de temas ilegales / Incumplir normas">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" style="margin-top:0" onclick="confirmSendWarning()">Enviar Advertencia</button>
+                <button class="btn btn-discord" style="margin-top:0" onclick="closeWarnModal()">Cancelar</button>
             </div>
         </div>
     </div>
@@ -913,6 +865,7 @@
         const STEVE_AVATAR = 'https://mc-heads.net/avatar/Steve/100';
         let isRegisterMode = false;
         let postToDeleteId = null;
+        let postToWarnId = null;
 
         const authTitle = document.getElementById('auth-title');
         const authDesc = document.getElementById('auth-desc');
@@ -925,10 +878,27 @@
         const welcomeCard = document.getElementById('welcome-card');
         const userDisplay = document.getElementById('user-display');
         const userAvatar = document.getElementById('user-avatar');
+        const userRoleBadge = document.getElementById('user-role-badge');
+        const staffAdminPanel = document.getElementById('staff-admin-panel');
         const postsContainer = document.getElementById('posts-container');
         const deleteModal = document.getElementById('delete-modal');
+        const warnModal = document.getElementById('warn-modal');
 
-        // Sesión activa?
+        // Inicialización de la DB de usuarios e insignias/rangos
+        function initDB() {
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            
+            // Asignar STAFF Oficial por defecto a YoSoyRuso
+            if (!usersDB['YoSoyRuso']) {
+                usersDB['YoSoyRuso'] = { pass: '123456', skin: 'https://mc-heads.net/avatar/YoSoyRuso/100', role: 'STAFF', isMuted: false, mutedUntil: 0, isBanned: false };
+            } else {
+                usersDB['YoSoyRuso'].role = 'STAFF';
+            }
+            localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+        }
+        initDB();
+
+        // Verificar sesión activa al entrar
         const activeUser = localStorage.getItem('hyxir_toon_user');
         if (activeUser) {
             showWelcome(activeUser);
@@ -969,7 +939,15 @@
                     showError('¡Ese nick ya existe! Intenta loguearte.');
                     return;
                 }
-                usersDB[user] = { pass: pass, skin: STEVE_AVATAR };
+                const isRuso = user.toLowerCase() === 'yosoyruso';
+                usersDB[user] = { 
+                    pass: pass, 
+                    skin: `https://mc-heads.net/avatar/${user}/100`,
+                    role: isRuso ? 'STAFF' : 'Miembro',
+                    isMuted: false,
+                    mutedUntil: 0,
+                    isBanned: false
+                };
                 localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
                 localStorage.setItem('hyxir_toon_user', user);
                 showWelcome(user);
@@ -978,9 +956,12 @@
                     showError('¡Ese usuario no existe! Registrate.');
                     return;
                 }
-                const savedPass = typeof usersDB[user] === 'object' ? usersDB[user].pass : usersDB[user];
-                if (savedPass !== pass) {
-                    showError('¡Clave incorrecta!');
+                if (usersDB[user].pass !== pass) {
+                    showError('¡Contraseña incorrecta!');
+                    return;
+                }
+                if (usersDB[user].isBanned) {
+                    showError('⛔ Has sido BANEADO del Foro de Hyxir.');
                     return;
                 }
                 localStorage.setItem('hyxir_toon_user', user);
@@ -993,26 +974,68 @@
             errorMessage.style.display = 'block';
         }
 
-        function getUserAvatar(username) {
+        function isUserMuted(username) {
             let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            if (usersDB[username] && typeof usersDB[username] === 'object' && usersDB[username].skin) {
-                return usersDB[username].skin;
+            const userData = usersDB[username];
+            if (!userData || !userData.isMuted) return false;
+            
+            if (Date.now() > userData.mutedUntil) {
+                userData.isMuted = false;
+                userData.mutedUntil = 0;
+                localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+                return false;
             }
-            return STEVE_AVATAR;
+            return true;
         }
 
         function showWelcome(user) {
-            userDisplay.textContent = user;
-            userAvatar.src = getUserAvatar(user);
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            const userData = usersDB[user] || {};
+
+            if (userData.isBanned) {
+                alert('⛔ Esta cuenta ha sido baneada del foro.');
+                logout();
+                return;
+            }
+
             authCard.classList.add('hidden');
             welcomeCard.classList.remove('hidden');
-            renderPosts();
+            userDisplay.textContent = user;
+
+            // Rango e insignias
+            if (userData.role === 'STAFF' || user.toLowerCase() === 'yosoyruso') {
+                userRoleBadge.className = 'profile-badge-staff';
+                userRoleBadge.textContent = '🛡️ STAFF OFICIAL';
+                staffAdminPanel.classList.remove('hidden');
+            } else {
+                userRoleBadge.className = 'profile-badge';
+                userRoleBadge.textContent = '⛏️ Miembro Oficial';
+                staffAdminPanel.classList.add('hidden');
+            }
+
+            // Skin de Minecraft
+            if (userData.skin) {
+                userAvatar.src = userData.skin;
+            } else {
+                userAvatar.src = `https://mc-heads.net/avatar/${user}/100`;
+            }
+
+            loadPosts();
         }
 
         function logout() {
             localStorage.removeItem('hyxir_toon_user');
             welcomeCard.classList.add('hidden');
             authCard.classList.remove('hidden');
+            document.getElementById('auth-form').reset();
+        }
+
+        function copyIP() {
+            const ip = "Hyxir.mc-games.xyz:19132";
+            navigator.clipboard.writeText(ip);
+            const hint = document.getElementById('copy-hint');
+            hint.textContent = "¡Copiada!";
+            setTimeout(() => { hint.textContent = "(Clic!)"; }, 2000);
         }
 
         function handleSkinUpload(e) {
@@ -1021,38 +1044,44 @@
 
             const reader = new FileReader();
             reader.onload = function(event) {
-                const base64Image = event.target.result;
-                const user = localStorage.getItem('hyxir_toon_user');
-                let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+                const base64Skin = event.target.result;
+                userAvatar.src = base64Skin;
 
-                if (usersDB[user]) {
-                    if (typeof usersDB[user] === 'string') {
-                        usersDB[user] = { pass: usersDB[user], skin: base64Image };
-                    } else {
-                        usersDB[user].skin = base64Image;
-                    }
+                const currUser = localStorage.getItem('hyxir_toon_user');
+                let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+                if (usersDB[currUser]) {
+                    usersDB[currUser].skin = base64Skin;
                     localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-                    userAvatar.src = base64Image;
-                    renderPosts();
                 }
             };
             reader.readAsDataURL(file);
         }
 
-        // PUBLICACIONES
+        // --- SISTEMA DE PUBLICACIONES ---
         document.getElementById('post-form').addEventListener('submit', function(e) {
             e.preventDefault();
+            const currentUser = localStorage.getItem('hyxir_toon_user');
+
+            if (isUserMuted(currentUser)) {
+                alert('🔇 Te encuentras MUTEADO temporalmente. No puedes publicar.');
+                return;
+            }
+
             const category = document.getElementById('post-category').value;
             const title = document.getElementById('post-title').value.trim();
             const content = document.getElementById('post-content').value.trim();
-            const currentUser = localStorage.getItem('hyxir_toon_user');
 
-            if (!title || !content || !currentUser) return;
+            if (!title || !content) return;
 
-            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            const userSkin = usersDB[currentUser]?.skin || `https://mc-heads.net/avatar/${currentUser}/100`;
+            const userRole = usersDB[currentUser]?.role || 'Miembro';
+
             const newPost = {
                 id: Date.now(),
                 author: currentUser,
+                authorSkin: userSkin,
+                authorRole: userRole,
                 category: category,
                 title: title,
                 content: content,
@@ -1061,82 +1090,89 @@
                 comments: []
             };
 
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
             posts.unshift(newPost);
             localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
-            
+
             document.getElementById('post-title').value = '';
             document.getElementById('post-content').value = '';
-            renderPosts();
+            loadPosts();
         });
 
-        function renderPosts() {
+        function loadPosts() {
+            const posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
             const currentUser = localStorage.getItem('hyxir_toon_user');
-            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            const isStaff = usersDB[currentUser]?.role === 'STAFF';
+
             postsContainer.innerHTML = '';
 
             if (posts.length === 0) {
-                postsContainer.innerHTML = '<p style="text-align:center; padding: 20px; font-size: 1.2em;">No hay publicaciones aún. ¡Sé el primero en publicar algo!</p>';
+                postsContainer.innerHTML = '<p style="text-align:center; padding: 20px;">¡No hay publicaciones aún! Sé el primero.</p>';
                 return;
             }
 
             posts.forEach(post => {
-                const postEl = document.createElement('div');
-                postEl.className = 'post-card';
-                
-                const isLiked = post.likes.includes(currentUser);
-                const isMyPost = post.author === currentUser;
-                const avatarUrl = getUserAvatar(post.author);
+                const hasLiked = post.likes && post.likes.includes(currentUser);
+                const isAuthor = post.author === currentUser;
+                const canDelete = isAuthor || isStaff;
 
                 let commentsHTML = '';
-                post.comments.forEach((c, idx) => {
-                    const cAvatar = getUserAvatar(c.author);
-                    const isAuthorComment = c.author === post.author;
-                    const isFirstComment = idx === 0;
-
-                    commentsHTML += `
-                        <div class="comment-item">
-                            <div>
+                if (post.comments && post.comments.length > 0) {
+                    post.comments.forEach((c, index) => {
+                        const isWarning = c.isWarning;
+                        commentsHTML += `
+                            <div class="comment-item ${isWarning ? 'warning-comment' : ''}">
                                 <div class="comment-header">
-                                    <img src="${cAvatar}" class="comment-avatar">
-                                    <span class="comment-author">${c.author}</span>
-                                    ${isAuthorComment ? '<span class="role-badge badge-author">Autor</span>' : ''}
-                                    ${isFirstComment ? '<span class="role-badge badge-first-comment">#1 Comentario</span>' : ''}
-                                    <span class="comment-date">• ${c.date}</span>
+                                    <div class="comment-user-box">
+                                        <img src="${c.avatar}" class="comment-avatar">
+                                        <span class="comment-author">${c.author}</span>
+                                        ${c.authorRole === 'STAFF' ? '<span class="role-badge badge-staff-tag">STAFF DE HYXIR</span>' : ''}
+                                    </div>
+                                    <span class="comment-date">${c.date}</span>
                                 </div>
-                                <div class="comment-text">${escapeHTML(c.content)}</div>
+                                <div class="comment-text">${c.text}</div>
                             </div>
-                        </div>
-                    `;
-                });
+                        `;
+                    });
+                } else {
+                    commentsHTML = '<p style="font-size:0.9em; color:#777;">Sin comentarios aún.</p>';
+                }
 
+                const postEl = document.createElement('div');
+                postEl.className = 'post-card';
                 postEl.innerHTML = `
                     <div class="post-header">
                         <div class="post-author-info">
-                            <img src="${avatarUrl}" class="post-avatar">
+                            <img src="${post.authorSkin || STEVE_AVATAR}" class="post-avatar">
                             <div>
-                                <div class="post-author">${post.author}</div>
+                                <div class="post-author">
+                                    ${post.author}
+                                    ${post.authorRole === 'STAFF' ? '<span class="role-badge badge-staff-tag">STAFF DE HYXIR</span>' : ''}
+                                </div>
                                 <div class="post-date">${post.date}</div>
                             </div>
                         </div>
                         <span class="post-tag">${post.category}</span>
                     </div>
 
-                    <div class="post-title-text">${escapeHTML(post.title)}</div>
-                    <div class="post-body">${escapeHTML(post.content)}</div>
+                    <div class="post-title-text">${post.title}</div>
+                    <div class="post-body">${post.content}</div>
 
                     <div class="post-footer">
-                        <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
-                            ❤️ ${post.likes.length} Me gusta
-                        </button>
-                        ${isMyPost ? `<button class="btn-delete" onclick="openDeleteModal(${post.id})">🗑️ Eliminar</button>` : ''}
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="toggleLike(${post.id})" class="action-btn ${hasLiked ? 'liked' : ''}">
+                                ❤️ <span>${post.likes ? post.likes.length : 0}</span> Me gusta
+                            </button>
+                            ${isStaff ? `<button onclick="openWarnModal(${post.id})" class="btn-warn">⚠️ Advertir</button>` : ''}
+                        </div>
+                        ${canDelete ? `<button onclick="openDeleteModal(${post.id})" class="btn-delete">🗑️ Eliminar</button>` : ''}
                     </div>
 
                     <div class="comments-section">
-                        <div class="comments-list">
-                            ${commentsHTML || '<p style="font-size:0.9em; color:#777;">Sin comentarios aún.</p>'}
-                        </div>
-                        <form class="comment-form" onsubmit="addComment(event, ${post.id})">
-                            <input type="text" class="comment-input" placeholder="Escribe un comentario..." required>
+                        <div class="comments-list">${commentsHTML}</div>
+                        <form onsubmit="addComment(event, ${post.id})" class="comment-form">
+                            <input type="text" placeholder="Escribe un comentario..." class="comment-input" required>
                             <button type="submit" class="btn-comment-submit">Enviar</button>
                         </form>
                     </div>
@@ -1149,49 +1185,60 @@
         function toggleLike(postId) {
             const currentUser = localStorage.getItem('hyxir_toon_user');
             let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
-            
-            posts = posts.map(p => {
-                if (p.id === postId) {
-                    const idx = p.likes.indexOf(currentUser);
-                    if (idx === -1) {
-                        p.likes.push(currentUser);
-                    } else {
-                        p.likes.splice(idx, 1);
-                    }
-                }
-                return p;
-            });
+            const post = posts.find(p => p.id === postId);
 
-            localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
-            renderPosts();
+            if (post) {
+                if (!post.likes) post.likes = [];
+                const idx = post.likes.indexOf(currentUser);
+                if (idx > -1) {
+                    post.likes.splice(idx, 1);
+                } else {
+                    post.likes.push(currentUser);
+                }
+                localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
+                loadPosts();
+            }
         }
 
         function addComment(e, postId) {
             e.preventDefault();
-            const input = e.target.querySelector('.comment-input');
-            const content = input.value.trim();
             const currentUser = localStorage.getItem('hyxir_toon_user');
 
-            if (!content || !currentUser) return;
+            if (isUserMuted(currentUser)) {
+                alert('🔇 Te encuentras MUTEADO temporalmente. No puedes comentar.');
+                return;
+            }
+
+            const input = e.target.querySelector('.comment-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            const userSkin = usersDB[currentUser]?.skin || `https://mc-heads.net/avatar/${currentUser}/100`;
+            const userRole = usersDB[currentUser]?.role || 'Miembro';
 
             let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
-            posts = posts.map(p => {
-                if (p.id === postId) {
-                    p.comments.push({
-                        author: currentUser,
-                        content: content,
-                        date: new Date().toLocaleDateString('es-ES', { hour: '2-digit', minute: '2-digit' })
-                    });
-                }
-                return p;
-            });
+            const post = posts.find(p => p.id === postId);
 
-            localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
-            renderPosts();
+            if (post) {
+                if (!post.comments) post.comments = [];
+                post.comments.push({
+                    author: currentUser,
+                    authorSkin: userSkin,
+                    authorRole: userRole,
+                    avatar: userSkin,
+                    text: text,
+                    date: new Date().toLocaleDateString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+                    isWarning: false
+                });
+                localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
+                loadPosts();
+            }
         }
 
-        function openDeleteModal(postId) {
-            postToDeleteId = postId;
+        /* MODAL Y ACCIONES DE ELIMINACIÓN */
+        function openDeleteModal(id) {
+            postToDeleteId = id;
             deleteModal.classList.remove('hidden');
         }
 
@@ -1202,33 +1249,100 @@
 
         function confirmDeletePost() {
             if (!postToDeleteId) return;
-
             let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
             posts = posts.filter(p => p.id !== postToDeleteId);
             localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
-
             closeDeleteModal();
-            renderPosts();
+            loadPosts();
         }
 
-        function copyIP() {
-            const ip = document.getElementById('ip-text').textContent;
-            navigator.clipboard.writeText(ip);
-            const hint = document.getElementById('copy-hint');
-            hint.textContent = '¡Copiado!';
-            setTimeout(() => { hint.textContent = '(Clic!)'; }, 2000);
+        /* MODAL Y ACCIONES DE ADVERTENCIA DE STAFF */
+        function openWarnModal(postId) {
+            postToWarnId = postId;
+            document.getElementById('warn-reason-input').value = '';
+            warnModal.classList.remove('hidden');
         }
 
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    "'": '&#39;',
-                    '"': '&quot;'
-                }[tag] || tag)
-            );
+        function closeWarnModal() {
+            postToWarnId = null;
+            warnModal.classList.add('hidden');
+        }
+
+        function confirmSendWarning() {
+            if (!postToWarnId) return;
+            const currentUser = localStorage.getItem('hyxir_toon_user');
+            const reason = document.getElementById('warn-reason-input').value.trim() || 'Incumplimiento de normas';
+
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
+            const post = posts.find(p => p.id === postToWarnId);
+
+            if (post) {
+                let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+                const staffSkin = usersDB[currentUser]?.skin || `https://mc-heads.net/avatar/${currentUser}/100`;
+
+                if (!post.comments) post.comments = [];
+
+                const warningMessage = `Hola, ${post.author}, hemos visto que andas incumpliendo las normas de nuestro Foro (Motivo: ${reason}), por ahora solo te daremos una Advertencia, ¡a la siguiente puedes irte muteado o HASTA BANEADO!`;
+
+                post.comments.push({
+                    author: currentUser,
+                    authorSkin: staffSkin,
+                    authorRole: 'STAFF',
+                    avatar: staffSkin,
+                    text: warningMessage,
+                    date: new Date().toLocaleDateString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+                    isWarning: true
+                });
+
+                localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
+                closeWarnModal();
+                loadPosts();
+            }
+        }
+
+        /* FUNCIONES DE GESTIÓN DE STAFF */
+        function adminGiveStaff() {
+            const target = document.getElementById('staff-target-user').value.trim();
+            if (!target) return alert('Escribe el nick de un jugador.');
+
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            if (!usersDB[target]) return alert('El usuario no existe.');
+
+            usersDB[target].role = 'STAFF';
+            localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+            alert(`🛡️ ¡${target} ahora es STAFF Oficial del Foro!`);
+            loadPosts();
+        }
+
+        function adminMuteUserPrompt() {
+            const target = document.getElementById('staff-target-user').value.trim();
+            if (!target) return alert('Escribe el nick de un jugador.');
+
+            const mins = prompt(`¿Por cuántos minutos deseas mutear a ${target}?`, "10");
+            if (!mins || isNaN(mins)) return;
+
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            if (!usersDB[target]) return alert('El usuario no existe.');
+
+            usersDB[target].isMuted = true;
+            usersDB[target].mutedUntil = Date.now() + (parseInt(mins) * 60 * 1000);
+            localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+
+            alert(`🔇 El usuario ${target} ha sido muteado por ${mins} minutos.`);
+        }
+
+        function adminBanUser() {
+            const target = document.getElementById('staff-target-user').value.trim();
+            if (!target) return alert('Escribe el nick de un jugador.');
+
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            if (!usersDB[target]) return alert('El usuario no existe.');
+
+            if (confirm(`⛔ ¿Seguro que deseas BANEAR permanentemente a ${target}?`)) {
+                usersDB[target].isBanned = true;
+                localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+                alert(`⛔ El usuario ${target} ha sido baneado.`);
+            }
         }
     </script>
 </body>
