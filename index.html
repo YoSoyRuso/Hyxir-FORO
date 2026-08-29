@@ -18,6 +18,7 @@
             --ink: #1d3557; /* Color Tinta para bordes */
             --success: #06d6a0;
             --warning: #ffb703;
+            --vip: #d4af37;
         }
 
         * { 
@@ -252,42 +253,6 @@
             box-shadow: 6px 6px 0 var(--ink);
         }
 
-        .btn-delete {
-            background: #fff;
-            border: 2px solid var(--ink);
-            border-radius: 8px;
-            padding: 4px 10px;
-            cursor: pointer;
-            font-family: 'Boogaloo', cursive;
-            font-size: 0.9em;
-            color: var(--danger);
-            transition: 0.1s;
-            box-shadow: 2px 2px 0 var(--ink);
-        }
-
-        .btn-delete:hover {
-            transform: scale(1.05);
-            background-color: #ffe5ec;
-        }
-
-        .btn-warn {
-            background: #fff;
-            border: 2px solid var(--ink);
-            border-radius: 8px;
-            padding: 4px 10px;
-            cursor: pointer;
-            font-family: 'Boogaloo', cursive;
-            font-size: 0.9em;
-            color: #d97706;
-            transition: 0.1s;
-            box-shadow: 2px 2px 0 var(--ink);
-        }
-
-        .btn-warn:hover {
-            transform: scale(1.05);
-            background-color: #fef3c7;
-        }
-
         /* LAYOUT FORO DE 2 COLUMNAS */
         .forum-layout {
             display: grid;
@@ -376,6 +341,18 @@
             box-shadow: 2px 2px 0 var(--ink);
         }
 
+        .profile-badge-vip {
+            background: #ffd700;
+            color: #000;
+            border: 2px solid var(--ink);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: bold;
+            margin-top: 5px;
+            box-shadow: 2px 2px 0 var(--ink);
+        }
+
         .profile-badge-staff {
             background: var(--primary);
             color: #fff;
@@ -404,20 +381,10 @@
             font-weight: bold;
         }
 
-        .badge-staff-tag {
-            background-color: #06d6a0;
-            color: #000;
-        }
-
-        .badge-banned-tag {
-            background-color: var(--danger);
-            color: #fff;
-        }
-
-        .badge-muted-tag {
-            background-color: var(--warning);
-            color: #000;
-        }
+        .badge-staff-tag { background-color: #06d6a0; color: #000; }
+        .badge-vip-tag { background-color: #ffd700; color: #000; }
+        .badge-creator-tag { background-color: #ef476f; color: #fff; }
+        .badge-first-tag { background-color: #118ab2; color: #fff; }
 
         /* FEED DERECHA */
         .create-post-card {
@@ -435,7 +402,6 @@
             gap: 20px;
         }
 
-        /* POST CARD & HOVER STAFF TOOLS */
         .post-card {
             background: #fff;
             border: 4px solid var(--ink);
@@ -446,13 +412,12 @@
             position: relative;
         }
 
-        .post-card.banned-post {
-            opacity: 0.7;
-            background: #fff0f0;
-            border-color: var(--danger);
+        .post-card.vip-post {
+            border-color: #d4af37;
+            background: #fffdf0;
+            box-shadow: 6px 6px 0 #b38f00;
         }
 
-        /* HOVER STAFF OVERLAY TOOLS */
         .staff-hover-tools {
             position: absolute;
             top: 10px;
@@ -557,16 +522,6 @@
             user-select: text;
         }
 
-        .post-footer {
-            margin-top: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            padding-top: 10px;
-            gap: 10px;
-        }
-
         /* CONSOLA DE STAFF EN CATEGORÍA */
         .console-box {
             background: #1e1e1e;
@@ -580,11 +535,11 @@
         }
         
         .console-logs {
-            max-height: 150px;
+            max-height: 160px;
             overflow-y: auto;
             margin-bottom: 10px;
             font-size: 0.9em;
-            line-height: 1.3;
+            line-height: 1.4;
         }
 
         .console-input-line {
@@ -595,7 +550,7 @@
         .console-input {
             flex-grow: 1;
             background: #000;
-            color: #fff;
+            color: #00ff66;
             border: 1px solid #00ff66;
             padding: 6px 10px;
             font-family: monospace;
@@ -628,11 +583,6 @@
             flex-direction: column;
             gap: 4px;
             box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
-        }
-
-        .comment-item.warning-comment {
-            background: #fff5f5;
-            border: 3px solid var(--danger);
         }
 
         .comment-header {
@@ -859,20 +809,20 @@
                                     <option value="💬 General">💬 General</option>
                                     <option value="❓ Duda / Ayuda">❓ Duda / Ayuda</option>
                                     <option value="⚔️ Clanes">⚔️ Clanes</option>
-                                    <option value="📢 Anuncio">📢 Anuncio</option>
+                                    <option value="📢 Anuncio" id="vip-announcement-option" class="hidden">📢 Anuncio (VIP)</option>
                                     <option value="🛒 Comercio">🛒 Comercio</option>
                                     <option value="💻 Consola Staff" id="staff-console-option" class="hidden">💻 Consola Staff</option>
                                 </select>
                             </div>
 
-                            <!-- CONSOLA INTERACTIVA (Solo visible si elige categoría Consola) -->
+                            <!-- CONSOLA INTERACTIVA -->
                             <div id="console-wrapper" class="console-box hidden">
                                 <p style="margin-bottom: 5px; color: #fff; font-weight: bold;">💻 Consola del Servidor / Foro [ADMIN]</p>
                                 <div id="console-logs" class="console-logs">
-                                    [Sistema] Consola lista para comandos Staff. Usar /unban &lt;nick&gt; o /unmute &lt;nick&gt;.<br>
+                                    [Sistema] Usa !help, para ver todos los comandos<br>
                                 </div>
                                 <div class="console-input-line">
-                                    <input type="text" id="console-command-input" class="console-input" placeholder="/unban NickDeUsuario">
+                                    <input type="text" id="console-command-input" class="console-input" placeholder="Escribe !help o un comando...">
                                     <button type="button" onclick="executeConsoleCommand()" class="btn btn-primary" style="margin:0; width:auto; padding:4px 12px; font-size:1em;">Ejecutar</button>
                                 </div>
                             </div>
@@ -893,7 +843,6 @@
 
                     <!-- LISTA DE POSTS -->
                     <div id="posts-container" class="posts-list">
-                        <!-- Se cargan dinámicamente -->
                     </div>
 
                 </div>
@@ -915,22 +864,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE ADVERTENCIA STAFF -->
-    <div id="warn-modal" class="modal-backdrop hidden">
-        <div class="modal-box">
-            <h3 style="color: var(--warning);">⚠️ Advertir Publicación</h3>
-            <p style="margin-bottom: 10px; font-size: 0.95em;">Se enviará una advertencia formal de Staff en la publicación del usuario.</p>
-            <div class="form-group">
-                <label>Motivo de la advertencia:</label>
-                <input type="text" id="warn-reason-input" class="form-input" placeholder="Ej: Incumplimiento de reglas">
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-primary" style="margin-top:0" onclick="confirmSendWarning()">Enviar Advertencia</button>
-                <button class="btn btn-discord" style="margin-top:0" onclick="closeWarnModal()">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
     <footer>
         <p>&copy; 2026 Hyxir Network. Hecho a mano por el Staff.</p>
     </footer>
@@ -939,7 +872,6 @@
         const STEVE_AVATAR = 'https://mc-heads.net/avatar/Steve/100';
         let isRegisterMode = false;
         let postToDeleteId = null;
-        let postToWarnId = null;
 
         const authTitle = document.getElementById('auth-title');
         const authDesc = document.getElementById('auth-desc');
@@ -955,137 +887,151 @@
         const userRoleBadge = document.getElementById('user-role-badge');
         const postsContainer = document.getElementById('posts-container');
         const deleteModal = document.getElementById('delete-modal');
-        const warnModal = document.getElementById('warn-modal');
 
         function initDB() {
             let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
             
             if (!usersDB['YoSoyRuso']) {
-                usersDB['YoSoyRuso'] = { pass: '123456', skin: 'https://mc-heads.net/avatar/YoSoyRuso/100', role: 'STAFF', isMuted: false, isBanned: false };
+                usersDB['YoSoyRuso'] = { pass: '123456', skin: 'https://mc-heads.net/avatar/YoSoyRuso/100', role: 'STAFF', isMuted: false, isBanned: false, warnings: [] };
             } else {
                 usersDB['YoSoyRuso'].role = 'STAFF';
             }
             localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+
+            if (!localStorage.getItem('hyxir_posts')) {
+                const samplePosts = [
+                    {
+                        id: 1,
+                        author: 'YoSoyRuso',
+                        title: '¡Bienvenidos a Hyxir Network!',
+                        content: 'Reglas y novedades del servidor. ¡Recuerda unirte a nuestro Discord oficial!',
+                        category: '📢 Anuncio',
+                        date: new Date().toLocaleString(),
+                        comments: []
+                    }
+                ];
+                localStorage.setItem('hyxir_posts', JSON.stringify(samplePosts));
+            }
         }
+
         initDB();
 
-        const activeUser = localStorage.getItem('hyxir_toon_user');
-        if (activeUser) {
-            showWelcome(activeUser);
+        function copyIP() {
+            const ip = document.getElementById('ip-text').innerText;
+            navigator.clipboard.writeText(ip);
+            const hint = document.getElementById('copy-hint');
+            hint.innerText = '(¡Copiada!)';
+            setTimeout(() => { hint.innerText = '(Clic!)'; }, 2000);
         }
 
         function toggleAuthMode() {
             isRegisterMode = !isRegisterMode;
             errorMessage.style.display = 'none';
-
             if (isRegisterMode) {
-                authTitle.textContent = '¡Nuevos Amigos!';
-                authDesc.textContent = 'Crea tu usuario y clave para el Hyxir Foro Oficial.';
-                btnSubmit.textContent = '¡Registrarse!';
-                toggleText.textContent = '¿Ya viniste antes?';
-                toggleBtn.textContent = '¡Inicia sesión!';
+                authTitle.innerText = '¡Registrate!';
+                authDesc.innerText = 'Crea tu cuenta de usuario.';
+                btnSubmit.innerText = '¡Crear Cuenta!';
+                toggleText.innerText = '¿Ya tenés cuenta?';
+                toggleBtn.innerText = '¡Ingresá acá!';
             } else {
-                authTitle.textContent = '¡Entra al Foro!';
-                authDesc.textContent = 'Pon tus datos para continuar al foro.';
-                btnSubmit.textContent = '¡Ingresar!';
-                toggleText.textContent = '¿Sos nuevo?';
-                toggleBtn.textContent = '¡Registrate acá!';
+                authTitle.innerText = '¡Entra al Foro!';
+                authDesc.innerText = 'Pon tus datos para continuar al foro.';
+                btnSubmit.innerText = '¡Ingresar!';
+                toggleText.innerText = '¿Sos nuevo?';
+                toggleBtn.innerText = '¡Registrate acá!';
             }
         }
 
         document.getElementById('auth-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            errorMessage.style.display = 'none';
-
             const user = document.getElementById('username').value.trim();
             const pass = document.getElementById('password').value.trim();
-
-            if (!user || !pass) return;
-
             let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
 
             if (isRegisterMode) {
                 if (usersDB[user]) {
-                    showError('¡Ese nick ya existe! Intenta loguearte.');
+                    errorMessage.innerText = '¡Ese nick ya existe!';
+                    errorMessage.style.display = 'block';
                     return;
                 }
-                const isRuso = user.toLowerCase() === 'yosoyruso';
-                usersDB[user] = { 
-                    pass: pass, 
-                    skin: `https://mc-heads.net/avatar/${user}/100`, 
-                    role: isRuso ? 'STAFF' : 'USUARIO',
+                usersDB[user] = {
+                    pass: pass,
+                    skin: `https://mc-heads.net/avatar/${user}/100`,
+                    role: 'USUARIO',
                     isMuted: false,
-                    isBanned: false
+                    isBanned: false,
+                    warnings: []
                 };
                 localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-                loginSuccess(user);
+                loginSuccess(user, usersDB[user]);
             } else {
                 if (!usersDB[user] || usersDB[user].pass !== pass) {
-                    showError('¡Usuario o clave incorrecta!');
+                    errorMessage.innerText = '¡Usuario o clave incorrecta!';
+                    errorMessage.style.display = 'block';
                     return;
                 }
                 if (usersDB[user].isBanned) {
-                    showError('⚠️ Estás BANEADO permanentemente del foro.');
+                    errorMessage.innerText = '❌ ¡Tu cuenta está BANEADA del foro!';
+                    errorMessage.style.display = 'block';
                     return;
                 }
-                loginSuccess(user);
+                loginSuccess(user, usersDB[user]);
             }
         });
 
-        function showError(msg) {
-            errorMessage.textContent = msg;
-            errorMessage.style.display = 'block';
-        }
-
-        function loginSuccess(username) {
-            localStorage.setItem('hyxir_toon_user', username);
-            showWelcome(username);
-        }
-
-        function showWelcome(username) {
-            const usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            const userData = usersDB[username] || { role: 'USUARIO', skin: STEVE_AVATAR };
-
-            if (userData.isBanned) {
-                logout();
-                alert('⚠️ Has sido BANEADO del foro.');
-                return;
-            }
-
+        function loginSuccess(username, userData) {
+            localStorage.setItem('hyxir_active_user', username);
             authCard.classList.add('hidden');
             welcomeCard.classList.remove('hidden');
 
-            userDisplay.textContent = username;
-            userAvatar.src = userData.skin || `https://mc-heads.net/avatar/${username}/100`;
+            userDisplay.innerText = username;
+            userAvatar.src = userData.skin || STEVE_AVATAR;
 
-            const isStaff = userData.role === 'STAFF';
-            if (isStaff) {
+            // Badges
+            if (userData.role === 'STAFF') {
                 userRoleBadge.className = 'profile-badge-staff';
-                userRoleBadge.innerHTML = '🛡️ STAFF Oficial';
-                document.getElementById('staff-console-option').classList.remove('hidden');
+                userRoleBadge.innerText = '🛡️ Staff Oficial';
+            } else if (userData.role === 'VIP') {
+                userRoleBadge.className = 'profile-badge-vip';
+                userRoleBadge.innerText = '⭐ Usuario VIP';
             } else {
                 userRoleBadge.className = 'profile-badge';
-                userRoleBadge.innerHTML = '⛏️ Miembro Oficial';
-                document.getElementById('staff-console-option').classList.add('hidden');
+                userRoleBadge.innerText = '⛏️ Miembro Oficial';
+            }
+
+            // Opciones especiales en Selector
+            const staffOpt = document.getElementById('staff-console-option');
+            if (userData.role === 'STAFF') {
+                staffOpt.classList.remove('hidden');
+            } else {
+                staffOpt.classList.add('hidden');
+            }
+
+            const vipOpt = document.getElementById('vip-announcement-option');
+            if (userData.role === 'VIP' || userData.role === 'STAFF') {
+                vipOpt.classList.remove('hidden');
+            } else {
+                vipOpt.classList.add('hidden');
             }
 
             renderPosts();
         }
 
-        function logout() {
-            localStorage.removeItem('hyxir_toon_user');
-            welcomeCard.classList.add('hidden');
-            authCard.classList.remove('hidden');
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
+        function checkSession() {
+            const activeUser = localStorage.getItem('hyxir_active_user');
+            if (activeUser) {
+                let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+                if (usersDB[activeUser]) {
+                    loginSuccess(activeUser, usersDB[activeUser]);
+                }
+            }
         }
 
-        function copyIP() {
-            const ipText = document.getElementById('ip-text').innerText;
-            navigator.clipboard.writeText(ipText);
-            const copyHint = document.getElementById('copy-hint');
-            copyHint.innerText = '¡Copiado!';
-            setTimeout(() => { copyHint.innerText = '(Clic!)'; }, 2000);
+        function logout() {
+            localStorage.removeItem('hyxir_active_user');
+            welcomeCard.classList.add('hidden');
+            authCard.classList.remove('hidden');
+            document.getElementById('auth-form').reset();
         }
 
         function handleSkinUpload(event) {
@@ -1094,245 +1040,243 @@
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                const base64Image = e.target.result;
-                const activeUser = localStorage.getItem('hyxir_toon_user');
-                let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+                const imgData = e.target.result;
+                userAvatar.src = imgData;
 
+                const activeUser = localStorage.getItem('hyxir_active_user');
+                let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
                 if (usersDB[activeUser]) {
-                    usersDB[activeUser].skin = base64Image;
+                    usersDB[activeUser].skin = imgData;
                     localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-                    userAvatar.src = base64Image;
-                    renderPosts();
                 }
+                renderPosts();
             };
             reader.readAsDataURL(file);
         }
 
-        /* MANEJO DE CATEGORÍAS Y CONSOLA STAFF */
         function handleCategoryChange(val) {
-            const consoleWrapper = document.getElementById('console-wrapper');
+            const consoleBox = document.getElementById('console-wrapper');
             const standardFields = document.getElementById('standard-post-fields');
 
             if (val === '💻 Consola Staff') {
-                consoleWrapper.classList.remove('hidden');
+                consoleBox.classList.remove('hidden');
                 standardFields.classList.add('hidden');
             } else {
-                consoleWrapper.classList.add('hidden');
+                consoleBox.classList.add('hidden');
                 standardFields.classList.remove('hidden');
             }
         }
 
+        // COMANDOS DE LA CONSOLA
         function executeConsoleCommand() {
             const input = document.getElementById('console-command-input');
-            const cmd = input.value.trim();
+            const cmdText = input.value.trim();
+            if (!cmdText) return;
+
             const logs = document.getElementById('console-logs');
+            logs.innerHTML += `<div><span style="color:#aaa;">&gt; ${cmdText}</span></div>`;
 
-            if (!cmd) return;
-
-            logs.innerHTML += `<div>> ${cmd}</div>`;
-
-            const parts = cmd.split(' ');
-            const action = parts[0].toLowerCase();
-            const targetUser = parts[1];
+            const parts = cmdText.split(' ');
+            const command = parts[0].toLowerCase();
+            const target = parts[1] ? parts[1].trim() : '';
 
             let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
 
-            if (action === '/unban') {
-                if (!targetUser) {
-                    logs.innerHTML += `<div style="color:#ff4444;">Uso: /unban &lt;nick&gt;</div>`;
-                } else if (usersDB[targetUser]) {
-                    usersDB[targetUser].isBanned = false;
-                    localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-                    logs.innerHTML += `<div style="color:#00ff66;">[Éxito] Usuario ${targetUser} desbaneado correctamente.</div>`;
-                    renderPosts();
+            if (command === '!help') {
+                logs.innerHTML += `<div style="color:#00ff66;">[Comandos Disponibles]:<br>- !help (Muestra esta lista)<br>- Unban &lt;usuario&gt; (Desbanea un usuario)<br>- Unmute &lt;usuario&gt; (Desmutea un usuario)<br>- !glist (Ver cantidad de usuarios registrados)<br>- !Record &lt;usuario&gt; (Ver historial/sanciones de un usuario)<br>- !vip &lt;usuario&gt; (Dar/Quitar rango VIP a un usuario)</div>`;
+            } 
+            else if (command === 'unban' || command === '!unban') {
+                if (!target) {
+                    logs.innerHTML += `<div style="color:#ff4444;">[Error] Uso: Unban &lt;usuario&gt;</div>`;
+                } else if (!usersDB[target]) {
+                    logs.innerHTML += `<div style="color:#ff4444;">[Error] El usuario '${target}' no existe.</div>`;
                 } else {
-                    logs.innerHTML += `<div style="color:#ff4444;">Error: Usuario ${targetUser} no encontrado.</div>`;
-                }
-            } else if (action === '/unmute') {
-                if (!targetUser) {
-                    logs.innerHTML += `<div style="color:#ff4444;">Uso: /unmute &lt;nick&gt;</div>`;
-                } else if (usersDB[targetUser]) {
-                    usersDB[targetUser].isMuted = false;
+                    usersDB[target].isBanned = false;
                     localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-                    logs.innerHTML += `<div style="color:#00ff66;">[Éxito] Usuario ${targetUser} desmuteado.</div>`;
-                    renderPosts();
-                } else {
-                    logs.innerHTML += `<div style="color:#ff4444;">Error: Usuario ${targetUser} no encontrado.</div>`;
+                    logs.innerHTML += `<div style="color:#00ff66;">[Éxito] '${target}' ha sido desbaneado correctamente.</div>`;
                 }
-            } else {
-                logs.innerHTML += `<div style="color:#ff4444;">Comando no reconocido. Comandos disponibles: /unban, /unmute</div>`;
+            } 
+            else if (command === 'unmute' || command === '!unmute') {
+                if (!target) {
+                    logs.innerHTML += `<div style="color:#ff4444;">[Error] Uso: Unmute &lt;usuario&gt;</div>`;
+                } else if (!usersDB[target]) {
+                    logs.innerHTML += `<div style="color:#ff4444;">[Error] El usuario '${target}' no existe.</div>`;
+                } else {
+                    usersDB[target].isMuted = false;
+                    localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+                    logs.innerHTML += `<div style="color:#00ff66;">[Éxito] Se le ha retirado el silenciar a '${target}'.</div>`;
+                }
+            } 
+            else if (command === '!glist') {
+                const total = Object.keys(usersDB).length;
+                logs.innerHTML += `<div style="color:#00ff66;">[Foro] Actualmente hay ${total} usuarios registrados en la base de datos.</div>`;
+            } 
+            else if (command === '!record') {
+                if (!target) {
+                    logs.innerHTML += `<div style="color:#ff4444;">[Error] Uso: !Record &lt;usuario&gt;</div>`;
+                } else if (!usersDB[target]) {
+                    logs.innerHTML += `<div style="color:#ff4444;">[Error] El usuario '${target}' no existe.</div>`;
+                } else {
+                    const u = usersDB[target];
+                    const banned = u.isBanned ? 'SÍ (Baneado)' : 'NO';
+                    const muted = u.isMuted ? 'SÍ (Muteado)' : 'NO';
+                    const isVip = u.role === 'VIP' ? 'SÍ' : 'NO';
+                    const warnCount = u.warnings ? u.warnings.length : 0;
+                    logs.innerHTML += `<div style="color:#ffbb00;">[Historial de ${target}]:<br>- Rango: ${u.role}<br>- VIP: ${isVip}<br>- Baneado: ${banned}<br>- Muteado: ${muted}<br>- Advertencias registradas: ${warnCount}</div>`;
+                }
+            }
+            else if (command === '!vip') {
+                if (!target) {
+                    logs.innerHTML += `<div style="color:#ff4444;">[Error] Uso: !vip &lt;usuario&gt;</div>`;
+                } else if (!usersDB[target]) {
+                    logs.innerHTML += `<div style="color:#ff4444;">[Error] El usuario '${target}' no existe.</div>`;
+                } else {
+                    if (usersDB[target].role === 'VIP') {
+                        usersDB[target].role = 'USUARIO';
+                        logs.innerHTML += `<div style="color:#ffbb00;">[VIP] Rango VIP removido a '${target}'.</div>`;
+                    } else {
+                        usersDB[target].role = 'VIP';
+                        logs.innerHTML += `<div style="color:#ffd700;">[VIP] ¡Rango VIP otorgado exitosamente a '${target}'!</div>`;
+                    }
+                    localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+                }
+            }
+            else {
+                logs.innerHTML += `<div style="color:#ff4444;">[Error] Comando '${command}' no reconocido. Usa !help.</div>`;
             }
 
-            input.value = '';
             logs.scrollTop = logs.scrollHeight;
+            input.value = '';
         }
 
-        /* SANCTION & STAFF ACTIONS DESDE HOVER EN PUBLICACIÓN */
-        function toggleBanDirect(targetUser) {
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            if (!usersDB[targetUser]) return;
-
-            usersDB[targetUser].isBanned = !usersDB[targetUser].isBanned;
-            localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-            alert(usersDB[targetUser].isBanned ? `Usuario ${targetUser} ha sido BANEADO PERMANENTEMENTE.` : `Usuario ${targetUser} ha sido DESBANEADO.`);
-            renderPosts();
-        }
-
-        function toggleMuteDirect(targetUser) {
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            if (!usersDB[targetUser]) return;
-
-            usersDB[targetUser].isMuted = !usersDB[targetUser].isMuted;
-            localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-            alert(usersDB[targetUser].isMuted ? `Usuario ${targetUser} ha sido MUTEADO PERMANENTEMENTE.` : `Usuario ${targetUser} ha sido DESMUTEADO.`);
-            renderPosts();
-        }
-
-        function toggleStaffRankDirect(targetUser) {
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            if (!usersDB[targetUser]) return;
-
-            usersDB[targetUser].role = (usersDB[targetUser].role === 'STAFF') ? 'USUARIO' : 'STAFF';
-            localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-            alert(`Rango de ${targetUser} actualizado a: ${usersDB[targetUser].role}`);
-            renderPosts();
-        }
-
-        /* PUBLICAR MENSAJE */
         document.getElementById('post-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const category = document.getElementById('post-category').value;
-            const title = document.getElementById('post-title').value.trim();
-            const content = document.getElementById('post-content').value.trim();
-            const activeUser = localStorage.getItem('hyxir_toon_user');
-
             if (category === '💻 Consola Staff') return;
 
+            const activeUser = localStorage.getItem('hyxir_active_user');
             let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+
             if (usersDB[activeUser] && usersDB[activeUser].isMuted) {
-                alert('⚠️ Estás MUTEADO permanentemente. No puedes realizar publicaciones.');
+                alert('❌ No puedes publicar porque estás MUTEADO por el Staff.');
                 return;
             }
 
+            const title = document.getElementById('post-title').value.trim();
+            const content = document.getElementById('post-content').value.trim();
+
             if (!title || !content) return;
 
-            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
+            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
 
             const newPost = {
                 id: Date.now(),
                 author: activeUser,
-                category: category,
                 title: title,
                 content: content,
+                category: category,
                 date: new Date().toLocaleString(),
                 comments: []
             };
 
             posts.unshift(newPost);
-            localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
+            localStorage.setItem('hyxir_posts', JSON.stringify(posts));
 
             document.getElementById('post-title').value = '';
             document.getElementById('post-content').value = '';
             renderPosts();
         });
 
-        /* RENDERIZAR PUBLICACIONES */
         function renderPosts() {
-            const activeUser = localStorage.getItem('hyxir_toon_user');
-            const usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            const activeUser = localStorage.getItem('hyxir_active_user');
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
             const currentUserData = usersDB[activeUser] || {};
             const isStaff = currentUserData.role === 'STAFF';
 
-            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
+            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
             postsContainer.innerHTML = '';
 
-            if (posts.length === 0) {
-                postsContainer.innerHTML = '<p style="text-align: center; font-size: 1.2em; opacity: 0.7;">No hay publicaciones aún. ¡Sé el primero!</p>';
-                return;
-            }
+            // ALGORITMO VIP: Las publicaciones de VIPs salen primero para darle ventaja
+            posts.sort((a, b) => {
+                const authorAVip = usersDB[a.author] && usersDB[a.author].role === 'VIP' ? 1 : 0;
+                const authorBVip = usersDB[b.author] && usersDB[b.author].role === 'VIP' ? 1 : 0;
+                return authorBVip - authorAVip;
+            });
 
             posts.forEach(post => {
-                const authorData = usersDB[post.author] || {};
-                const authorAvatar = authorData.skin || `https://mc-heads.net/avatar/${post.author}/100`;
-                const isAuthorStaff = authorData.role === 'STAFF';
-                const isAuthorBanned = authorData.isBanned;
-                const isAuthorMuted = authorData.isMuted;
+                const authorData = usersDB[post.author] || { skin: STEVE_AVATAR, role: 'USUARIO' };
+                const isAuthorVip = authorData.role === 'VIP';
 
-                let roleBadgeHtml = isAuthorStaff ? `<span class="role-badge badge-staff-tag">STAFF</span>` : '';
-                if (isAuthorBanned) roleBadgeHtml += `<span class="role-badge badge-banned-tag">BANEADO</span>`;
-                if (isAuthorMuted) roleBadgeHtml += `<span class="role-badge badge-muted-tag">MUTEADO</span>`;
-
-                const canDelete = isStaff || activeUser === post.author;
-
-                // HERRAMIENTAS AL PASAR EL CURSOR (HOVER STAFF)
-                let hoverToolsHtml = '';
-                if (isStaff && post.author !== activeUser) {
-                    const banBtnText = isAuthorBanned ? '✅ Desbanear' : '🚫 Banear';
-                    const muteBtnText = isAuthorMuted ? '🔊 Desmutear' : '🔇 Mutear';
-                    const staffBtnText = isAuthorStaff ? '🔻 Quitar Staff' : '⭐ Dar Staff';
-
-                    hoverToolsHtml = `
-                        <div class="staff-hover-tools">
-                            <button class="staff-btn-action" style="color:var(--danger)" onclick="toggleBanDirect('${post.author}')">${banBtnText}</button>
-                            <button class="staff-btn-action" style="color:#d97706" onclick="toggleMuteDirect('${post.author}')">${muteBtnText}</button>
-                            <button class="staff-btn-action" style="color:var(--warning)" onclick="openWarnModal(${post.id})">⚠️ Advertir</button>
-                            <button class="staff-btn-action" style="color:var(--accent)" onclick="toggleStaffRankDirect('${post.author}')">${staffBtnText}</button>
-                        </div>
-                    `;
+                let roleTagHtml = '';
+                if (authorData.role === 'STAFF') {
+                    roleTagHtml = `<span class="role-badge badge-staff-tag">STAFF</span>`;
+                } else if (isAuthorVip) {
+                    roleTagHtml = `<span class="role-badge badge-vip-tag">⭐ VIP</span>`;
                 }
 
-                let deleteBtnHtml = canDelete ? `<button class="btn-delete" onclick="openDeleteModal(${post.id})">🗑️ Eliminar</button>` : '';
-
-                // Renderizado de comentarios
+                // Render de comentarios con insignias de "Creador" y "Primer comentario"
                 let commentsHtml = '';
                 if (post.comments && post.comments.length > 0) {
-                    post.comments.forEach(c => {
-                        const cAuthorData = usersDB[c.author] || {};
-                        const cAvatar = cAuthorData.skin || `https://mc-heads.net/avatar/${c.author}/100`;
-                        const isWarn = c.isWarning;
+                    post.comments.forEach((c, index) => {
+                        const cAuthorData = usersDB[c.author] || { skin: STEVE_AVATAR };
+                        
+                        let commentBadges = '';
+                        if (c.author === post.author) {
+                            commentBadges += `<span class="role-badge badge-creator-tag">Creador</span>`;
+                        }
+                        if (index === 0) {
+                            commentBadges += `<span class="role-badge badge-first-tag">Primer Comentario</span>`;
+                        }
 
                         commentsHtml += `
-                            <div class="comment-item ${isWarn ? 'warning-comment' : ''}">
+                            <div class="comment-item">
                                 <div class="comment-header">
                                     <div class="comment-user-box">
-                                        <img src="${cAvatar}" class="comment-avatar">
+                                        <img src="${cAuthorData.skin || STEVE_AVATAR}" class="comment-avatar">
                                         <span class="comment-author">${c.author}</span>
-                                        ${cAuthorData.role === 'STAFF' ? '<span class="role-badge badge-staff-tag">STAFF</span>' : ''}
+                                        ${commentBadges}
                                     </div>
                                     <span class="comment-date">${c.date}</span>
                                 </div>
-                                <div class="comment-text">${escapeHTML(c.text)}</div>
+                                <div class="comment-text">${escapeHtml(c.text)}</div>
                             </div>
                         `;
                     });
+                } else {
+                    commentsHtml = `<p style="font-size: 0.9em; color: #777; font-style: italic;">Sin comentarios aún. ¡Sé el primero!</p>`;
                 }
 
                 const postCard = document.createElement('div');
-                postCard.className = `post-card ${isAuthorBanned ? 'banned-post' : ''}`;
+                postCard.className = `post-card ${isAuthorVip ? 'vip-post' : ''}`;
+
                 postCard.innerHTML = `
-                    ${hoverToolsHtml}
+                    ${isStaff ? `
+                        <div class="staff-hover-tools">
+                            <button class="staff-btn-action" style="color:var(--danger);" onclick="openDeleteModal(${post.id})">🗑️ Eliminar</button>
+                        </div>
+                    ` : ''}
+
                     <div class="post-header">
                         <div class="post-author-info">
-                            <img src="${authorAvatar}" class="post-avatar">
+                            <img src="${authorData.skin || STEVE_AVATAR}" class="post-avatar">
                             <div>
-                                <div class="post-author">${escapeHTML(post.author)} ${roleBadgeHtml}</div>
+                                <div class="post-author">${post.author} ${roleTagHtml}</div>
                                 <div class="post-date">${post.date}</div>
                             </div>
                         </div>
-                        <span class="post-tag">${escapeHTML(post.category)}</span>
-                    </div>
-                    <div class="post-title-text">${escapeHTML(post.title)}</div>
-                    <div class="post-body">${escapeHTML(post.content)}</div>
-                    <div class="post-footer">
-                        <span></span>
-                        <div>${deleteBtnHtml}</div>
+                        <span class="post-tag">${post.category}</span>
                     </div>
 
+                    <div class="post-title-text">${escapeHtml(post.title)}</div>
+                    <div class="post-body">${escapeHtml(post.content)}</div>
+
+                    <!-- SECCIÓN COMENTARIOS -->
                     <div class="comments-section">
                         <div class="comments-list">${commentsHtml}</div>
-                        <form onsubmit="submitComment(event, ${post.id})" class="comment-form">
-                            <input type="text" id="comment-input-${post.id}" class="comment-input" placeholder="${currentUserData.isMuted ? 'Estás muteado...' : 'Escribe un comentario...'}" ${currentUserData.isMuted ? 'disabled' : ''} required>
-                            <button type="submit" class="btn-comment-submit" ${currentUserData.isMuted ? 'disabled' : ''}>Comentar</button>
+                        
+                        <form class="comment-form" onsubmit="addComment(event, ${post.id})">
+                            <input type="text" class="comment-input" placeholder="Escribe un comentario..." required>
+                            <button type="submit" class="btn-comment-submit">Comentar</button>
                         </form>
                     </div>
                 `;
@@ -1341,98 +1285,64 @@
             });
         }
 
-        /* MANEJO DE COMENTARIOS */
-        function submitComment(e, postId) {
+        function addComment(e, postId) {
             e.preventDefault();
-            const activeUser = localStorage.getItem('hyxir_toon_user');
-            const usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
+            const activeUser = localStorage.getItem('hyxir_active_user');
+            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
 
             if (usersDB[activeUser] && usersDB[activeUser].isMuted) {
-                alert('⚠️ Estás muteado y no puedes comentar.');
+                alert('❌ No puedes comentar porque estás MUTEADO por el Staff.');
                 return;
             }
 
-            const input = document.getElementById(`comment-input-${postId}`);
+            const input = e.target.querySelector('.comment-input');
             const text = input.value.trim();
             if (!text) return;
 
-            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
-            const postIndex = posts.findIndex(p => p.id === postId);
+            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
+            const post = posts.find(p => p.id === postId);
 
-            if (postIndex !== -1) {
-                if (!posts[postIndex].comments) posts[postIndex].comments = [];
-                posts[postIndex].comments.push({
+            if (post) {
+                if (!post.comments) post.comments = [];
+                post.comments.push({
                     author: activeUser,
                     text: text,
-                    date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                    isWarning: false
+                    date: new Date().toLocaleString()
                 });
-                localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
+                localStorage.setItem('hyxir_posts', JSON.stringify(posts));
                 renderPosts();
             }
         }
 
-        /* ELIMINAR PUBLICACIÓN */
         function openDeleteModal(postId) {
             postToDeleteId = postId;
             deleteModal.classList.remove('hidden');
         }
 
         function closeDeleteModal() {
-            postToDeleteId = null;
             deleteModal.classList.add('hidden');
+            postToDeleteId = null;
         }
 
         function confirmDeletePost() {
             if (!postToDeleteId) return;
-
-            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
+            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
             posts = posts.filter(p => p.id !== postToDeleteId);
-            localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
-
+            localStorage.setItem('hyxir_posts', JSON.stringify(posts));
             closeDeleteModal();
             renderPosts();
         }
 
-        /* ADVERTIR PUBLICACIÓN */
-        function openWarnModal(postId) {
-            postToWarnId = postId;
-            document.getElementById('warn-reason-input').value = '';
-            warnModal.classList.remove('hidden');
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
         }
 
-        function closeWarnModal() {
-            postToWarnId = null;
-            warnModal.classList.add('hidden');
-        }
-
-        function confirmSendWarning() {
-            const reason = document.getElementById('warn-reason-input').value.trim();
-            if (!reason || !postToWarnId) return;
-
-            const activeUser = localStorage.getItem('hyxir_toon_user');
-            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
-            const postIndex = posts.findIndex(p => p.id === postToWarnId);
-
-            if (postIndex !== -1) {
-                if (!posts[postIndex].comments) posts[postIndex].comments = [];
-                posts[postIndex].comments.push({
-                    author: activeUser,
-                    text: `⚠️ ADVERTENCIA DE STAFF: ${reason}`,
-                    date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                    isWarning: true
-                });
-                localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
-                closeWarnModal();
-                renderPosts();
-            }
-        }
-
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
-        }
+        checkSession();
     </script>
 </body>
 </html>
