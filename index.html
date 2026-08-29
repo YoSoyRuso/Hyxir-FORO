@@ -357,6 +357,30 @@
             box-shadow: 2px 2px 0 var(--ink);
         }
 
+        /* ETIQUETAS ROL / DESTAQUE */
+        .role-badge {
+            font-family: 'Boogaloo', cursive;
+            font-size: 0.7em;
+            border: 1.5px solid var(--ink);
+            padding: 1px 6px;
+            border-radius: 6px;
+            margin-left: 6px;
+            box-shadow: 1px 1px 0 var(--ink);
+            vertical-align: middle;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+
+        .badge-author {
+            background-color: #ffbe0b;
+            color: #000;
+        }
+
+        .badge-first-comment {
+            background-color: #06d6a0;
+            color: #000;
+        }
+
         /* FEED DERECHA */
         .create-post-card {
             background: #fff;
@@ -960,7 +984,7 @@
             });
         }
 
-        // LÓGICA DEL FORO (POSTS)
+        // LÓGICA DEL FORO (POSTS & COMENTARIOS)
         document.getElementById('post-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -972,70 +996,162 @@
             const newPost = {
                 id: Date.now(),
                 author: author,
-                category: categoryInput.value,
                 title: titleInput.value.trim(),
                 content: contentInput.value.trim(),
-                likedBy: [], // Array con los usuarios que le dieron like
-                comments: [], // Array para guardar comentarios
-                date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
+                category: categoryInput.value,
+                date: new Date().toLocaleDateString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+                likes: [],
+                comments: []
             };
 
-            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
             posts.unshift(newPost);
-            localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
+            localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
 
             titleInput.value = '';
             contentInput.value = '';
+
             loadPosts();
         });
 
-        // Dar o quitar Like (1 solo por usuario)
-        function toggleLike(id) {
-            const activeUser = localStorage.getItem('hyxir_toon_user');
-            if (!activeUser) return;
+        function loadPosts() {
+            const currentUser = localStorage.getItem('hyxir_toon_user');
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
 
-            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
-            const post = posts.find(p => p.id === id);
-            if (post) {
-                if (!post.likedBy) {
-                    post.likedBy = [];
-                    if (post.likes) {
-                        // Migración de datos viejos
-                        for (let i = 0; i < post.likes; i++) post.likedBy.push('User_' + i);
-                    }
-                }
+            if (posts.length === 0) {
+                postsContainer.innerHTML = '<p style="text-align: center; font-size: 1.2em; color: var(--ink);">¡No hay publicaciones aún! Sé el primero en publicar algo.</p>';
+                return;
+            }
 
-                const index = post.likedBy.indexOf(activeUser);
-                if (index === -1) {
-                    post.likedBy.push(activeUser);
+            postsContainer.innerHTML = '';
+
+            posts.forEach(post => {
+                const isAuthor = post.author === currentUser;
+                const isLiked = post.likes && post.likes.includes(currentUser);
+                const commentsCount = post.comments ? post.comments.length : 0;
+                const authorAvatar = getUserAvatar(post.author);
+
+                // Renderizado de lista de comentarios
+                let commentsHTML = '';
+                if (post.comments && post.comments.length > 0) {
+                    post.comments.forEach((comment, index) => {
+                        const commentAvatar = getUserAvatar(comment.author);
+                        const isCommentAuthor = comment.author === currentUser;
+                        
+                        // Si es el primer comentario, mostrar la insignia
+                        const firstCommentBadge = (index === 0) 
+                            ? '<span class="role-badge badge-first-comment">Primer Comentario</span>' 
+                            : '';
+
+                        commentsHTML += `
+                            <div class="comment-item">
+                                <div style="flex-grow: 1;">
+                                    <div class="comment-header">
+                                        <img src="${commentAvatar}" class="comment-avatar" alt="Avatar">
+                                        <span class="comment-author">${escapeHTML(comment.author)}</span>
+                                        ${firstCommentBadge}
+                                        <span class="comment-date">• ${comment.date}</span>
+                                    </div>
+                                    <div class="comment-text">${escapeHTML(comment.content)}</div>
+                                </div>
+                                ${ (isCommentAuthor || isAuthor) ? `<button class="btn-delete" style="padding:2px 6px; font-size:0.8em;" onclick="deleteComment(${post.id}, ${comment.id})">❌</button>` : '' }
+                            </div>
+                        `;
+                    });
                 } else {
-                    post.likedBy.splice(index, 1);
+                    commentsHTML = '<p style="font-size:0.9em; color:#777; margin-bottom:10px;">Sin comentarios aún. ¡Sé el primero!</p>';
                 }
-                
-                localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
+
+                const postHTML = `
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-author-info">
+                                <img src="${authorAvatar}" class="post-avatar" alt="Avatar">
+                                <div>
+                                    <div class="post-author">
+                                        ${escapeHTML(post.author)} 
+                                        <span class="role-badge badge-author">Creador</span>
+                                    </div>
+                                    <div class="post-date">${post.date}</div>
+                                </div>
+                            </div>
+                            <span class="post-tag">${escapeHTML(post.category)}</span>
+                        </div>
+
+                        <div class="post-title-text">${escapeHTML(post.title)}</div>
+                        <div class="post-body">${escapeHTML(post.content)}</div>
+
+                        <div class="post-footer">
+                            <div style="display: flex; gap: 10px;">
+                                <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                                    ❤️ <span>${post.likes ? post.likes.length : 0}</span>
+                                </button>
+                                <button class="action-btn" onclick="toggleCommentsSection(${post.id})">
+                                    💬 <span>${commentsCount}</span>
+                                </button>
+                            </div>
+
+                            ${isAuthor ? `<button class="btn-delete" onclick="openDeleteModal(${post.id})">🗑️ Eliminar</button>` : ''}
+                        </div>
+
+                        <!-- SECCIÓN COMENTARIOS (Oculta/Visible por toggle) -->
+                        <div id="comments-sec-${post.id}" class="comments-section hidden">
+                            <div class="comments-list">
+                                ${commentsHTML}
+                            </div>
+                            <form class="comment-form" onsubmit="submitComment(event, ${post.id})">
+                                <input type="text" class="comment-input" id="comment-input-${post.id}" placeholder="Escribe un comentario..." required>
+                                <button type="submit" class="btn-comment-submit">Enviar</button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+
+                postsContainer.insertAdjacentHTML('beforeend', postHTML);
+            });
+        }
+
+        /* GESTIÓN DE LIKES */
+        function toggleLike(postId) {
+            const currentUser = localStorage.getItem('hyxir_toon_user');
+            if (!currentUser) return;
+
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
+            const post = posts.find(p => p.id === postId);
+
+            if (post) {
+                if (!post.likes) post.likes = [];
+                const index = post.likes.indexOf(currentUser);
+
+                if (index === -1) {
+                    post.likes.push(currentUser);
+                } else {
+                    post.likes.splice(index, 1);
+                }
+
+                localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
                 loadPosts();
             }
         }
 
-        // Mostrar / Ocultar caja de comentarios
-        function toggleComments(id) {
-            const box = document.getElementById(`comments-box-${id}`);
-            if (box) {
-                box.classList.toggle('hidden');
+        /* TOGGLE DE COMENTARIOS */
+        function toggleCommentsSection(postId) {
+            const section = document.getElementById(`comments-sec-${postId}`);
+            if (section) {
+                section.classList.toggle('hidden');
             }
         }
 
-        // Agregar Comentario
-        function addComment(event, postId) {
-            event.preventDefault();
-            const activeUser = localStorage.getItem('hyxir_toon_user');
-            if (!activeUser) return;
-
+        /* AGREGAR COMENTARIO */
+        function submitComment(e, postId) {
+            e.preventDefault();
+            const currentUser = localStorage.getItem('hyxir_toon_user');
             const input = document.getElementById(`comment-input-${postId}`);
             const text = input.value.trim();
-            if (!text) return;
 
-            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
+            if (!text || !currentUser) return;
+
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
             const post = posts.find(p => p.id === postId);
 
             if (post) {
@@ -1043,31 +1159,37 @@
 
                 post.comments.push({
                     id: Date.now(),
-                    author: activeUser,
-                    text: text,
-                    date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
+                    author: currentUser,
+                    content: text,
+                    date: new Date().toLocaleDateString('es-ES', { hour: '2-digit', minute: '2-digit' })
                 });
 
-                localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
+                localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
                 loadPosts();
-                // Mantener desplegados los comentarios después de enviar
-                setTimeout(() => toggleComments(postId), 10);
+
+                // Mantener abierta la sección de comentarios al recargar
+                const section = document.getElementById(`comments-sec-${postId}`);
+                if (section) section.classList.remove('hidden');
             }
         }
 
-        // Eliminar Comentario
+        /* ELIMINAR COMENTARIO */
         function deleteComment(postId, commentId) {
-            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
             const post = posts.find(p => p.id === postId);
 
             if (post && post.comments) {
                 post.comments = post.comments.filter(c => c.id !== commentId);
-                localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
+                localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
                 loadPosts();
-                setTimeout(() => toggleComments(postId), 10);
+
+                // Mantener abierta la sección de comentarios
+                const section = document.getElementById(`comments-sec-${postId}`);
+                if (section) section.classList.remove('hidden');
             }
         }
 
+        /* MODAL Y ELIMINACIÓN DE PUBLICACIÓN */
         function openDeleteModal(id) {
             postToDeleteId = id;
             deleteModal.classList.remove('hidden');
@@ -1080,111 +1202,13 @@
 
         function confirmDeletePost() {
             if (!postToDeleteId) return;
-            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
+
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
             posts = posts.filter(p => p.id !== postToDeleteId);
-            localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
+            localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
+
             closeDeleteModal();
             loadPosts();
-        }
-
-        function loadPosts() {
-            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [
-                {
-                    id: 1,
-                    author: 'StaffHyxir',
-                    category: '📢 Anuncio',
-                    title: '¡Bienvenidos al Foro Oficial de Hyxir Network!',
-                    content: 'Recuerda respetar las reglas del servidor y mantener el respeto en cada publicación.',
-                    likedBy: ['StaffHyxir'],
-                    comments: [
-                        {
-                            id: 101,
-                            author: 'SteveGamer99',
-                            text: '¡Excelente foro! Saludos a todos.',
-                            date: 'Hoy 12:05'
-                        }
-                    ],
-                    date: 'Hoy 12:00'
-                }
-            ];
-
-            const activeUser = localStorage.getItem('hyxir_toon_user');
-            postsContainer.innerHTML = '';
-
-            posts.forEach(post => {
-                if (!post.likedBy) post.likedBy = [];
-                if (!post.comments) post.comments = [];
-
-                const postEl = document.createElement('div');
-                postEl.className = 'post-card';
-                
-                const avatarUrl = getUserAvatar(post.author);
-                const canDelete = post.author === activeUser || activeUser === 'StaffHyxir';
-                const isLiked = post.likedBy.includes(activeUser);
-                const likesCount = post.likedBy.length;
-                const commentsCount = post.comments.length;
-
-                // Generar HTML de la lista de comentarios
-                let commentsHTML = '';
-                post.comments.forEach(c => {
-                    const cAvatar = getUserAvatar(c.author);
-                    const canDeleteC = c.author === activeUser || activeUser === 'StaffHyxir';
-                    commentsHTML += `
-                        <div class="comment-item">
-                            <div>
-                                <div class="comment-header">
-                                    <img src="${cAvatar}" class="comment-avatar" alt="Avatar">
-                                    <span class="comment-author">${escapeHTML(c.author)}</span>
-                                    <span class="comment-date">${c.date}</span>
-                                </div>
-                                <div class="comment-text">${escapeHTML(c.text)}</div>
-                            </div>
-                            ${canDeleteC ? `<button onclick="deleteComment(${post.id}, ${c.id})" class="btn-delete" style="padding:2px 6px; font-size:0.75em;" title="Eliminar Comentario">✕</button>` : ''}
-                        </div>
-                    `;
-                });
-
-                postEl.innerHTML = `
-                    <div class="post-header">
-                        <div class="post-author-info">
-                            <img src="${avatarUrl}" class="post-avatar" alt="Avatar">
-                            <div>
-                                <div class="post-author">${escapeHTML(post.author)}</div>
-                                <div class="post-date">${post.date}</div>
-                            </div>
-                        </div>
-                        <span class="post-tag">${escapeHTML(post.category || '💬 General')}</span>
-                    </div>
-
-                    <div class="post-title-text">${escapeHTML(post.title)}</div>
-                    <div class="post-body">${escapeHTML(post.content)}</div>
-
-                    <div class="post-footer">
-                        <div style="display: flex; gap: 10px;">
-                            <button onclick="toggleLike(${post.id})" class="action-btn ${isLiked ? 'liked' : ''}">
-                                ${isLiked ? '❤️' : '🤍'} ${likesCount} ${likesCount === 1 ? 'Me gusta' : 'Me gusta'}
-                            </button>
-                            <button onclick="toggleComments(${post.id})" class="action-btn">
-                                💬 ${commentsCount} ${commentsCount === 1 ? 'Comentario' : 'Comentarios'}
-                            </button>
-                        </div>
-                        ${canDelete ? `<button onclick="openDeleteModal(${post.id})" class="btn-delete">🗑️ Eliminar</button>` : ''}
-                    </div>
-
-                    <!-- CAJA DESPLEGABLE DE COMENTARIOS -->
-                    <div id="comments-box-${post.id}" class="comments-section hidden">
-                        <div class="comments-list">
-                            ${commentsHTML.length > 0 ? commentsHTML : '<p style="font-size:0.9em; color:#777; text-align:center;">¡Sé el primero en comentar!</p>'}
-                        </div>
-                        <form class="comment-form" onsubmit="addComment(event, ${post.id})">
-                            <input type="text" id="comment-input-${post.id}" class="comment-input" placeholder="Escribe un comentario..." required>
-                            <button type="submit" class="btn-comment-submit">Enviar</button>
-                        </form>
-                    </div>
-                `;
-
-                postsContainer.appendChild(postEl);
-            });
         }
     </script>
 </body>
