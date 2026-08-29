@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget de Correo - Hyxir Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Boogaloo&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffd166;
+            --paper-bg: #fffcf2;
+            --primary: #ef476f;
+            --accent: #118ab2;
+            --accent-dark: #0c6a8a;
+            --danger: #d90429;
+            --text-dark: #073b4c;
+            --ink: #1d3557;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Boogaloo', cursive;
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--ink);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- CONTENEDOR DEL WIDGET DE CORREO --- */
+        .mail-widget {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 1000;
+        }
+
+        .mail-btn {
+            background: var(--paper-bg);
+            border: 5px solid var(--ink);
+            border-radius: 50%;
+            width: 75px;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 5px 5px 0 var(--ink);
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mail-btn:hover {
+            transform: scale(1.1) translate(-2px, -2px);
+            box-shadow: 8px 8px 0 var(--ink);
+            background-color: #fff;
+        }
+
+        /* Imagen de la carta adaptada al botón */
+        .mail-icon-img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            image-rendering: auto;
+        }
+
+        .mail-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--danger);
+            color: white;
+            border: 2.5px solid var(--ink);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 0.9em;
+            font-family: 'Bangers', cursive;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 0 var(--ink);
+        }
+
+        /* VENTANA DESPLEGABLE DEL BUZÓN */
+        .mail-modal {
+            position: fixed;
+            bottom: 120px;
+            left: 30px;
+            width: 380px;
+            max-width: 90vw;
+            height: 460px;
+            background: var(--paper-bg);
+            border: 5px solid var(--ink);
+            border-radius: 20px;
+            box-shadow: 10px 10px 0 var(--ink);
+            display: flex;
+            flex-direction: column;
+            z-index: 1001;
+            overflow: hidden;
+            animation: popUp 0.2s ease-out;
+        }
+
+        @keyframes popUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .mail-header {
+            background: var(--accent);
+            color: white;
+            padding: 12px 18px;
+            border-bottom: 5px solid var(--ink);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mail-header h3 {
+            font-family: 'Bangers', cursive;
+            font-size: 1.6em;
+            letter-spacing: 1px;
+            -webkit-text-stroke: 1.5px var(--ink);
+            text-shadow: 2px 2px 0 var(--ink);
+        }
+
+        .mail-close-btn {
+            background: var(--danger);
+            color: white;
+            border: 3px solid var(--ink);
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            font-family: 'Bangers', cursive;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 0 var(--ink);
+            transition: 0.1s;
+        }
+
+        .mail-close-btn:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+
+        .mail-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #fff8eb;
+        }
+
+        .mail-item {
+            background: #fff;
+            border: 3.5px solid var(--ink);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 3px 3px 0 var(--ink);
+            position: relative;
+            transition: transform 0.1s;
+        }
+
+        .mail-item:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0 var(--ink);
+        }
+
+        .mail-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            border-bottom: 2px dashed var(--ink);
+            padding-bottom: 6px;
+        }
+
+        .mail-sender {
+            font-family: 'Bangers', cursive;
+            font-size: 1.2em;
+            color: var(--primary);
+            -webkit-text-stroke: 0.5px var(--ink);
+        }
+
+        .mail-date {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .mail-content {
+            font-size: 1.05em;
+            color: var(--text-dark);
+            line-height: 1.3;
+            white-space: pre-line;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .mail-actions-item {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+
+        .btn-delete-mail {
+            background: #fff;
+            color: var(--danger);
+            border: 2px solid var(--ink);
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-family: 'Boogaloo', cursive;
+            font-size: 0.9em;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--ink);
+        }
+
+        .btn-delete-mail:hover {
+            background: #fff0f0;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Panel de prueba rápido para agregar mensajes de ejemplo */
+        .demo-panel {
+            background: var(--paper-bg);
+            border: 5px solid var(--ink);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 8px 8px 0 var(--ink);
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .demo-panel h2 {
+            font-family: 'Bangers', cursive;
+            font-size: 2em;
+            color: var(--accent);
+            -webkit-text-stroke: 1px var(--ink);
+            margin-bottom: 10px;
+        }
+
+        .btn-demo {
+            background: var(--primary);
+            color: #fff;
+            border: 3px solid var(--ink);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-family: 'Bangers', cursive;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 var(--ink);
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn-demo:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--ink);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Panel de prueba para simular la llegada de correos -->
+    <div class="demo-panel">
+        <h2>Prueba de Correo</h2>
+        <p style="margin-bottom: 15px;">Haz clic abajo para simular que te llegó un mensaje nuevo al buzón.</p>
+        <button class="btn-demo" onclick="addDemoMessage()">Simular Nuevo Mensaje 📨</button>
+    </div>
+
+    <!-- WIDGET FLOTANTE DE CORREO -->
+    <div id="mail-widget" class="mail-widget">
+        <div class="mail-btn" onclick="toggleMailModal()" title="Abrir Buzón">
+            <!-- Imagen proporcionada utilizada como icono -->
+            <img src="image_3e98c3.png" alt="Icono Correo" class="mail-icon-img">
+            <div id="mail-badge" class="mail-badge hidden">0</div>
+        </div>
+
+        <div id="mail-modal" class="mail-modal hidden">
+            <div class="mail-header">
+                <h3>📬 Buzón de Mensajes</h3>
+                <button class="mail-close-btn" onclick="toggleMailModal()">✕</button>
+            </div>
+            <div id="mail-body" class="mail-body">
+                <!-- Se cargan dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cargar mensajes desde localStorage o iniciar con un array vacío
+        let messagesDB = JSON.parse(localStorage.getItem('standalone_mail_db')) || [
+            { id: 1, sender: "Admin_Hyxir", content: "¡Bienvenido al sistema de correo independiente del foro!", date: "12:30" }
+        ];
+
+        function saveMailData() {
+            localStorage.setItem('standalone_mail_db', JSON.stringify(messagesDB));
+            updateMailWidget();
+        }
+
+        function toggleMailModal() {
+            const modal = document.getElementById('mail-modal');
+            modal.classList.toggle('hidden');
+            
+            // Al abrir el buzón, limpiamos el contador de notificaciones no leídas
+            if (!modal.classList.contains('hidden')) {
+                const badge = document.getElementById('mail-badge');
+                badge.classList.add('hidden');
+                badge.innerText = '0';
+            }
+        }
+
+        function updateMailWidget() {
+            const mailBody = document.getElementById('mail-body');
+            const badge = document.getElementById('mail-badge');
+            
+            mailBody.innerHTML = '';
+
+            if (messagesDB.length === 0) {
+                mailBody.innerHTML = '<p style="text-align: center; color: #777; margin-top: 40px; font-size: 1.1em;">📭 Tu buzón está vacío.</p>';
+                badge.classList.add('hidden');
+            } else {
+                messagesDB.forEach(msg => {
+                    const item = document.createElement('div');
+                    item.className = 'mail-item';
+                    item.innerHTML = `
+                        <div class="mail-item-header">
+                            <span class="mail-sender">De: ${escapeHTML(msg.sender)}</span>
+                            <span class="mail-date">${msg.date}</span>
+                        </div>
+                        <div class="mail-content">${escapeHTML(msg.content)}</div>
+                        <div class="mail-actions-item">
+                            <button class="btn-delete-mail" onclick="deleteMessage(${msg.id})">🗑️ Borrar</button>
+                        </div>
+                    `;
+                    mailBody.appendChild(item);
+                });
+
+                // Mostrar badge con la cantidad de mensajes actuales
+                badge.innerText = messagesDB.length;
+                badge.classList.remove('hidden');
+            }
+        }
+
+        function deleteMessage(id) {
+            messagesDB = messagesDB.filter(m => m.id !== id);
+            saveMailData();
+        }
+
+        function addDemoMessage() {
+            const newMsg = {
+                id: Date.now(),
+                sender: "Staff_Bot",
+                content: "¡Has recibido una notificación importante sobre tu clan en Hyxir Network!",
+                date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+            messagesDB.unshift(newMsg);
+            saveMailData();
+            
+            // Animación de rebote en el botón al recibir correo
+            const btn = document.querySelector('.mail-btn');
+            btn.style.transform = 'scale(1.2)';
+            setTimeout(() => btn.style.transform = 'scale(1)', 200);
+        }
+
+        function escapeHTML(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Inicializar al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            updateMailWidget();
+        });
+    </script>
+</body>
+</html>
