@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hyxir Network ⛏️ Portal Toon</title>
+    <title>Hyxir Network ⛏️ Foro Oficial</title>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Boogaloo&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -42,7 +42,7 @@
             overflow-x: hidden;
         }
 
-        /* BANNER TOON */
+        /* BANNER */
         header {
             padding: 50px 20px 30px;
             text-align: center;
@@ -76,7 +76,7 @@
             text-shadow: 2px 2px 0 var(--ink);
         }
 
-        /* TARJETA IP TOON */
+        /* TARJETA IP */
         .ip-card {
             display: inline-flex;
             align-items: center;
@@ -151,7 +151,7 @@
             margin-bottom: 30px;
         }
 
-        /* FORMULARIOS TOON */
+        /* FORMULARIOS */
         .form-group {
             text-align: left;
             margin-bottom: 20px;
@@ -186,7 +186,7 @@
             box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1), 4px 4px 0 var(--ink);
         }
 
-        /* BOTONES TOON */
+        /* BOTONES */
         .btn {
             width: 100%;
             padding: 16px;
@@ -291,7 +291,7 @@
         
         <div id="auth-card" class="card">
             <h2 id="auth-title">¡Entra al Foro!</h2>
-            <p id="auth-desc">Pon tus datos caricaturescos para seguir.</p>
+            <p id="auth-desc">Pon tus datos para continuar al foro.</p>
             
             <form id="auth-form">
                 <div class="form-group">
@@ -322,7 +322,7 @@
             <p>¡Ya estás logueado en la red más cheta de Minecraft!</p>
             
             <a href="https://github.com/TU-USUARIO/TU-REPOSITORIO/discussions" class="btn btn-primary" target="_blank">
-                💬 Ir al Foro Toon
+                💬 Ir al Hyxir Foro Oficial
             </a>
             
             <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">
@@ -364,13 +364,13 @@
 
             if (isRegisterMode) {
                 authTitle.textContent = '¡Nuevos Amigos!';
-                authDesc.textContent = 'Crea tu usuario y clave para el Foro Toon.';
+                authDesc.textContent = 'Crea tu usuario y clave para el Hyxir Foro Oficial.';
                 btnSubmit.textContent = '¡Registrarse!';
                 toggleText.textContent = '¿Ya viniste antes?';
                 toggleBtn.textContent = '¡Inicia sesión!';
             } else {
                 authTitle.textContent = '¡Entra al Foro!';
-                authDesc.textContent = 'Pon tus datos caricaturescos para seguir.';
+                authDesc.textContent = 'Pon tus datos para continuar al foro.';
                 btnSubmit.textContent = '¡Ingresar!';
                 toggleText.textContent = '¿Sos nuevo?';
                 toggleBtn.textContent = '¡Registrate acá!';
@@ -386,7 +386,6 @@
 
             if (!user || !pass) return;
 
-            // DB local simula DB compartida en GitHub Pages
             let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
 
             if (isRegisterMode) {
