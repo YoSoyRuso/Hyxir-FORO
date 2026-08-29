@@ -22,7 +22,6 @@
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            /* Desactivar selección de texto para un toque más 'app' */
             -webkit-user-select: none;
             user-select: none;
         }
@@ -44,7 +43,7 @@
 
         /* BANNER */
         header {
-            padding: 50px 20px 30px;
+            padding: 40px 20px 25px;
             text-align: center;
             background-color: #073b4c;
             background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 10px, transparent 10px, transparent 20px);
@@ -53,11 +52,11 @@
             margin-top: -10px;
         }
 
-        header * { transform: skewY(2deg); } /* Enderezar contenido */
+        header * { transform: skewY(2deg); }
 
         .title {
             font-family: 'Bangers', cursive;
-            font-size: 4em;
+            font-size: 3.8em;
             font-weight: normal;
             letter-spacing: 3px;
             color: #fff;
@@ -69,7 +68,7 @@
         .subtitle {
             font-family: 'Boogaloo', cursive;
             color: #fff;
-            font-size: 1.4em;
+            font-size: 1.3em;
             letter-spacing: 1px;
             text-transform: uppercase;
             -webkit-text-stroke: 1px var(--ink);
@@ -83,22 +82,22 @@
             gap: 12px;
             background: var(--paper-bg);
             border: 5px solid var(--ink);
-            padding: 10px 20px;
+            padding: 8px 18px;
             border-radius: 15px;
-            margin-top: 30px;
+            margin-top: 20px;
             cursor: pointer;
             transition: 0.2s;
-            box-shadow: 6px 6px 0 var(--ink);
+            box-shadow: 5px 5px 0 var(--ink);
         }
 
         .ip-card:hover {
             transform: translate(-3px, -3px) skewY(2deg);
-            box-shadow: 9px 9px 0 var(--ink);
+            box-shadow: 8px 8px 0 var(--ink);
             background-color: #fff;
         }
 
         .ip-text {
-            font-size: 1.3em;
+            font-size: 1.2em;
             color: var(--text-dark);
             -webkit-text-stroke: 1px rgba(0,0,0,0.2);
         }
@@ -106,7 +105,7 @@
         /* CONTENEDOR PRINCIPAL */
         .main-container {
             width: 100%;
-            max-width: 480px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 40px 20px;
             z-index: 2;
@@ -116,10 +115,15 @@
             background: var(--paper-bg);
             border: 6px solid var(--ink);
             border-radius: 20px;
-            padding: 40px;
+            padding: 30px;
             box-shadow: 10px 10px 0 var(--ink);
-            text-align: center;
             position: relative;
+        }
+
+        .auth-card-wrapper {
+            max-width: 480px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         /* Adorno caricaturesco */
@@ -145,31 +149,25 @@
             margin-bottom: 10px;
         }
 
-        .card p {
-            color: var(--text-dark);
-            font-size: 1.1em;
-            margin-bottom: 30px;
-        }
-
         /* FORMULARIOS */
         .form-group {
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
             font-size: 1em;
             color: var(--text-dark);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: bold;
         }
 
-        .form-input {
+        .form-input, .form-textarea {
             width: 100%;
-            padding: 15px 18px;
+            padding: 12px 16px;
             background: #fff;
             border: 4px solid var(--ink);
             border-radius: 10px;
@@ -179,9 +177,16 @@
             outline: none;
             transition: 0.2s;
             box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1);
+            -webkit-user-select: text;
+            user-select: text;
         }
 
-        .form-input:focus {
+        .form-textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-input:focus, .form-textarea:focus {
             border-color: var(--primary);
             box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1), 4px 4px 0 var(--ink);
         }
@@ -189,7 +194,7 @@
         /* BOTONES */
         .btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             border-radius: 12px;
             font-family: 'Bangers', cursive;
             font-size: 1.3em;
@@ -235,8 +240,9 @@
             background-color: #fff;
             color: var(--danger);
             -webkit-text-stroke: 1px var(--ink);
-            margin-top: 20px;
+            margin-top: 15px;
             font-size: 1em;
+            padding: 10px;
         }
 
         .btn-logout:hover {
@@ -245,11 +251,132 @@
             box-shadow: 6px 6px 0 var(--ink);
         }
 
-        /* MENSAJES */
+        /* LAYOUT FORO DE 2 COLUMNAS */
+        .forum-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .forum-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* PERFIL IZQUIERDA */
+        .user-profile-box {
+            background: #fff;
+            border: 4px solid var(--ink);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 5px 5px 0 var(--ink);
+        }
+
+        .avatar-img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border: 4px solid var(--ink);
+            border-radius: 12px;
+            background-color: #3a3a3a;
+            box-shadow: 4px 4px 0 var(--ink);
+            margin-bottom: 15px;
+        }
+
+        .profile-name {
+            font-family: 'Bangers', cursive;
+            font-size: 1.8em;
+            color: var(--primary);
+            -webkit-text-stroke: 1px var(--ink);
+            word-break: break-all;
+        }
+
+        .profile-badge {
+            display: inline-block;
+            background: var(--bg-color);
+            border: 2px solid var(--ink);
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* FEED DERECHA */
+        .create-post-card {
+            background: #fff;
+            border: 4px solid var(--ink);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 5px 5px 0 var(--ink);
+            margin-bottom: 25px;
+        }
+
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .post-card {
+            background: #fff;
+            border: 4px solid var(--ink);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 5px 5px 0 var(--ink);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            border-bottom: 2px dashed var(--ink);
+            padding-bottom: 10px;
+        }
+
+        .post-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            border: 2px solid var(--ink);
+        }
+
+        .post-author {
+            font-family: 'Bangers', cursive;
+            font-size: 1.3em;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+        }
+
+        .post-date {
+            font-size: 0.85em;
+            color: #777;
+        }
+
+        .post-title-text {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5em;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .post-body {
+            font-size: 1.1em;
+            line-height: 1.4;
+            color: var(--text-dark);
+            white-space: pre-wrap;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
         .error-msg {
             color: var(--danger);
             font-size: 0.95em;
-            margin: -10px 0 15px;
+            margin: -5px 0 10px;
             display: none;
             font-weight: bold;
         }
@@ -265,7 +392,7 @@
 
         footer {
             text-align: center;
-            padding: 30px;
+            padding: 25px;
             color: var(--ink);
             font-size: 1em;
             background-color: rgba(255, 255, 255, 0.2);
@@ -289,9 +416,10 @@
 
     <div class="main-container">
         
-        <div id="auth-card" class="card">
+        <!-- CARD LOGIN / REGISTRO -->
+        <div id="auth-card" class="card auth-card-wrapper">
             <h2 id="auth-title">¡Entra al Foro!</h2>
-            <p id="auth-desc">Pon tus datos para continuar al foro.</p>
+            <p id="auth-desc" style="margin-bottom: 20px;">Pon tus datos para continuar al foro.</p>
             
             <form id="auth-form">
                 <div class="form-group">
@@ -317,19 +445,50 @@
             <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">Comunidad Discord</a>
         </div>
 
+        <!-- SISTEMA DEL FORO -->
         <div id="welcome-card" class="card hidden">
-            <h2>¡Hola, <span id="user-display" style="color: var(--primary);"></span>!</h2>
-            <p>¡Ya estás logueado en el mejor Foro de Minecraft!</p>
-            
-            <a href="https://github.com/TU-USUARIO/TU-REPOSITORIO/discussions" class="btn btn-primary" target="_blank">
-                💬 Ir al Hyxir Foro Oficial
-            </a>
-            
-            <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">
-                Discord Oficial
-            </a>
-            
-            <button onclick="logout()" class="btn btn-logout">Cerrar Sesión</button>
+            <div class="forum-layout">
+                
+                <!-- COLUMNA IZQUIERDA: PERFIL -->
+                <div class="user-profile-box">
+                    <img src="https://i.ibb.co/3kWyN7z/minecraft-block.png" alt="Cubo Minecraft" class="avatar-img" id="default-avatar">
+                    <div class="profile-name" id="user-display">Usuario</div>
+                    <div class="profile-badge">⛏️ Miembro Oficial</div>
+                    
+                    <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord" style="font-size: 1em; padding: 10px;">
+                        Discord Oficial
+                    </a>
+                    
+                    <button onclick="logout()" class="btn btn-logout">Cerrar Sesión</button>
+                </div>
+
+                <!-- COLUMNA DERECHA: VENTANA DE FORO Y PUBLICACIONES -->
+                <div class="forum-feed">
+                    
+                    <!-- CREAR PUBLICACIÓN -->
+                    <div class="create-post-card">
+                        <h2>💬 Publicar algo en el Foro</h2>
+                        <form id="post-form">
+                            <div class="form-group">
+                                <label>Título de la publicación</label>
+                                <input type="text" id="post-title" class="form-input" placeholder="Ej: Busco clan para el servidor / Duda con comando" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Mensaje</label>
+                                <textarea id="post-content" class="form-textarea" placeholder="Escribe tu mensaje acá..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">¡Publicar Mensaje!</button>
+                        </form>
+                    </div>
+
+                    <!-- LISTA DE POSTS -->
+                    <div id="posts-container" class="posts-list">
+                        <!-- Se cargan dinámicamente -->
+                    </div>
+
+                </div>
+
+            </div>
         </div>
 
     </div>
@@ -339,6 +498,7 @@
     </footer>
 
     <script>
+        const DEFAULT_AVATAR_URL = 'https://i.ibb.co/3kWyN7z/minecraft-block.png'; // Imagen por defecto del Cubo
         let isRegisterMode = false;
 
         const authTitle = document.getElementById('auth-title');
@@ -351,6 +511,7 @@
         const authCard = document.getElementById('auth-card');
         const welcomeCard = document.getElementById('welcome-card');
         const userDisplay = document.getElementById('user-display');
+        const postsContainer = document.getElementById('posts-container');
 
         // Sesión activa?
         const activeUser = localStorage.getItem('hyxir_toon_user');
@@ -420,6 +581,7 @@
             userDisplay.textContent = user;
             authCard.classList.add('hidden');
             welcomeCard.classList.remove('hidden');
+            loadPosts();
         }
 
         function logout() {
@@ -436,6 +598,68 @@
             document.execCommand('copy');
             document.body.removeChild(el);
             alert('¡IP de Hyxir Network copiada!');
+        }
+
+        // LÓGICA DEL FORO (POSTS)
+        document.getElementById('post-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const titleInput = document.getElementById('post-title');
+            const contentInput = document.getElementById('post-content');
+            const author = localStorage.getItem('hyxir_toon_user') || 'Anónimo';
+
+            const newPost = {
+                id: Date.now(),
+                author: author,
+                title: titleInput.value.trim(),
+                content: contentInput.value.trim(),
+                date: new Date().toLocaleDateString('es-ES', { hour: '2-digit', minute: '2-digit' })
+            };
+
+            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
+            posts.unshift(newPost);
+            localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
+
+            titleInput.value = '';
+            contentInput.value = '';
+            loadPosts();
+        });
+
+        function loadPosts() {
+            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [
+                {
+                    id: 1,
+                    author: 'StaffHyxir',
+                    title: '¡Bienvenidos al Foro Oficial de Hyxir Network!',
+                    content: 'Recuerda respetar las reglas del servidor y mantener el respeto en cada publicación.',
+                    date: 'Hoy 12:00'
+                }
+            ];
+
+            postsContainer.innerHTML = '';
+
+            posts.forEach(post => {
+                const postEl = document.createElement('div');
+                postEl.className = 'post-card';
+                postEl.innerHTML = `
+                    <div class="post-header">
+                        <img src="${DEFAULT_AVATAR_URL}" class="post-avatar" alt="User Avatar">
+                        <div>
+                            <div class="post-author">${escapeHTML(post.author)}</div>
+                            <div class="post-date">${post.date}</div>
+                        </div>
+                    </div>
+                    <div class="post-title-text">${escapeHTML(post.title)}</div>
+                    <div class="post-body">${escapeHTML(post.content)}</div>
+                `;
+                postsContainer.appendChild(postEl);
+            });
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
         }
     </script>
 </body>
