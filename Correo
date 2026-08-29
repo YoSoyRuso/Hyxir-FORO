@@ -69,12 +69,16 @@
             background-color: #fff;
         }
 
-        /* Imagen de la carta adaptada al botón */
-        .mail-icon-img {
+        /* Icono SVG incrustado de alta calidad */
+        .mail-icon-svg {
             width: 42px;
             height: 42px;
-            object-fit: contain;
-            image-rendering: auto;
+            fill: var(--ink);
+            transition: transform 0.2s;
+        }
+
+        .mail-btn:hover .mail-icon-svg {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .mail-badge {
@@ -289,9 +293,10 @@
     <!-- WIDGET FLOTANTE DE CORREO -->
     <div id="mail-widget" class="mail-widget">
         <div class="mail-btn" onclick="toggleMailModal()" title="Abrir Buzón">
-            <!-- Se agregó un respaldo (onerror) para que si la imagen no existe, muestre un emoji/texto vectorial en su lugar -->
-            <img src="image_3e98c3.png" alt="Icono Correo" class="mail-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <span style="display:none; font-size: 28px;">📬</span>
+            <!-- Icono SVG integrado que carga al 100% sin requerir archivos externos -->
+            <svg class="mail-icon-svg" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
             <div id="mail-badge" class="mail-badge hidden">0</div>
         </div>
 
