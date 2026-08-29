@@ -357,7 +357,7 @@
             box-shadow: 2px 2px 0 var(--ink);
         }
 
-        /* INSIGNIAS DE PERFIL (NUEVO) */
+        /* INSIGNIAS DE PERFIL (MATERIALES MINECRAFT) */
         .badges-container {
             margin-top: 15px;
             padding-top: 12px;
@@ -385,9 +385,9 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            padding: 4px 8px;
+            padding: 5px 10px;
             border-radius: 8px;
-            border: 2px solid var(--ink);
+            border: 2.5px solid var(--ink);
             font-size: 0.85em;
             font-weight: bold;
             box-shadow: 2px 2px 0 var(--ink);
@@ -424,21 +424,25 @@
             opacity: 1;
         }
 
-        /* Tipos de Insignias */
-        .badge-weeks {
-            background-color: #cd7f32; /* Bronce */
+        /* Materiales: Hierro, Diamante y Esmeralda */
+        .badge-iron {
+            background: linear-gradient(135deg, #e0e0e0 0%, #a8a8a8 100%);
+            color: var(--ink);
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.8);
+        }
+
+        .badge-diamond {
+            background: linear-gradient(135deg, #70e4ef 0%, #2a9d8f 100%);
             color: #fff;
             -webkit-text-stroke: 0.5px var(--ink);
+            text-shadow: 1px 1px 0 var(--ink);
         }
 
-        .badge-months {
-            background-color: #a8dadc; /* Plata Toon / Azul Hielo */
-            color: var(--ink);
-        }
-
-        .badge-years {
-            background-color: #ffb703; /* Oro Brillante */
-            color: #000;
+        .badge-emerald {
+            background: linear-gradient(135deg, #52b788 0%, #1b4332 100%);
+            color: #fff;
+            -webkit-text-stroke: 0.5px var(--ink);
+            text-shadow: 1px 1px 0 var(--ink);
         }
 
         /* ETIQUETAS ROL / DESTAQUE */
@@ -825,18 +829,18 @@
                     <div class="profile-name" id="user-display">Usuario</div>
                     <div class="profile-badge">⛏️ Miembro Oficial</div>
 
-                    <!-- INSIGNIAS DE PERFIL -->
+                    <!-- INSIGNIAS DE PERFIL ACTUALIZADAS -->
                     <div class="badges-container">
-                        <span class="badges-title">🏆 Insignias de Actividad</span>
+                        <span class="badges-title">🏆 Insignias de Minerales</span>
                         <div class="badges-grid">
-                            <div class="user-badge badge-weeks" data-tooltip="Requisito: 2 semanas activo en el foro">
-                                🥉 Semanas conectado
+                            <div class="user-badge badge-iron" data-tooltip="Requisito: 2 semanas activo en el foro">
+                                ⚔️ Hierro
                             </div>
-                            <div class="user-badge badge-months" data-tooltip="Requisito: 2 meses activo en el foro">
-                                🥈 Meses conectado
+                            <div class="user-badge badge-diamond" data-tooltip="Requisito: 2 meses activo en el foro">
+                                💎 Diamante
                             </div>
-                            <div class="user-badge badge-years" data-tooltip="Requisito: 1 año activo en el foro">
-                                🥇 Años conectado
+                            <div class="user-badge badge-emerald" data-tooltip="Requisito: 1 año activo en el foro">
+                                ❇️ Esmeralda
                             </div>
                         </div>
                     </div>
@@ -1002,7 +1006,7 @@
             userAvatar.src = getUserAvatar(user);
             authCard.classList.add('hidden');
             welcomeCard.classList.remove('hidden');
-            loadPosts();
+            renderPosts();
         }
 
         function logout() {
@@ -1011,138 +1015,104 @@
             authCard.classList.remove('hidden');
         }
 
-        /* RECORTE Y CARGA DE SKIN DE MINECRAFT */
-        function handleSkinUpload(event) {
-            const file = event.target.files[0];
+        function handleSkinUpload(e) {
+            const file = e.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 128;
-                    canvas.height = 128;
-                    const ctx = canvas.getContext('2d');
-                    ctx.imageSmoothingEnabled = false;
+            reader.onload = function(event) {
+                const base64Image = event.target.result;
+                const user = localStorage.getItem('hyxir_toon_user');
+                let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
 
-                    // Recortar la cara base (Coordenadas Minecraft: x=8, y=8, w=8, h=8)
-                    ctx.drawImage(img, 8, 8, 8, 8, 0, 0, 128, 128);
-                    
-                    // Si tiene sombrero/segunda capa (Coordenadas: x=40, y=8, w=8, h=8), dibujarla encima
-                    ctx.drawImage(img, 40, 8, 8, 8, 0, 0, 128, 128);
-
-                    const croppedHeadDataUrl = canvas.toDataURL('image/png');
-                    const currentUsername = localStorage.getItem('hyxir_toon_user');
-                    
-                    let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-                    if (usersDB[currentUsername]) {
-                        if (typeof usersDB[currentUsername] === 'string') {
-                            usersDB[currentUsername] = { pass: usersDB[currentUsername], skin: croppedHeadDataUrl };
-                        } else {
-                            usersDB[currentUsername].skin = croppedHeadDataUrl;
-                        }
-                        localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+                if (usersDB[user]) {
+                    if (typeof usersDB[user] === 'string') {
+                        usersDB[user] = { pass: usersDB[user], skin: base64Image };
+                    } else {
+                        usersDB[user].skin = base64Image;
                     }
-
-                    userAvatar.src = croppedHeadDataUrl;
-                    loadPosts();
-                };
-                img.src = e.target.result;
+                    localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+                    userAvatar.src = base64Image;
+                    renderPosts();
+                }
             };
             reader.readAsDataURL(file);
         }
 
-        function copyIP() {
-            const el = document.createElement('textarea');
-            el.value = 'Hyxir.mc-games.xyz:19132';
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-
-            const hint = document.getElementById('copy-hint');
-            hint.textContent = '¡Copiado!';
-            setTimeout(() => { hint.textContent = '(Clic!)'; }, 2000);
-        }
-
-        /* PUBLICACIONES Y COMENTARIOS */
+        // PUBLICACIONES
         document.getElementById('post-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const category = document.getElementById('post-category').value;
             const title = document.getElementById('post-title').value.trim();
             const content = document.getElementById('post-content').value.trim();
-            const author = localStorage.getItem('hyxir_toon_user');
+            const currentUser = localStorage.getItem('hyxir_toon_user');
 
-            if (!title || !content || !author) return;
+            if (!title || !content || !currentUser) return;
 
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
             const newPost = {
                 id: Date.now(),
-                author: author,
+                author: currentUser,
                 category: category,
                 title: title,
                 content: content,
+                date: new Date().toLocaleDateString('es-ES', { hour: '2-digit', minute: '2-digit' }),
                 likes: [],
-                comments: [],
-                date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })
+                comments: []
             };
 
-            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
             posts.unshift(newPost);
-            localStorage.setItem('hyxir_posts', JSON.stringify(posts));
-
+            localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
+            
             document.getElementById('post-title').value = '';
             document.getElementById('post-content').value = '';
-            loadPosts();
+            renderPosts();
         });
 
-        function loadPosts() {
+        function renderPosts() {
             const currentUser = localStorage.getItem('hyxir_toon_user');
-            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
             postsContainer.innerHTML = '';
 
             if (posts.length === 0) {
-                postsContainer.innerHTML = '<div style="text-align:center; padding:30px; font-size:1.2em;">¡Aún no hay mensajes! Sé el primero en escribir uno.</div>';
+                postsContainer.innerHTML = '<p style="text-align:center; padding: 20px; font-size: 1.2em;">No hay publicaciones aún. ¡Sé el primero en publicar algo!</p>';
                 return;
             }
 
             posts.forEach(post => {
-                const isLiked = post.likes && post.likes.includes(currentUser);
-                const likeCount = post.likes ? post.likes.length : 0;
-                const isOwner = post.author === currentUser;
-                const authorAvatar = getUserAvatar(post.author);
-
                 const postEl = document.createElement('div');
                 postEl.className = 'post-card';
+                
+                const isLiked = post.likes.includes(currentUser);
+                const isMyPost = post.author === currentUser;
+                const avatarUrl = getUserAvatar(post.author);
 
-                let commentsHtml = '';
-                if (post.comments && post.comments.length > 0) {
-                    post.comments.forEach((c, idx) => {
-                        const isAuthorComment = c.author === post.author;
-                        const isFirstComment = idx === 0;
+                let commentsHTML = '';
+                post.comments.forEach((c, idx) => {
+                    const cAvatar = getUserAvatar(c.author);
+                    const isAuthorComment = c.author === post.author;
+                    const isFirstComment = idx === 0;
 
-                        commentsHtml += `
-                            <div class="comment-item">
-                                <div style="flex-grow: 1;">
-                                    <div class="comment-header">
-                                        <img src="${getUserAvatar(c.author)}" class="comment-avatar">
-                                        <span class="comment-author">${c.author}</span>
-                                        ${isAuthorComment ? '<span class="role-badge badge-author">Autor</span>' : ''}
-                                        ${isFirstComment ? '<span class="role-badge badge-first-comment">Primer Comentario</span>' : ''}
-                                        <span class="comment-date">• ${c.date}</span>
-                                    </div>
-                                    <div class="comment-text">${escapeHtml(c.text)}</div>
+                    commentsHTML += `
+                        <div class="comment-item">
+                            <div>
+                                <div class="comment-header">
+                                    <img src="${cAvatar}" class="comment-avatar">
+                                    <span class="comment-author">${c.author}</span>
+                                    ${isAuthorComment ? '<span class="role-badge badge-author">Autor</span>' : ''}
+                                    ${isFirstComment ? '<span class="role-badge badge-first-comment">#1 Comentario</span>' : ''}
+                                    <span class="comment-date">• ${c.date}</span>
                                 </div>
-                                ${(c.author === currentUser || isOwner) ? `<button class="btn-delete" onclick="deleteComment(${post.id}, ${idx})">❌</button>` : ''}
+                                <div class="comment-text">${escapeHTML(c.content)}</div>
                             </div>
-                        `;
-                    });
-                }
+                        </div>
+                    `;
+                });
 
                 postEl.innerHTML = `
                     <div class="post-header">
                         <div class="post-author-info">
-                            <img src="${authorAvatar}" class="post-avatar">
+                            <img src="${avatarUrl}" class="post-avatar">
                             <div>
                                 <div class="post-author">${post.author}</div>
                                 <div class="post-date">${post.date}</div>
@@ -1151,20 +1121,22 @@
                         <span class="post-tag">${post.category}</span>
                     </div>
 
-                    <div class="post-title-text">${escapeHtml(post.title)}</div>
-                    <div class="post-body">${escapeHtml(post.content)}</div>
+                    <div class="post-title-text">${escapeHTML(post.title)}</div>
+                    <div class="post-body">${escapeHTML(post.content)}</div>
 
                     <div class="post-footer">
                         <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
-                            ❤️ <span>${likeCount}</span>
+                            ❤️ ${post.likes.length} Me gusta
                         </button>
-                        ${isOwner ? `<button class="btn-delete" onclick="openDeleteModal(${post.id})">🗑️ Eliminar</button>` : ''}
+                        ${isMyPost ? `<button class="btn-delete" onclick="openDeleteModal(${post.id})">🗑️ Eliminar</button>` : ''}
                     </div>
 
                     <div class="comments-section">
-                        <div class="comments-list">${commentsHtml}</div>
+                        <div class="comments-list">
+                            ${commentsHTML || '<p style="font-size:0.9em; color:#777;">Sin comentarios aún.</p>'}
+                        </div>
                         <form class="comment-form" onsubmit="addComment(event, ${post.id})">
-                            <input type="text" class="comment-input" placeholder="Comentar algo..." required>
+                            <input type="text" class="comment-input" placeholder="Escribe un comentario..." required>
                             <button type="submit" class="btn-comment-submit">Enviar</button>
                         </form>
                     </div>
@@ -1176,54 +1148,46 @@
 
         function toggleLike(postId) {
             const currentUser = localStorage.getItem('hyxir_toon_user');
-            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
-            let post = posts.find(p => p.id === postId);
-
-            if (post) {
-                if (!post.likes) post.likes = [];
-                const index = post.likes.indexOf(currentUser);
-                if (index > -1) {
-                    post.likes.splice(index, 1);
-                } else {
-                    post.likes.push(currentUser);
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
+            
+            posts = posts.map(p => {
+                if (p.id === postId) {
+                    const idx = p.likes.indexOf(currentUser);
+                    if (idx === -1) {
+                        p.likes.push(currentUser);
+                    } else {
+                        p.likes.splice(idx, 1);
+                    }
                 }
-                localStorage.setItem('hyxir_posts', JSON.stringify(posts));
-                loadPosts();
-            }
+                return p;
+            });
+
+            localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
+            renderPosts();
         }
 
         function addComment(e, postId) {
             e.preventDefault();
             const input = e.target.querySelector('.comment-input');
-            const text = input.value.trim();
+            const content = input.value.trim();
             const currentUser = localStorage.getItem('hyxir_toon_user');
 
-            if (!text || !currentUser) return;
+            if (!content || !currentUser) return;
 
-            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
-            let post = posts.find(p => p.id === postId);
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
+            posts = posts.map(p => {
+                if (p.id === postId) {
+                    p.comments.push({
+                        author: currentUser,
+                        content: content,
+                        date: new Date().toLocaleDateString('es-ES', { hour: '2-digit', minute: '2-digit' })
+                    });
+                }
+                return p;
+            });
 
-            if (post) {
-                if (!post.comments) post.comments = [];
-                post.comments.push({
-                    author: currentUser,
-                    text: text,
-                    date: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
-                });
-                localStorage.setItem('hyxir_posts', JSON.stringify(posts));
-                loadPosts();
-            }
-        }
-
-        function deleteComment(postId, commentIdx) {
-            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
-            let post = posts.find(p => p.id === postId);
-
-            if (post && post.comments) {
-                post.comments.splice(commentIdx, 1);
-                localStorage.setItem('hyxir_posts', JSON.stringify(posts));
-                loadPosts();
-            }
+            localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
+            renderPosts();
         }
 
         function openDeleteModal(postId) {
@@ -1238,20 +1202,33 @@
 
         function confirmDeletePost() {
             if (!postToDeleteId) return;
-            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
+
+            let posts = JSON.parse(localStorage.getItem('hyxir_toon_posts')) || [];
             posts = posts.filter(p => p.id !== postToDeleteId);
-            localStorage.setItem('hyxir_posts', JSON.stringify(posts));
+            localStorage.setItem('hyxir_toon_posts', JSON.stringify(posts));
+
             closeDeleteModal();
-            loadPosts();
+            renderPosts();
         }
 
-        function escapeHtml(text) {
-            return text
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+        function copyIP() {
+            const ip = document.getElementById('ip-text').textContent;
+            navigator.clipboard.writeText(ip);
+            const hint = document.getElementById('copy-hint');
+            hint.textContent = '¡Copiado!';
+            setTimeout(() => { hint.textContent = '(Clic!)'; }, 2000);
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
         }
     </script>
 </body>
