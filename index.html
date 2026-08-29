@@ -16,6 +16,7 @@
             --danger: #d90429;
             --text-dark: #073b4c;
             --ink: #1d3557; /* Color Tinta para bordes */
+            --success: #06d6a0;
         }
 
         * { 
@@ -165,7 +166,7 @@
             font-weight: bold;
         }
 
-        .form-input, .form-textarea {
+        .form-input, .form-textarea, .form-select {
             width: 100%;
             padding: 12px 16px;
             background: #fff;
@@ -186,7 +187,7 @@
             min-height: 90px;
         }
 
-        .form-input:focus, .form-textarea:focus {
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
             border-color: var(--primary);
             box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1), 4px 4px 0 var(--ink);
         }
@@ -273,17 +274,20 @@
             padding: 20px;
             text-align: center;
             box-shadow: 5px 5px 0 var(--ink);
+            position: sticky;
+            top: 20px;
         }
 
         .avatar-img {
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             object-fit: contain;
             border: 4px solid var(--ink);
-            border-radius: 12px;
-            background-color: #3a3a3a;
+            border-radius: 16px;
+            background-color: #2b2b2b;
             box-shadow: 4px 4px 0 var(--ink);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            image-rendering: pixelated;
         }
 
         .profile-name {
@@ -298,11 +302,12 @@
             display: inline-block;
             background: var(--bg-color);
             border: 2px solid var(--ink);
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 8px;
-            font-size: 0.9em;
+            font-size: 0.95em;
             font-weight: bold;
             margin-top: 5px;
+            box-shadow: 2px 2px 0 var(--ink);
         }
 
         /* FEED DERECHA */
@@ -327,29 +332,44 @@
             border-radius: 15px;
             padding: 20px;
             box-shadow: 5px 5px 0 var(--ink);
+            transition: transform 0.2s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-2px);
         }
 
         .post-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
             margin-bottom: 12px;
             border-bottom: 2px dashed var(--ink);
             padding-bottom: 10px;
         }
 
+        .post-author-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .post-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 8px;
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
             border: 2px solid var(--ink);
+            background-color: #333;
+            image-rendering: pixelated;
+            box-shadow: 2px 2px 0 var(--ink);
         }
 
         .post-author {
             font-family: 'Bangers', cursive;
-            font-size: 1.3em;
+            font-size: 1.4em;
             color: var(--accent);
             letter-spacing: 0.5px;
+            line-height: 1;
         }
 
         .post-date {
@@ -357,11 +377,22 @@
             color: #777;
         }
 
+        .post-tag {
+            background: var(--bg-color);
+            border: 2px solid var(--ink);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: bold;
+            box-shadow: 2px 2px 0 var(--ink);
+        }
+
         .post-title-text {
             font-family: 'Bangers', cursive;
-            font-size: 1.5em;
+            font-size: 1.6em;
             color: var(--text-dark);
             margin-bottom: 8px;
+            letter-spacing: 0.5px;
         }
 
         .post-body {
@@ -371,6 +402,35 @@
             white-space: pre-wrap;
             -webkit-user-select: text;
             user-select: text;
+        }
+
+        .post-footer {
+            margin-top: 15px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 10px;
+        }
+
+        .like-btn {
+            background: #fff;
+            border: 2px solid var(--ink);
+            border-radius: 8px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-family: 'Boogaloo', cursive;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.1s;
+            box-shadow: 2px 2px 0 var(--ink);
+        }
+
+        .like-btn:hover {
+            transform: scale(1.05);
+            background-color: #ffe5ec;
         }
 
         .error-msg {
@@ -409,8 +469,8 @@
         
         <div class="ip-card" onclick="copyIP()">
             <span>⛏️</span>
-            <span>IP: <strong class="ip-text">Hyxir.mc-games.xyz:19132</strong></span>
-            <span style="font-size: 0.9em; color: var(--text-dark); opacity: 0.7;">(Clic!)</span>
+            <span>IP: <strong class="ip-text" id="ip-text">Hyxir.mc-games.xyz:19132</strong></span>
+            <span id="copy-hint" style="font-size: 0.9em; color: var(--text-dark); opacity: 0.7;">(Clic!)</span>
         </div>
     </header>
 
@@ -451,7 +511,7 @@
                 
                 <!-- COLUMNA IZQUIERDA: PERFIL -->
                 <div class="user-profile-box">
-                    <img src="https://i.ibb.co/3kWyN7z/minecraft-block.png" alt="Cubo Minecraft" class="avatar-img" id="default-avatar">
+                    <img src="https://i.ibb.co/3kWyN7z/minecraft-block.png" alt="Cubo Minecraft" class="avatar-img" id="user-avatar" onerror="this.src=DEFAULT_AVATAR_URL">
                     <div class="profile-name" id="user-display">Usuario</div>
                     <div class="profile-badge">⛏️ Miembro Oficial</div>
                     
@@ -469,6 +529,16 @@
                     <div class="create-post-card">
                         <h2>💬 Publicar algo en el Foro</h2>
                         <form id="post-form">
+                            <div class="form-group">
+                                <label>Categoría</label>
+                                <select id="post-category" class="form-select">
+                                    <option value="💬 General">💬 General</option>
+                                    <option value="❓ Duda / Ayuda">❓ Duda / Ayuda</option>
+                                    <option value="⚔️ Clanes">⚔️ Clanes</option>
+                                    <option value="📢 Anuncio">📢 Anuncio</option>
+                                    <option value="🛒 Comercio">🛒 Comercio</option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label>Título de la publicación</label>
                                 <input type="text" id="post-title" class="form-input" placeholder="Ej: Busco clan para el servidor / Duda con comando" required>
@@ -498,7 +568,8 @@
     </footer>
 
     <script>
-        const DEFAULT_AVATAR_URL = 'https://i.ibb.co/3kWyN7z/minecraft-block.png'; // Imagen por defecto del Cubo
+        // Imagen del cubo por defecto
+        const DEFAULT_AVATAR_URL = 'https://i.ibb.co/3kWyN7z/minecraft-block.png';
         let isRegisterMode = false;
 
         const authTitle = document.getElementById('auth-title');
@@ -511,6 +582,7 @@
         const authCard = document.getElementById('auth-card');
         const welcomeCard = document.getElementById('welcome-card');
         const userDisplay = document.getElementById('user-display');
+        const userAvatar = document.getElementById('user-avatar');
         const postsContainer = document.getElementById('posts-container');
 
         // Sesión activa?
@@ -577,8 +649,13 @@
             errorMessage.style.display = 'block';
         }
 
+        function getSkinAvatar(username) {
+            return `https://mc-heads.net/avatar/${encodeURIComponent(username)}/100`;
+        }
+
         function showWelcome(user) {
             userDisplay.textContent = user;
+            userAvatar.src = getSkinAvatar(user);
             authCard.classList.add('hidden');
             welcomeCard.classList.remove('hidden');
             loadPosts();
@@ -597,7 +674,16 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            alert('¡IP de Hyxir Network copiada!');
+
+            const hint = document.getElementById('copy-hint');
+            const originalText = hint.textContent;
+            hint.textContent = '¡Copiado!';
+            hint.style.color = 'var(--primary)';
+
+            setTimeout(() => {
+                hint.textContent = originalText;
+                hint.style.color = 'var(--text-dark)';
+            }, 2000);
         }
 
         // LÓGICA DEL FORO (POSTS)
@@ -606,14 +692,17 @@
 
             const titleInput = document.getElementById('post-title');
             const contentInput = document.getElementById('post-content');
+            const categoryInput = document.getElementById('post-category');
             const author = localStorage.getItem('hyxir_toon_user') || 'Anónimo';
 
             const newPost = {
                 id: Date.now(),
                 author: author,
+                category: categoryInput.value,
                 title: titleInput.value.trim(),
                 content: contentInput.value.trim(),
-                date: new Date().toLocaleDateString('es-ES', { hour: '2-digit', minute: '2-digit' })
+                likes: 0,
+                date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
             };
 
             let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
@@ -625,13 +714,25 @@
             loadPosts();
         });
 
+        function likePost(id) {
+            let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [];
+            const post = posts.find(p => p.id === id);
+            if (post) {
+                post.likes = (post.likes || 0) + 1;
+                localStorage.setItem('hyxir_forum_posts', JSON.stringify(posts));
+                loadPosts();
+            }
+        }
+
         function loadPosts() {
             let posts = JSON.parse(localStorage.getItem('hyxir_forum_posts')) || [
                 {
                     id: 1,
                     author: 'StaffHyxir',
+                    category: '📢 Anuncio',
                     title: '¡Bienvenidos al Foro Oficial de Hyxir Network!',
                     content: 'Recuerda respetar las reglas del servidor y mantener el respeto en cada publicación.',
+                    likes: 5,
                     date: 'Hoy 12:00'
                 }
             ];
@@ -641,16 +742,27 @@
             posts.forEach(post => {
                 const postEl = document.createElement('div');
                 postEl.className = 'post-card';
+                
+                const avatarUrl = post.author === 'StaffHyxir' ? DEFAULT_AVATAR_URL : getSkinAvatar(post.author);
+
                 postEl.innerHTML = `
                     <div class="post-header">
-                        <img src="${DEFAULT_AVATAR_URL}" class="post-avatar" alt="User Avatar">
-                        <div>
-                            <div class="post-author">${escapeHTML(post.author)}</div>
-                            <div class="post-date">${post.date}</div>
+                        <div class="post-author-info">
+                            <img src="${avatarUrl}" class="post-avatar" alt="Avatar" onerror="this.src=DEFAULT_AVATAR_URL">
+                            <div>
+                                <div class="post-author">${escapeHTML(post.author)}</div>
+                                <div class="post-date">${post.date}</div>
+                            </div>
                         </div>
+                        <span class="post-tag">${escapeHTML(post.category || '💬 General')}</span>
                     </div>
                     <div class="post-title-text">${escapeHTML(post.title)}</div>
                     <div class="post-body">${escapeHTML(post.content)}</div>
+                    <div class="post-footer">
+                        <button class="like-btn" onclick="likePost(${post.id})">
+                            ❤️ <span>${post.likes || 0}</span>
+                        </button>
+                    </div>
                 `;
                 postsContainer.appendChild(postEl);
             });
