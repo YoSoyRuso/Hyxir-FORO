@@ -3,1245 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hyxir Network ⛏️ Foro Oficial</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Boogaloo&display=swap" rel="stylesheet">
+    <title>Reglamento - Hyxir Network</title>
+    <!-- Fuente al estilo Minecraft / Pixel -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #ffd166; /* Amarillo Toon */
-            --paper-bg: #fffcf2; /* Color Papel */
-            --primary: #ef476f; /* Rosa/Rojo Vibrante */
-            --primary-dark: #c13153;
-            --accent: #118ab2; /* Azul Caricatura */
-            --accent-dark: #0c6a8a;
-            --danger: #d90429;
-            --text-dark: #073b4c;
-            --ink: #1d3557; /* Color Tinta para bordes */
-            --success: #06d6a0;
-            --warning: #ffb703;
-            --vip: #d4af37;
+            --bg-dark: #121212;
+            --book-cover: #3d2817;
+            --book-border: #24160c;
+            --page-bg: #e8d5b7;
+            --page-shadow: #c4b193;
+            --text-color: #2c1d11;
+            --accent-color: #8b0000;
+            --mc-green: #55ff55;
+            --mc-dark-green: #00aa00;
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            -webkit-user-select: none;
-            user-select: none;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Boogaloo', cursive;
-            background-color: var(--bg-color);
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: var(--ink);
+            background-color: var(--bg-dark);
+            /* Fondo simulando el vacío o fondo oscuro de Minecraft */
+            background-image: radial-gradient(#2c2c2c 1px, transparent 1px);
+            background-size: 16px 16px;
+            font-family: 'VT323', monospace;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow-x: hidden;
-        }
-
-        /* BANNER */
-        header {
-            padding: 40px 20px 25px;
-            text-align: center;
-            background-color: #073b4c;
-            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 10px, transparent 10px, transparent 20px);
-            border-bottom: 8px solid var(--ink);
-            transform: skewY(-2deg);
-            margin-top: -10px;
-        }
-
-        header * { transform: skewY(2deg); }
-
-        .title {
-            font-family: 'Bangers', cursive;
-            font-size: 3.8em;
-            font-weight: normal;
-            letter-spacing: 3px;
-            color: #fff;
-            -webkit-text-stroke: 3px var(--ink);
-            text-shadow: 6px 6px 0 var(--ink);
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            font-family: 'Boogaloo', cursive;
-            color: #fff;
-            font-size: 1.3em;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            -webkit-text-stroke: 1px var(--ink);
-            text-shadow: 2px 2px 0 var(--ink);
-        }
-
-        /* TARJETA IP */
-        .ip-card {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--paper-bg);
-            border: 5px solid var(--ink);
-            padding: 8px 18px;
-            border-radius: 15px;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 5px 5px 0 var(--ink);
-        }
-
-        .ip-card:hover {
-            transform: translate(-3px, -3px) skewY(2deg);
-            box-shadow: 8px 8px 0 var(--ink);
-            background-color: #fff;
-        }
-
-        .ip-text {
-            font-size: 1.2em;
-            color: var(--text-dark);
-            -webkit-text-stroke: 1px rgba(0,0,0,0.2);
-        }
-
-        /* CONTENEDOR PRINCIPAL */
-        .main-container {
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            z-index: 2;
-        }
-
-        .card {
-            background: var(--paper-bg);
-            border: 6px solid var(--ink);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 10px 10px 0 var(--ink);
-            position: relative;
-        }
-
-        .auth-card-wrapper {
-            max-width: 480px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 50px;
-            height: 50px;
-            background: var(--accent);
-            border: 5px solid var(--ink);
-            border-radius: 50%;
-            z-index: -1;
-        }
-
-        .card h2 {
-            font-family: 'Bangers', cursive;
-            font-size: 2.2em;
-            color: var(--accent);
-            -webkit-text-stroke: 1.5px var(--ink);
-            text-shadow: 3px 3px 0 var(--ink);
-            margin-bottom: 10px;
-        }
-
-        /* FORMULARIOS */
-        .form-group {
-            text-align: left;
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 1em;
-            color: var(--text-dark);
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-        }
-
-        .form-input, .form-textarea, .form-select {
-            width: 100%;
-            padding: 12px 16px;
-            background: #fff;
-            border: 4px solid var(--ink);
-            border-radius: 10px;
-            color: var(--text-dark);
-            font-size: 1.1em;
-            font-family: 'Boogaloo', cursive;
-            outline: none;
-            transition: 0.2s;
-            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1);
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 90px;
-        }
-
-        .form-input:focus, .form-textarea:focus, .form-select:focus {
-            border-color: var(--primary);
-            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1), 4px 4px 0 var(--ink);
-        }
-
-        /* BOTONES */
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            font-family: 'Bangers', cursive;
-            font-size: 1.3em;
-            text-decoration: none;
-            border: 4px solid var(--ink);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.2s;
-            margin-top: 10px;
-            letter-spacing: 1px;
-            box-shadow: 4px 4px 0 var(--ink);
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: #fff;
-            -webkit-text-stroke: 1px var(--ink);
-        }
-
-        .btn-primary:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0 var(--ink);
-            background-color: var(--primary-dark);
-        }
-
-        .btn-discord {
-            background-color: #fff;
-            color: var(--accent);
-            -webkit-text-stroke: 1px var(--ink);
-            margin-top: 15px;
-        }
-
-        .btn-discord:hover {
-            background-color: #f0f0f0;
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0 var(--ink);
-        }
-
-        .btn-logout {
-            background-color: #fff;
-            color: var(--danger);
-            -webkit-text-stroke: 1px var(--ink);
-            margin-top: 15px;
-            font-size: 1em;
-            padding: 10px;
-        }
-
-        .btn-logout:hover {
-            background-color: #fff0f0;
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0 var(--ink);
-        }
-
-        /* LAYOUT FORO DE 2 COLUMNAS */
-        .forum-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 25px;
-            align-items: start;
-        }
-
-        @media (max-width: 768px) {
-            .forum-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* PERFIL IZQUIERDA */
-        .user-profile-box {
-            background: #fff;
-            border: 4px solid var(--ink);
-            border-radius: 15px;
             padding: 20px;
-            text-align: center;
-            box-shadow: 5px 5px 0 var(--ink);
-            position: sticky;
-            top: 20px;
         }
 
-        .avatar-container {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        .avatar-container:hover .avatar-overlay {
-            opacity: 1;
-        }
-
-        .avatar-img {
-            width: 110px;
-            height: 110px;
-            object-fit: cover;
-            border: 4px solid var(--ink);
-            border-radius: 16px;
-            background-color: #2b2b2b;
-            box-shadow: 4px 4px 0 var(--ink);
-            margin-bottom: 12px;
-            image-rendering: pixelated;
-            display: block;
-        }
-
-        .avatar-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 110px;
-            height: 110px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        h1.server-title {
+            font-family: 'Press Start 2P', cursive;
             color: #fff;
-            font-size: 0.9em;
-            opacity: 0;
-            transition: opacity 0.2s;
-            border: 4px solid var(--ink);
-            text-transform: uppercase;
-        }
-
-        .profile-name {
-            font-family: 'Bangers', cursive;
-            font-size: 1.8em;
-            color: var(--primary);
-            -webkit-text-stroke: 1px var(--ink);
-            word-break: break-all;
-        }
-
-        .profile-badge {
-            display: inline-block;
-            background: var(--bg-color);
-            border: 2px solid var(--ink);
-            padding: 4px 12px;
-            border-radius: 8px;
-            font-size: 0.95em;
-            font-weight: bold;
-            margin-top: 5px;
-            box-shadow: 2px 2px 0 var(--ink);
-        }
-
-        /* FEED DERECHA */
-        .create-post-card {
-            background: #fff;
-            border: 4px solid var(--ink);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 5px 5px 0 var(--ink);
+            text-shadow: 4px 4px 0px #000, -2px -2px 0px #333;
             margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
         }
 
-        .posts-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        h1.server-title span {
+            color: #ffaa00;
         }
 
-        .post-card {
-            background: #fff;
-            border: 4px solid var(--ink);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 5px 5px 0 var(--ink);
-            transition: transform 0.2s;
-            position: relative;
-        }
-
-        .post-card.vip-post {
-            border-color: #d4af37;
-            background: #fffdf0;
-            box-shadow: 6px 6px 0 #b38f00;
-        }
-
-        .staff-hover-tools {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 5px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease-in-out;
-            background: rgba(7, 59, 76, 0.9);
-            padding: 6px 10px;
-            border-radius: 10px;
-            border: 2px solid var(--ink);
-            box-shadow: 3px 3px 0 var(--ink);
-            z-index: 10;
-        }
-
-        .post-card:hover .staff-hover-tools {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .staff-btn-action {
-            background: #fff;
-            border: 2px solid var(--ink);
-            border-radius: 6px;
-            padding: 3px 8px;
-            font-family: 'Boogaloo', cursive;
-            font-size: 0.85em;
-            cursor: pointer;
-            transition: 0.1s;
-            box-shadow: 1px 1px 0 var(--ink);
-        }
-
-        .staff-btn-action:hover {
-            transform: scale(1.08);
-        }
-
-        .post-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            border-bottom: 2px dashed var(--ink);
-            padding-bottom: 10px;
-        }
-
-        .post-author-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .post-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            border: 2px solid var(--ink);
-            background-color: #333;
-            image-rendering: pixelated;
-            box-shadow: 2px 2px 0 var(--ink);
-            object-fit: cover;
-        }
-
-        .post-author {
-            font-family: 'Bangers', cursive;
-            font-size: 1.4em;
-            color: var(--accent);
-            letter-spacing: 0.5px;
-            line-height: 1;
-        }
-
-        .post-date {
-            font-size: 0.85em;
-            color: #777;
-        }
-
-        .post-tag {
-            background: var(--bg-color);
-            border: 2px solid var(--ink);
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 0.85em;
-            font-weight: bold;
-            box-shadow: 2px 2px 0 var(--ink);
-        }
-
-        .post-title-text {
-            font-family: 'Bangers', cursive;
-            font-size: 1.6em;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .post-body {
-            font-size: 1.1em;
-            line-height: 1.4;
-            color: var(--text-dark);
-            white-space: pre-wrap;
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
-        /* CONSOLA DE STAFF EN CATEGORÍA */
-        .console-box {
-            background: #1e1e1e;
-            color: #00ff66;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 15px;
-            border-radius: 10px;
-            border: 4px solid var(--ink);
-            box-shadow: 4px 4px 0 var(--ink);
-            margin-top: 15px;
-        }
-        
-        .console-logs {
-            max-height: 160px;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            font-size: 0.9em;
-            line-height: 1.4;
-        }
-
-        .console-input-line {
-            display: flex;
-            gap: 8px;
-        }
-
-        .console-input {
-            flex-grow: 1;
-            background: #000;
-            color: #00ff66;
-            border: 1px solid #00ff66;
-            padding: 6px 10px;
-            font-family: monospace;
-            border-radius: 4px;
-        }
-
-        /* SECCIÓN DE COMENTARIOS */
-        .comments-section {
-            margin-top: 15px;
-            background: #fdfaf0;
-            border: 3px solid var(--ink);
+        /* Contenedor del Libro */
+        .book-wrapper {
+            background-color: var(--book-cover);
+            border: 8px solid var(--book-border);
             border-radius: 12px;
             padding: 15px;
-            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(0,0,0,0.5);
+            max-width: 750px;
+            width: 100%;
         }
 
-        .comments-list {
+        .book {
+            background-color: var(--page-bg);
+            border: 4px solid var(--page-shadow);
+            border-radius: 4px;
+            padding: 30px 40px;
+            min-height: 480px;
+            box-shadow: inset 0 0 40px rgba(160, 130, 90, 0.4);
+            position: relative;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .comment-item {
-            background: #fff;
-            border: 2px solid var(--ink);
-            border-radius: 8px;
-            padding: 10px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
-        }
-
-        .comment-header {
-            display: flex;
-            align-items: center;
             justify-content: space-between;
         }
 
-        .comment-user-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* Textura suave de papel */
+        .book::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.05) 0%, transparent 5%, transparent 95%, rgba(0,0,0,0.05) 100%);
+            pointer-events: none;
         }
 
-        .comment-avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            border: 1px solid var(--ink);
-            image-rendering: pixelated;
-        }
-
-        .comment-author {
-            font-family: 'Bangers', cursive;
-            font-size: 1.1em;
-            color: var(--accent);
-        }
-
-        .comment-date {
-            font-size: 0.75em;
-            color: #888;
-        }
-
-        .comment-text {
-            font-size: 0.95em;
-            color: var(--text-dark);
-            white-space: pre-wrap;
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
-        .comment-form {
-            display: flex;
-            gap: 8px;
-        }
-
-        .comment-input {
-            flex-grow: 1;
-            padding: 8px 12px;
-            border: 2px solid var(--ink);
-            border-radius: 8px;
-            font-family: 'Boogaloo', cursive;
-            font-size: 1em;
-            outline: none;
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
-        .comment-input:focus {
-            border-color: var(--primary);
-        }
-
-        .btn-comment-submit {
-            background: var(--primary);
-            color: #fff;
-            border: 2px solid var(--ink);
-            border-radius: 8px;
-            padding: 0 15px;
-            font-family: 'Bangers', cursive;
-            font-size: 1.1em;
-            cursor: pointer;
-            box-shadow: 2px 2px 0 var(--ink);
-            transition: 0.1s;
-        }
-
-        .btn-comment-submit:hover {
-            transform: translate(-1px, -1px);
-            box-shadow: 3px 3px 0 var(--ink);
-        }
-
-        .error-msg {
-            color: var(--danger);
-            font-size: 0.95em;
-            margin: -5px 0 10px;
+        .page-content {
             display: none;
-            font-weight: bold;
+            animation: fadeIn 0.4s ease-in-out;
         }
 
-        .toggle-link {
-            color: var(--primary);
-            cursor: pointer;
-            font-weight: 600;
-            text-decoration: underline;
+        .page-content.active {
+            display: block;
         }
 
-        .hidden { display: none !important; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* MODALES */
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
+        .book-header {
+            border-bottom: 3px stroke var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #a0825a;
+        }
+
+        .book-header h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+
+        .rule-list {
+            list-style: none;
+            font-size: 1.35rem;
+            line-height: 1.4;
+        }
+
+        .rule-list li {
+            margin-bottom: 14px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .rule-list li::before {
+            content: "▶";
+            position: absolute;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            top: 2px;
+        }
+
+        .rule-title {
+            font-weight: bold;
+            color: #1a0f07;
+        }
+
+        /* Navegación estilo Botones Minecraft */
+        .navigation {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            z-index: 999;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 2px dashed #a0825a;
         }
 
-        .modal-box {
-            background: var(--paper-bg);
-            border: 5px solid var(--ink);
-            border-radius: 15px;
-            padding: 25px;
-            max-width: 420px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 8px 8px 0 var(--ink);
+        .btn-mc {
+            background-color: #707070;
+            border: 3px solid;
+            border-color: #a8a8a8 #3b3b3b #3b3b3b #a8a8a8;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem;
+            padding: 10px 15px;
+            cursor: pointer;
+            text-shadow: 2px 2px 0px #000;
+            transition: all 0.1s;
         }
 
-        .modal-box h3 {
-            font-family: 'Bangers', cursive;
-            font-size: 1.8em;
-            color: var(--danger);
-            -webkit-text-stroke: 1px var(--ink);
-            margin-bottom: 10px;
+        .btn-mc:hover {
+            background-color: #8b8b8b;
         }
 
-        .modal-actions {
-            display: flex;
-            gap: 10px;
+        .btn-mc:active {
+            border-color: #3b3b3b #a8a8a8 #a8a8a8 #3b3b3b;
+        }
+
+        .btn-mc:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .page-number {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: #70583b;
+        }
+
+        /* Footer extra */
+        .footer-info {
             margin-top: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 1.1rem;
         }
 
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: var(--ink);
-            font-size: 1em;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-top: 5px solid var(--ink);
-            z-index: 1;
+        .footer-info code {
+            background: #222;
+            color: var(--mc-green);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1 class="title">HYXIR NETWORK</h1>
-        <p class="subtitle">¡FORO OFICIAL!</p>
-        
-        <div class="ip-card" onclick="copyIP()">
-            <span>⛏️</span>
-            <span>IP: <strong class="ip-text" id="ip-text">Hyxir.mc-games.xyz:19132</strong></span>
-            <span id="copy-hint" style="font-size: 0.9em; color: var(--text-dark); opacity: 0.7;">(Clic!)</span>
-        </div>
-    </header>
+    <h1 class="server-title">HYXIR <span>NETWORK</span></h1>
 
-    <div class="main-container">
-        
-        <!-- CARD LOGIN / REGISTRO -->
-        <div id="auth-card" class="card auth-card-wrapper">
-            <h2 id="auth-title">¡Entra al Foro!</h2>
-            <p id="auth-desc" style="margin-bottom: 20px;">Pon tus datos para continuar al foro.</p>
+    <div class="book-wrapper">
+        <div class="book">
             
-            <form id="auth-form">
-                <div class="form-group">
-                    <label>Tu Nick de Minecraft</label>
-                    <input type="text" id="username" class="form-input" placeholder="Ej: YoSoyRuso" required>
+            <!-- PAGINA 1: REGLAS DE MINECRAFT -->
+            <div class="page-content active" id="page-1">
+                <div class="book-header">
+                    <h2>📜 REGLAS DE MINECRAFT</h2>
                 </div>
-                
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
-                </div>
-
-                <div id="error-message" class="error-msg">¡Ups! Clave incorrecta.</div>
-
-                <button type="submit" id="btn-submit" class="btn btn-primary">¡Ingresar!</button>
-            </form>
-
-            <p style="margin-top: 20px; font-size: 0.95em;">
-                <span id="toggle-text">¿Sos nuevo?</span> 
-                <span id="toggle-btn" class="toggle-link" onclick="toggleAuthMode()">¡Registrate acá!</span>
-            </p>
-
-            <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord">Comunidad Discord</a>
-        </div>
-
-        <!-- SISTEMA DEL FORO -->
-        <div id="welcome-card" class="card hidden">
-            <div class="forum-layout">
-                
-                <!-- COLUMNA IZQUIERDA: PERFIL -->
-                <div class="user-profile-box">
-                    <div class="avatar-container" onclick="document.getElementById('skin-file-input').click()">
-                        <img src="https://mc-heads.net/avatar/Steve/100" alt="Avatar" class="avatar-img" id="user-avatar">
-                        <div class="avatar-overlay">Cambiar Skin</div>
-                    </div>
-                    <input type="file" id="skin-file-input" accept="image/png" style="display: none;" onchange="handleSkinUpload(event)">
-                    
-                    <div class="profile-name" id="user-display">Usuario</div>
-                    <div id="user-role-badge" class="profile-badge">⛏️ Miembro Oficial</div>
-
-                    <a href="https://discord.gg/pFZk5EfPV" target="_blank" class="btn btn-discord" style="font-size: 1em; padding: 10px;">
-                        Discord Oficial
-                    </a>
-                    
-                    <button onclick="logout()" class="btn btn-logout">Cerrar Sesión</button>
-                </div>
-
-                <!-- COLUMNA DERECHA: VENTANA DE FORO Y PUBLICACIONES -->
-                <div class="forum-feed">
-                    
-                    <!-- CREAR PUBLICACIÓN -->
-                    <div class="create-post-card">
-                        <h2>💬 Publicar algo en el Foro</h2>
-                        <form id="post-form">
-                            <div class="form-group">
-                                <label>Categoría</label>
-                                <select id="post-category" class="form-select" onchange="handleCategoryChange(this.value)">
-                                    <option value="💬 General">💬 General</option>
-                                    <option value="❓ Duda / Ayuda">❓ Duda / Ayuda</option>
-                                    <option value="⚔️ Clanes">⚔️ Clanes</option>
-                                    <option value="📢 Anuncio" id="vip-announcement-option" class="hidden">📢 Anuncio (VIP)</option>
-                                    <option value="🛒 Comercio">🛒 Comercio</option>
-                                    <option value="💻 Consola Staff" id="staff-console-option" class="hidden">💻 Consola Staff</option>
-                                </select>
-                            </div>
-
-                            <!-- CONSOLA INTERACTIVA -->
-                            <div id="console-wrapper" class="console-box hidden">
-                                <p style="margin-bottom: 5px; color: #fff; font-weight: bold;">💻 Consola del Servidor / Foro [ADMIN]</p>
-                                <div id="console-logs" class="console-logs">
-                                    [Sistema] Usa !help para ver comandos. (Nota: !resetforo restablece publicaciones y contraseñas)<br>
-                                </div>
-                                <div class="console-input-line">
-                                    <input type="text" id="console-command-input" class="console-input" placeholder="Escribe !help o un comando...">
-                                    <button type="button" onclick="executeConsoleCommand()" class="btn btn-primary" style="margin:0; width:auto; padding:4px 12px; font-size:1em;">Ejecutar</button>
-                                </div>
-                            </div>
-
-                            <div id="standard-post-fields">
-                                <div class="form-group">
-                                    <label>Título de la publicación</label>
-                                    <input type="text" id="post-title" class="form-input" placeholder="Ej: Busco clan para el servidor / Duda con comando">
-                                </div>
-                                <div class="form-group">
-                                    <label>Mensaje</label>
-                                    <textarea id="post-content" class="form-textarea" placeholder="Escribe tu mensaje acá..."></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">¡Publicar Mensaje!</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- LISTA DE POSTS -->
-                    <div id="posts-container" class="posts-list">
-                    </div>
-
-                </div>
-
+                <ul class="rule-list">
+                    <li>
+                        <span class="rule-title">1. Uso de Hacks/Cheats:</span>
+                        Queda estrictamente prohibido el uso de clientes modificados, X-Ray, Auto-Clicker o cualquier ventaja injusta.
+                    </li>
+                    <li>
+                        <span class="rule-title">2. Respeto en el Chat:</span>
+                        No utilices lenguaje ofensivo, discriminatorio, ni hagas spam/flood en el chat del juego.
+                    </li>
+                    <li>
+                        <span class="rule-title">3. Trolling y Griefing:</span>
+                        Prohibido destruir construcciones ajenas o generar trampas para matar jugadores sin su consentimiento.
+                    </li>
+                    <li>
+                        <span class="rule-title">4. Bugs y Exploits:</span>
+                        Si descubres un error del juego o del servidor, repórtalo. El aprovechamiento de bugs será sancionado.
+                    </li>
+                    <li>
+                        <span class="rule-title">5. Comercio Seguro:</span>
+                        Las estafas dentro del juego con dinero real están prohibidas.
+                    </li>
+                </ul>
             </div>
-        </div>
 
-    </div>
-
-    <!-- MODAL DE CONFIRMACIÓN DE ELIMINACIÓN -->
-    <div id="delete-modal" class="modal-backdrop hidden">
-        <div class="modal-box">
-            <h3>¿Eliminar publicación?</h3>
-            <p>¿Seguro que quieres eliminar esta publicación? Esta acción no se puede deshacer.</p>
-            <div class="modal-actions">
-                <button class="btn btn-logout" style="margin-top:0" onclick="confirmDeletePost()">Eliminar</button>
-                <button class="btn btn-discord" style="margin-top:0" onclick="closeDeleteModal()">Cancelar</button>
+            <!-- PAGINA 2: REGLAS DE DISCORD -->
+            <div class="page-content" id="page-2">
+                <div class="book-header">
+                    <h2>💬 REGLAS DE DISCORD</h2>
+                </div>
+                <ul class="rule-list">
+                    <li>
+                        <span class="rule-title">1. Convivencia Sana:</span>
+                        Mantén el respeto hacia todos los miembros del servidor y el equipo de Staff.
+                    </li>
+                    <li>
+                        <span class="rule-title">2. Canales Correctos:</span>
+                        Utiliza cada canal de texto y voz para su propósito designado (comandos, sugerencias, etc.).
+                    </li>
+                    <li>
+                        <span class="rule-title">3. Prohibido el Spam/DM:</span>
+                        No hagas publicidad de otros servidores ni envíes mensajes masivos no deseados por privado.
+                    </li>
+                    <li>
+                        <span class="rule-title">4. Contenido Sensible:</span>
+                        Prohibido compartir contenido NSFW, gore, o enlaces maliciosos/phishing.
+                    </li>
+                    <li>
+                        <span class="rule-title">5. Menciones Masivas:</span>
+                        No etiquetes al Staff sin una razón urgente o justificada.
+                    </li>
+                </ul>
             </div>
+
+            <!-- NAVEGACIÓN ENTRE PÁGINAS -->
+            <div class="navigation">
+                <button class="btn-mc" id="prev-btn" onclick="changePage(-1)" disabled>&lt; Anterior</button>
+                <span class="page-number" id="page-num">Página 1 de 2</span>
+                <button class="btn-mc" id="next-btn" onclick="changePage(1)">Siguiente &gt;</button>
+            </div>
+
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 Hyxir Network. Hecho a mano por el Staff.</p>
-    </footer>
+    <div class="footer-info">
+        IP del Servidor: <code>play.hyxirnetwork.com</code>
+    </div>
 
     <script>
-        const STEVE_AVATAR = 'https://mc-heads.net/avatar/Steve/100';
-        let isRegisterMode = false;
-        let postToDeleteId = null;
-        let currentUser = null;
+        let currentPage = 1;
+        const totalPages = 2;
 
-        const authTitle = document.getElementById('auth-title');
-        const authDesc = document.getElementById('auth-desc');
-        const btnSubmit = document.getElementById('btn-submit');
-        const toggleText = document.getElementById('toggle-text');
-        const toggleBtn = document.getElementById('toggle-btn');
-        const errorMessage = document.getElementById('error-message');
+        function changePage(direction) {
+            // Ocultar página actual
+            document.getElementById(`page-${currentPage}`).classList.remove('active');
 
-        const authCard = document.getElementById('auth-card');
-        const welcomeCard = document.getElementById('welcome-card');
-        const userDisplay = document.getElementById('user-display');
-        const userAvatar = document.getElementById('user-avatar');
-        const userRoleBadge = document.getElementById('user-role-badge');
-        const postsContainer = document.getElementById('posts-container');
-        const deleteModal = document.getElementById('delete-modal');
+            // Calcular nueva página
+            currentPage += direction;
 
-        function initDB() {
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            
-            if (!usersDB['YoSoyRuso']) {
-                usersDB['YoSoyRuso'] = { pass: '123456', skin: 'https://mc-heads.net/avatar/YoSoyRuso/100', role: 'STAFF', isMuted: false, isBanned: false, warnings: [] };
-            } else {
-                usersDB['YoSoyRuso'].role = 'STAFF';
-            }
-            localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
+            // Mostrar nueva página
+            document.getElementById(`page-${currentPage}`).classList.add('active');
 
-            if (!localStorage.getItem('hyxir_posts')) {
-                const samplePosts = [
-                    {
-                        id: 1,
-                        author: 'YoSoyRuso',
-                        title: '¡Bienvenidos a Hyxir Network!',
-                        content: 'Reglas y novedades del servidor. ¡Recuerda unirte a nuestro Discord oficial!',
-                        category: '📢 Anuncio',
-                        date: new Date().toLocaleString(),
-                        comments: []
-                    }
-                ];
-                localStorage.setItem('hyxir_posts', JSON.stringify(samplePosts));
-            }
+            // Actualizar indicador
+            document.getElementById('page-num').innerText = `Página ${currentPage} de ${totalPages}`;
+
+            // Control de botones
+            document.getElementById('prev-btn').disabled = (currentPage === 1);
+            document.getElementById('next-btn').disabled = (currentPage === totalPages);
         }
-
-        initDB();
-
-        // ==========================================
-        // COMANDO DE CONSOLA GLOBAL (!resetforo)
-        // ==========================================
-        window.resetforo = function() {
-            // 1. Reiniciar publicaciones
-            localStorage.removeItem('hyxir_posts');
-            
-            // 2. Restablecer todas las contraseñas de los usuarios guardados a '123456'
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            for (let username in usersDB) {
-                usersDB[username].pass = '123456';
-            }
-            localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-            
-            // 3. Forzar cierre de sesión actual obligando a iniciar sesión de nuevo
-            localStorage.removeItem('hyxir_current_user');
-            currentUser = null;
-            if (authCard && welcomeCard) {
-                authCard.classList.remove('hidden');
-                welcomeCard.classList.add('hidden');
-            }
-
-            initDB();
-            
-            // Si hay posts cargados en pantalla
-            if (typeof loadPosts === 'function') {
-                loadPosts();
-            }
-            
-            console.log("%c[Hyxir Network] ¡FORO RESTABLECIDO Y CONTRASEÑAS REINICIADAS!", "color: #00ff66; background: #111; font-size: 16px; font-weight: bold; padding: 5px; border: 2px solid #00ff66;");
-            return "¡El foro ha sido reiniciado por completo y las contraseñas se han restablecido a '123456'! Se cerraron las sesiones.";
-        };
-
-        console.log("%c[Hyxir Network] Consola lista. Escribe '!resetforo()' para reiniciar el foro y contraseñas.", "color: #ffb703; font-weight: bold; font-size: 12px;");
-
-        function copyIP() {
-            const ip = document.getElementById('ip-text').innerText;
-            navigator.clipboard.writeText(ip);
-            const hint = document.getElementById('copy-hint');
-            hint.innerText = '(¡Copiada!)';
-            setTimeout(() => { hint.innerText = '(Clic!)'; }, 2000);
-        }
-
-        function toggleAuthMode() {
-            isRegisterMode = !isRegisterMode;
-            errorMessage.style.display = 'none';
-            if (isRegisterMode) {
-                authTitle.innerText = '¡Registrate!';
-                authDesc.innerText = 'Crea tu cuenta de usuario.';
-                btnSubmit.innerText = '¡Crear Cuenta!';
-                toggleText.innerText = '¿Ya tenés cuenta?';
-                toggleBtn.innerText = '¡Ingresá acá!';
-            } else {
-                authTitle.innerText = '¡Entra al Foro!';
-                authDesc.innerText = 'Pon tus datos para continuar al foro.';
-                btnSubmit.innerText = '¡Ingresar!';
-                toggleText.innerText = '¿Sos nuevo?';
-                toggleBtn.innerText = '¡Registrate acá!';
-            }
-        }
-
-        document.getElementById('auth-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const user = document.getElementById('username').value.trim();
-            const pass = document.getElementById('password').value;
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-
-            if (isRegisterMode) {
-                if (usersDB[user]) {
-                    errorMessage.innerText = '¡Ese usuario ya existe!';
-                    errorMessage.style.display = 'block';
-                    return;
-                }
-                usersDB[user] = {
-                    pass: pass,
-                    skin: `https://mc-heads.net/avatar/${user}/100`,
-                    role: 'MIEMBRO',
-                    isMuted: false,
-                    isBanned: false,
-                    warnings: []
-                };
-                localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-            } else {
-                if (!usersDB[user] || usersDB[user].pass !== pass) {
-                    errorMessage.innerText = '¡Ups! Usuario o clave incorrecta.';
-                    errorMessage.style.display = 'block';
-                    return;
-                }
-                if (usersDB[user].isBanned) {
-                    errorMessage.innerText = '¡Tu cuenta está baneada!';
-                    errorMessage.style.display = 'block';
-                    return;
-                }
-            }
-
-            currentUser = user;
-            localStorage.setItem('hyxir_current_user', user);
-            errorMessage.style.display = 'none';
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            
-            loginSuccess();
-        });
-
-        function loginSuccess() {
-            authCard.classList.add('hidden');
-            welcomeCard.classList.remove('hidden');
-
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            let userData = usersDB[currentUser];
-
-            userDisplay.innerText = currentUser;
-            userAvatar.src = userData.skin || `https://mc-heads.net/avatar/${currentUser}/100`;
-
-            const vipOption = document.getElementById('vip-announcement-option');
-            const staffConsoleOpt = document.getElementById('staff-console-option');
-
-            if (userData.role === 'STAFF') {
-                userRoleBadge.innerText = '🛡️ Administrador';
-                userRoleBadge.className = 'profile-badge-staff';
-                vipOption.classList.remove('hidden');
-                staffConsoleOpt.classList.remove('hidden');
-            } else if (userData.role === 'VIP') {
-                userRoleBadge.innerText = '👑 Rango VIP';
-                userRoleBadge.className = 'profile-badge-vip';
-                vipOption.classList.remove('hidden');
-                staffConsoleOpt.classList.add('hidden');
-            } else {
-                userRoleBadge.innerText = '⛏️ Miembro Oficial';
-                userRoleBadge.className = 'profile-badge';
-                vipOption.classList.add('hidden');
-                staffConsoleOpt.classList.add('hidden');
-            }
-
-            loadPosts();
-        }
-
-        function logout() {
-            localStorage.removeItem('hyxir_current_user');
-            currentUser = null;
-            welcomeCard.classList.add('hidden');
-            authCard.classList.remove('hidden');
-        }
-
-        function handleCategoryChange(val) {
-            const consoleWrapper = document.getElementById('console-wrapper');
-            const standardFields = document.getElementById('standard-post-fields');
-
-            if (val === '💻 Consola Staff') {
-                consoleWrapper.classList.remove('hidden');
-                standardFields.classList.add('hidden');
-            } else {
-                consoleWrapper.classList.add('hidden');
-                standardFields.classList.remove('hidden');
-            }
-        }
-
-        // Ejecutar comandos dentro del foro por consola interna
-        function executeConsoleCommand() {
-            const input = document.getElementById('console-command-input');
-            const logs = document.getElementById('console-logs');
-            const cmd = input.value.trim();
-            if (!cmd) return;
-
-            logs.innerHTML += `> ${cmd}<br>`;
-            
-            let response = "";
-            const parts = cmd.split(' ');
-            const action = parts[0].toLowerCase();
-
-            if (action === '!help') {
-                response = "Comandos disponibles: !resetforo, !ban [usuario], !unban [usuario], !clear";
-            } else if (action === '!resetforo') {
-                response = window.resetforo();
-            } else if (action === '!clear') {
-                logs.innerHTML = "[Sistema] Consola limpia.<br>";
-                input.value = '';
-                return;
-            } else {
-                response = `Comando desconocido: ${action}. Escribe !help`;
-            }
-
-            logs.innerHTML += `<span style="color: #ffb703;">${response}</span><br>`;
-            logs.scrollTop = logs.scrollHeight;
-            input.value = '';
-        }
-
-        // Manejo de publicaciones de posts
-        document.getElementById('post-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const category = document.getElementById('post-category').value;
-            
-            if (category === '💻 Consola Staff') return;
-
-            const title = document.getElementById('post-title').value.trim();
-            const content = document.getElementById('post-content').value.trim();
-
-            if (!title || !content) return;
-
-            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            let userData = usersDB[currentUser] || {};
-
-            if (userData.isMuted) {
-                alert('Estás silenciado en el foro.');
-                return;
-            }
-
-            const newPost = {
-                id: Date.now(),
-                author: currentUser,
-                title: title,
-                content: content,
-                category: category,
-                date: new Date().toLocaleString(),
-                comments: []
-            };
-
-            posts.unshift(newPost);
-            localStorage.setItem('hyxir_posts', JSON.stringify(posts));
-
-            document.getElementById('post-title').value = '';
-            document.getElementById('post-content').value = '';
-            loadPosts();
-        });
-
-        function loadPosts() {
-            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            postsContainer.innerHTML = '';
-
-            if (posts.length === 0) {
-                postsContainer.innerHTML = '<p style="text-align:center; color:#555;">No hay publicaciones todavía. ¡Sé el primero en escribir!</p>';
-                return;
-            }
-
-            let currentUserData = usersDB[currentUser] || {};
-            let isUserStaff = currentUserData.role === 'STAFF';
-
-            posts.forEach(post => {
-                let authorData = usersDB[post.author] || {};
-                let avatarUrl = authorData.skin || `https://mc-heads.net/avatar/${post.author}/100`;
-                
-                const postCard = document.createElement('div');
-                postCard.className = `post-card ${post.category === '📢 Anuncio' ? 'vip-post' : ''}`;
-
-                let staffToolsHTML = '';
-                if (isUserStaff || post.author === currentUser) {
-                    staffToolsHTML = `
-                        <div class="staff-hover-tools">
-                            <button class="staff-btn-action" onclick="openDeleteModal(${post.id})">🗑️ Eliminar</button>
-                        </div>
-                    `;
-                }
-
-                let commentsHTML = '';
-                if (post.comments && post.comments.length > 0) {
-                    post.comments.forEach((comm, cIndex) => {
-                        let cAuthorData = usersDB[comm.author] || {};
-                        let cAvatar = cAuthorData.skin || `https://mc-heads.net/avatar/${comm.author}/100`;
-                        commentsHTML += `
-                            <div class="comment-item">
-                                <div class="comment-header">
-                                    <div class="comment-user-box">
-                                        <img src="${cAvatar}" class="comment-avatar">
-                                        <span class="comment-author">${comm.author}</span>
-                                    </div>
-                                    <span class="comment-date">${comm.date}</span>
-                                </div>
-                                <div class="comment-text">${comm.text}</div>
-                            </div>
-                        `;
-                    });
-                }
-
-                postCard.innerHTML = `
-                    ${staffToolsHTML}
-                    <div class="post-header">
-                        <div class="post-author-info">
-                            <img src="${avatarUrl}" class="post-avatar">
-                            <div>
-                                <div class="post-author">${post.author}</div>
-                                <div class="post-date">${post.date}</div>
-                            </div>
-                        </div>
-                        <span class="post-tag">${post.category}</span>
-                    </div>
-                    <div class="post-title-text">${post.title}</div>
-                    <div class="post-body">${post.content}</div>
-
-                    <div class="comments-section">
-                        <p style="font-family:'Bangers', cursive; font-size:1.2em; color:var(--text-dark); margin-bottom:8px;">Comentarios</p>
-                        <div class="comments-list">
-                            ${commentsHTML || '<p style="font-size:0.9em; color:#777;">No hay comentarios aún.</p>'}
-                        </div>
-                        <form class="comment-form" onsubmit="addComment(event, ${post.id})">
-                            <input type="text" class="comment-input" placeholder="Escribe un comentario..." required>
-                            <button type="submit" class="btn-comment-submit">Responder</button>
-                        </form>
-                    </div>
-                `;
-                postsContainer.appendChild(postCard);
-            });
-        }
-
-        function addComment(e, postId) {
-            e.preventDefault();
-            const input = e.target.querySelector('.comment-input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
-            let post = posts.find(p => p.id === postId);
-            if (post) {
-                if (!post.comments) post.comments = [];
-                post.comments.push({
-                    author: currentUser,
-                    text: text,
-                    date: new Date().toLocaleString()
-                });
-                localStorage.setItem('hyxir_posts', JSON.stringify(posts));
-                loadPosts();
-            }
-        }
-
-        function openDeleteModal(postId) {
-            postToDeleteId = postId;
-            deleteModal.classList.remove('hidden');
-        }
-
-        function closeDeleteModal() {
-            postToDeleteId = null;
-            deleteModal.classList.add('hidden');
-        }
-
-        function confirmDeletePost() {
-            if (!postToDeleteId) return;
-            let posts = JSON.parse(localStorage.getItem('hyxir_posts')) || [];
-            posts = posts.filter(p => p.id !== postToDeleteId);
-            localStorage.setItem('hyxir_posts', JSON.stringify(posts));
-            closeDeleteModal();
-            loadPosts();
-        }
-
-        function handleSkinUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64Image = e.target.result;
-                let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-                if (usersDB[currentUser]) {
-                    usersDB[currentUser].skin = base64Image;
-                    localStorage.setItem('hyxir_toon_db', JSON.stringify(usersDB));
-                    userAvatar.src = base64Image;
-                    loadPosts();
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Comprobar si ya había una sesión guardada al refrescar
-        window.onload = function() {
-            const savedUser = localStorage.getItem('hyxir_current_user');
-            let usersDB = JSON.parse(localStorage.getItem('hyxir_toon_db')) || {};
-            if (savedUser && usersDB[savedUser]) {
-                currentUser = savedUser;
-                loginSuccess();
-            }
-        };
     </script>
 </body>
 </html>
