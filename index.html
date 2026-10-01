@@ -3,867 +3,122 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>POLICE INVESTIGATION TERMINAL</title>
-<style>
-  /* ============================================================
-     ESTILOS GLOBALES
-     ============================================================ */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #050705;
-    --bg-crt: #0a0f0a;
-    --fg: #b8ffb8;
-    --fg-dim: #4d7a4d;
-    --accent: #7fffa0;
-    --warn: #ffcc55;
-    --danger: #ff5a5a;
-    --ok: #6bff8f;
-  }
-
-  html, body {
-    height: 100%;
-    background: #000;
-    color: var(--fg);
-    font-family: "Courier New", Consolas, monospace;
-    font-size: 15px;
-    overflow: hidden;
-  }
-
-  /* ============================================================
-     PANTALLA DE ARRANQUE
-     ============================================================ */
-  #boot {
-    position: fixed;
-    inset: 0;
-    padding: 20px;
-    background: radial-gradient(ellipse at center, var(--bg-crt) 0%, var(--bg) 100%);
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    transition: opacity 0.6s ease;
-  }
-  #boot.hide { opacity: 0; pointer-events: none; }
-
-  #bootLog {
-    white-space: pre-wrap;
-    line-height: 1.5;
-    font-size: 14px;
-    flex: 1;
-  }
-
-  #bootContinue {
-    color: var(--accent);
-    padding-top: 10px;
-    display: none;
-    animation: blink 1.2s steps(2) infinite;
-  }
-  #bootContinue.show { display: block; }
-
-  @keyframes blink { 50% { opacity: 0; } }
-
-  /* ============================================================
-     TERMINAL PRINCIPAL
-     ============================================================ */
-  #term {
-    position: relative;
-    height: 100vh;
-    padding: 20px;
-    background: radial-gradient(ellipse at center, var(--bg-crt) 0%, var(--bg) 100%);
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-  }
-  #term.show { display: flex; }
-
-  /* Efectos sutiles tipo CRT */
-  #term::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgba(0,255,100,0.025) 0px,
-      rgba(0,255,100,0.025) 1px,
-      transparent 1px,
-      transparent 3px
-    );
-    z-index: 10;
-  }
-  #term::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(
-      ellipse at center,
-      transparent 55%,
-      rgba(0,0,0,0.55) 100%
-    );
-    z-index: 11;
-  }
-
-  .term-header {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--fg-dim);
-    font-size: 13px;
-    color: var(--fg-dim);
-    letter-spacing: 1px;
-  }
-  .term-header .accent { color: var(--accent); }
-  .term-header .ok     { color: var(--ok); }
-
-  .term-output {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px 4px;
-    font-size: 14px;
-    line-height: 1.55;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-  .term-output::-webkit-scrollbar { width: 6px; }
-  .term-output::-webkit-scrollbar-thumb { background: var(--fg-dim); }
-
-  .term-output .line    { margin-bottom: 3px; }
-  .term-output .err     { color: var(--danger); }
-  .term-output .warn    { color: var(--warn); }
-  .term-output .ok      { color: var(--ok); }
-  .term-output .accent  { color: var(--accent); }
-  .term-output .dim     { color: var(--fg-dim); }
-  .term-output .glitch  { color: var(--accent); animation: glitch 0.6s steps(3); }
-  @keyframes glitch {
-    0%   { transform: translateX(0); }
-    33%  { transform: translateX(-1px); opacity: 0.7; }
-    66%  { transform: translateX(1px); opacity: 0.9; }
-    100% { transform: translateX(0); }
-  }
-
-  .term-input-line {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-top: 1px solid var(--fg-dim);
-    padding-top: 8px;
-  }
-  .term-input-line .prompt { color: var(--accent); }
-
-  #cmd {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--fg);
-    font-family: inherit;
-    font-size: 15px;
-    caret-color: var(--accent);
-  }
-
-  .term-footer {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: var(--fg-dim);
-    letter-spacing: 1px;
-  }
-
-  @media (max-width: 640px) {
-    #term, #boot { padding: 10px; font-size: 13px; }
-    .term-header { gap: 8px; font-size: 11px; }
-    #cmd { font-size: 16px; }
-  }
-</style>
+<title>VERDAD AI — Investigation System</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <!-- ============================================================
-     PANTALLA DE ARRANQUE
+     PANTALLA DE ENTRADA
      ============================================================ -->
-<div id="boot">
-  <pre id="bootLog"></pre>
-  <div id="bootContinue">>> Presiona ENTER para acceder al terminal <<</div>
-</div>
+<section id="boot" class="screen">
+  <div class="boot-panel">
+    <h1 class="logo">VERDAD<span class="dot">.</span>AI</h1>
+    <p class="subtitle">Predictive Case Analysis System — v0.9.4</p>
+    <div id="bootLog" class="log"></div>
+    <button id="startBtn" class="btn hidden">INITIALIZE PREDICTION</button>
+    <p class="tiny">Fictional system. All cases, persons and events are invented.</p>
+  </div>
+</section>
 
 <!-- ============================================================
-     TERMINAL POLICIAL
+     PANTALLA DE PREDICCIÓN
      ============================================================ -->
-<div id="term">
-  <header class="term-header">
-    <div>POLICE INVESTIGATION TERMINAL v2.7</div>
-    <div>USER: <span class="accent">DETECTIVE_047</span></div>
-    <div>DATABASE: <span class="ok">ONLINE</span></div>
-    <div>SESSION: <span id="sessionId">—</span></div>
+<section id="predict" class="screen hidden">
+  <div class="predict-panel">
+    <p class="mono dim">> ANALYZING AVAILABLE DATA...</p>
+    <p class="mono dim">> CROSS-REFERENCING SOURCES...</p>
+    <p class="mono dim">> GENERATING PREDICTION...</p>
+    <div id="prediction" class="prediction">?</div>
+    <p class="mono dim">VERDAD does not explain its predictions.</p>
+    <p class="mono dim">Your task: find out why.</p>
+    <button id="enterNet" class="btn hidden">ENTER NETWORK</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     APLICACIÓN PRINCIPAL
+     ============================================================ -->
+<section id="app" class="screen hidden">
+
+  <!-- Barra superior -->
+  <header class="topbar">
+    <div class="brand">VERDAD<span class="dot">.</span>AI</div>
+    <nav class="tabs">
+      <button class="tab active" data-view="home">HOME</button>
+      <button class="tab" data-view="7.net">7.net</button>
+      <button class="tab" data-view="archive.net">archive.net</button>
+      <button class="tab" data-view="people.net">people.net</button>
+      <button class="tab" data-view="news.net">news.net</button>
+      <button class="tab" data-view="forum.net">forum.net</button>
+      <button class="tab" data-view="files.net">files.net</button>
+      <button class="tab" data-view="radio.net">radio.net</button>
+      <button class="tab" data-view="maps.net">maps.net</button>
+      <button class="tab" data-view="terminal.net">terminal.net</button>
+    </nav>
+    <div class="topright">
+      <span class="mono dim">CASE_001</span>
+      <span id="predChip" class="chip">PRED: 43</span>
+      <button id="resetBtn" class="btn ghost small" title="Reset progress">RESET</button>
+    </div>
   </header>
 
-  <main id="output" class="term-output"></main>
+  <!-- Layout principal -->
+  <div class="layout">
 
-  <div class="term-input-line">
-    <span class="prompt">&gt;</span>
-    <input id="cmd" type="text" autocomplete="off"
-           autocapitalize="off" spellcheck="false" autofocus />
+    <!-- Panel izquierdo: notas / progreso -->
+    <aside class="sidebar">
+      <h3 class="side-title">CASE FILE</h3>
+      <div class="kv"><span>ID</span><b>CASE_001</b></div>
+      <div class="kv"><span>PRED</span><b>43</b></div>
+      <div class="kv"><span>STATUS</span><b id="caseStatus">OPEN</b></div>
+
+      <h3 class="side-title">DISCOVERIES</h3>
+      <ul id="discoveries" class="discoveries">
+        <li class="empty">Nothing discovered yet.</li>
+      </ul>
+
+      <h3 class="side-title">NOTES</h3>
+      <textarea id="notes" placeholder="Write down clues, numbers, passwords..."></textarea>
+    </aside>
+
+    <!-- Panel central: vista activa -->
+    <main id="view" class="view">
+      <!-- Se rellena por JS -->
+    </main>
+
+    <!-- Panel derecho: IA VERDAD -->
+    <aside class="ai-panel">
+      <h3 class="side-title">VERDAD</h3>
+      <div id="aiLog" class="ai-log"></div>
+      <form id="aiForm" class="ai-form">
+        <input id="aiInput" type="text" placeholder="ask VERDAD..." autocomplete="off"/>
+        <button class="btn small" type="submit">SEND</button>
+      </form>
+    </aside>
   </div>
 
-  <footer class="term-footer">
-    <span>TYPE <b>help</b> FOR COMMAND LIST</span>
-    <span id="clock"></span>
-  </footer>
-</div>
+  <!-- Teléfono simulado (modal) -->
+  <div id="phoneModal" class="modal hidden">
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-number" id="phoneNumber">—</div>
+        <div class="phone-status" id="phoneStatus">READY</div>
+        <div class="phone-timer" id="phoneTimer">00:00</div>
+        <div class="phone-log" id="phoneLog"></div>
+      </div>
+      <div class="phone-actions">
+        <button id="phoneCall" class="btn">CALL</button>
+        <button id="phoneHang" class="btn ghost" disabled>HANG UP</button>
+        <button id="phoneClose" class="btn ghost">CLOSE</button>
+      </div>
+      <p class="tiny">SIMULATED CALL — no real network involved.</p>
+    </div>
+  </div>
 
-<script>
-/* ================================================================
-   ================================================================
-   ARG: EL CASO DE NAYLA ROSS & EMILY CARTER
-   Todo el motor del juego. Ficción. Ninguna referencia real.
-   ================================================================
-   ================================================================ */
+</section>
 
-/* ----------------------------------------------------------------
-   1) DATOS: CASOS
-   ---------------------------------------------------------------- */
-const CASES = {
-  "case_01947": {
-    id: "CASE_01947",
-    name: "ROSS, NAYLA",
-    status: "CLOSED",
-    opened: "2019-04-02",
-    closed: "2019-11-18",
-    lead: "DET. HARPER",
-    summary:
-      "Desaparición reportada el 2019-03-30.\n" +
-      "Última vez vista saliendo de un edificio residencial\n" +
-      "en el Distrito 7. Caso cerrado sin resolución.\n" +
-      "Cuerpo no recuperado. Sospechoso: ninguno identificado.",
-    files: ["ross_report_01", "ross_witness_a", "ross_archive"]
-  },
-  "case_02647": {
-    id: "CASE_02647",
-    name: "CARTER, EMILY",
-    status: "MISSING",
-    opened: "2026-09-14",
-    closed: null,
-    lead: "DET. HARPER",
-    summary:
-      "Desaparición reportada el 2026-09-12.\n" +
-      "Circunstancias idénticas a CASE_01947.\n" +
-      "Mismo distrito. Misma hora aproximada.\n" +
-      "Investigación activa.",
-    files: ["carter_report_01", "carter_witness_a", "carter_phone_log"]
-  }
-};
-
-/* ----------------------------------------------------------------
-   2) DATOS: ARCHIVOS
-   locked: true  → bloqueado hasta que el jugador desbloquee un flag
-   requires: nombre del flag necesario
-   ---------------------------------------------------------------- */
-const FILES = {
-
-  "ross_report_01": {
-    title: "ROSS / REPORT 01",
-    content:
-      "INCIDENT REPORT — 2019-03-30\n" +
-      "------------------------------------\n" +
-      "SUBJECT: ROSS, NAYLA  (F, 27)\n" +
-      "LAST SEEN: District 7, 23:40\n" +
-      "REPORTED BY: coworker (name redacted)\n\n" +
-      "NOTES:\n" +
-      "  Subject left workplace at 22:15.\n" +
-      "  CCTV shows subject entering Building B.\n" +
-      "  No exit recorded.\n" +
-      "  Personal effects recovered: none.\n\n" +
-      "STATUS: unresolved."
-  },
-
-  "ross_witness_a": {
-    title: "ROSS / WITNESS A",
-    content:
-      "WITNESS STATEMENT — redacted\n" +
-      "------------------------------------\n" +
-      "\"She kept saying someone was following her.\n" +
-      " She mentioned a name — I don't remember it.\n" +
-      " Something about a mirror.\"\n\n" +
-      "— end of statement —"
-  },
-
-  "ross_archive": {
-    title: "ROSS / ARCHIVE",
-    locked: true,
-    requires: "flag_mirror",
-    content:
-      "ACCESS DENIED — encrypted archive.\n" +
-      "Hint: some doors open when you learn the right name."
-  },
-
-  "carter_report_01": {
-    title: "CARTER / REPORT 01",
-    content:
-      "INCIDENT REPORT — 2026-09-12\n" +
-      "------------------------------------\n" +
-      "SUBJECT: CARTER, EMILY  (F, 26)\n" +
-      "LAST SEEN: District 7, 23:38\n" +
-      "REPORTED BY: roommate\n\n" +
-      "NOTES:\n" +
-      "  Subject left workplace at 22:10.\n" +
-      "  CCTV shows subject entering Building B.\n" +
-      "  No exit recorded.\n" +
-      "  Personal effects recovered: none.\n\n" +
-      "NOTE (DET. HARPER):\n" +
-      "  This is identical to CASE_01947.\n" +
-      "  Seven years apart. Same building.\n" +
-      "  I don't believe in coincidence."
-  },
-
-  "carter_witness_a": {
-    title: "CARTER / WITNESS A",
-    content:
-      "WITNESS STATEMENT — redacted\n" +
-      "------------------------------------\n" +
-      "\"She told me she'd found something.\n" +
-      " Something old. Something about the 17th.\n" +
-      " She was scared. Really scared.\"\n\n" +
-      "— end of statement —"
-  },
-
-  "carter_phone_log": {
-    title: "CARTER / PHONE LOG",
-    locked: true,
-    requires: "flag_phone",
-    content:
-      "PHONE LOG RECOVERY — partial\n" +
-      "------------------------------------\n" +
-      "Last outgoing message (2026-09-12 22:58):\n\n" +
-      "  \"I found N.\"\n\n" +
-      "Recipient: [REDACTED]\n" +
-      "Message delivered: NO\n" +
-      "Message deleted:    YES\n" +
-      "Recovered from:     device cache\n"
-  }
-};
-
-/* ----------------------------------------------------------------
-   3) ESTADO DE LA PARTIDA (flags, historial)
-   ---------------------------------------------------------------- */
-const state = {
-  flags: new Set(),
-  history: [],
-  histIdx: -1
-};
-
-function unlock(flag) { state.flags.add(flag); }
-function hasFlag(flag) { return state.flags.has(flag); }
-
-/* ----------------------------------------------------------------
-   4) FILESYSTEM: acceso a datos con reglas
-   ---------------------------------------------------------------- */
-const FS = {
-  listCases() { return Object.values(CASES); },
-  getCase(id) { return CASES[id] || null; },
-  getFile(id) { return FILES[id] || null; },
-
-  readFile(id) {
-    const f = FILES[id];
-    if (!f) return { ok: false, reason: "NOT_FOUND" };
-    if (f.locked && !hasFlag(f.requires)) {
-      return { ok: false, reason: "LOCKED", file: f };
-    }
-    return { ok: true, file: f };
-  },
-
-  search(q) {
-    q = q.toLowerCase();
-    const hits = [];
-    for (const [id, f] of Object.entries(FILES)) {
-      if (id.includes(q) || (f.title || "").toLowerCase().includes(q)) {
-        hits.push(id);
-      }
-    }
-    for (const [id, c] of Object.entries(CASES)) {
-      if (id.includes(q) || c.name.toLowerCase().includes(q)) {
-        hits.push(id);
-      }
-    }
-    return hits;
-  }
-};
-
-/* ----------------------------------------------------------------
-   5) COMANDOS
-   Cada comando recibe (args) y devuelve TEXTO PLANO (o null).
-   Para añadir un comando nuevo: COMMANDS.miComando = (args) => "...";
-   Y añadirlo al texto de help().
-   ---------------------------------------------------------------- */
-const COMMANDS = {
-
-  help() {
-    return [
-      "AVAILABLE COMMANDS",
-      "------------------",
-      "  help                  show this list",
-      "  cases                 list open/closed cases",
-      "  open <case_id>        open a case file",
-      "  files <case_id>       list files of a case",
-      "  read <file_id>        read a file",
-      "  evidence <case_id>    list evidence of a case",
-      "  search <query>        search across the database",
-      "  people                list known persons",
-      "  locations             list known locations",
-      "  messages              list recovered messages",
-      "  decrypt <file_id>     attempt to decrypt a file",
-      "  connect <target>      connect to external archive",
-      "  whoami                current session info",
-      "  clear                 clear the screen",
-      "  exit                  end session",
-      "",
-      "Some commands may reveal more than expected."
-    ].join("\n");
-  },
-
-  cases() {
-    const list = FS.listCases();
-    const out = ["CASE INDEX", "----------"];
-    for (const c of list) {
-      out.push(
-        `${c.id} — ${c.name}\n` +
-        `   STATUS: ${c.status}   LEAD: ${c.lead}`
-      );
-    }
-    return out.join("\n");
-  },
-
-  open(args) {
-    if (!args[0]) return "usage: open <case_id>";
-    const c = FS.getCase(args[0]);
-    if (!c) return `error: case "${args[0]}" not found.`;
-    return (
-      `${c.id} — ${c.name}\n` +
-      `STATUS: ${c.status}\n` +
-      `OPENED: ${c.opened}\n` +
-      (c.closed ? `CLOSED: ${c.closed}\n` : "") +
-      `LEAD:   ${c.lead}\n` +
-      `------------------------------------\n` +
-      c.summary + "\n" +
-      `------------------------------------\n` +
-      `FILES: ${c.files.join(", ")}\n` +
-      `Use: files ${args[0]}`
-    );
-  },
-
-  files(args) {
-    if (!args[0]) return "usage: files <case_id>";
-    const c = FS.getCase(args[0]);
-    if (!c) return `error: case "${args[0]}" not found.`;
-    const out = [`FILES — ${c.id}`, "----------"];
-    for (const fid of c.files) {
-      const f = FS.getFile(fid);
-      const status = (f.locked && !hasFlag(f.requires)) ? "[LOCKED]" : "[  OK  ]";
-      out.push(`  ${status}  ${fid}   ${f.title}`);
-    }
-    out.push("");
-    out.push("Use: read <file_id>");
-    return out.join("\n");
-  },
-
-  evidence(args) {
-    if (!args[0]) return "usage: evidence <case_id>";
-    const c = FS.getCase(args[0]);
-    if (!c) return `error: case "${args[0]}" not found.`;
-    return (
-      `EVIDENCE — ${c.id}\n` +
-      `----------\n` +
-      `  • CCTV footage (partial)\n` +
-      `  • Witness statements\n` +
-      `  • Personal effects (none recovered)\n` +
-      `  • [REDACTED]\n\n` +
-      `Some evidence is not listed here.`
-    );
-  },
-
-  read(args) {
-    if (!args[0]) return "usage: read <file_id>";
-    const r = FS.readFile(args[0]);
-    if (!r.ok) {
-      if (r.reason === "LOCKED") {
-        return (
-          `[LOCKED] ${r.file.title}\n` +
-          `------------------------------------\n` +
-          r.file.content
-        );
-      }
-      return `error: file "${args[0]}" not found.`;
-    }
-    return (
-      `${r.file.title}\n` +
-      `------------------------------------\n` +
-      r.file.content
-    );
-  },
-
-  search(args) {
-    if (!args[0]) return "usage: search <query>";
-    const hits = FS.search(args[0]);
-    if (!hits.length) return `no results for "${args[0]}".`;
-    return (
-      `SEARCH RESULTS — "${args[0]}"\n` +
-      `----------\n` +
-      hits.map(h => "  " + h).join("\n")
-    );
-  },
-
-  people() {
-    return [
-      "KNOWN PERSONS",
-      "-------------",
-      "  ROSS, NAYLA      (subject, missing 2019)",
-      "  CARTER, EMILY    (subject, missing 2026)",
-      "  DET. HARPER      (lead investigator, both cases)",
-      "  [REDACTED]",
-      "",
-      "More persons may appear as you investigate."
-    ].join("\n");
-  },
-
-  locations() {
-    return [
-      "KNOWN LOCATIONS",
-      "---------------",
-      "  District 7 — Building B   (last seen, both cases)",
-      "  [REDACTED]",
-      "",
-      "Coordinates withheld."
-    ].join("\n");
-  },
-
-  messages() {
-    if (hasFlag("flag_phone")) {
-      return [
-        "RECOVERED MESSAGES",
-        "------------------",
-        "  2026-09-12 22:58  EMILY → [REDACTED]",
-        "    \"I found N.\"",
-        "",
-        "  [Only one message recovered.]"
-      ].join("\n");
-    }
-    return [
-      "RECOVERED MESSAGES",
-      "------------------",
-      "  [No messages recovered yet.]",
-      "",
-      "Hint: some messages are hidden inside other files."
-    ].join("\n");
-  },
-
-  /* ------------------------------------------------------------
-     PUZZLE INICIAL 1: descifrar ross_archive
-     Pista: la palabra "mirror" aparece en el testimonio de Nayla.
-     El jugador escribe:  decrypt ross_archive mirror
-     ------------------------------------------------------------ */
-  decrypt(args) {
-    if (!args[0]) return "usage: decrypt <file_id> [key]";
-    const f = FS.getFile(args[0]);
-    if (!f) return `error: file "${args[0]}" not found.`;
-    if (!f.locked) return `file "${args[0]}" is not encrypted.`;
-
-    // Si ya está desbloqueado
-    if (hasFlag(f.requires)) {
-      return (
-        `DECRYPT — ${args[0]}\n` +
-        `----------\n` +
-        `Already decrypted.\n\n` +
-        FS.readFile(args[0]).file.content
-      );
-    }
-
-    const key = (args[1] || "").toLowerCase();
-    if (!key) {
-      return (
-        `DECRYPT — ${args[0]}\n` +
-        `----------\n` +
-        `Encryption detected (AES-MIRROR-14).\n` +
-        `Usage: decrypt ${args[0]} <key>\n\n` +
-        `Hint: the key is a name. The name is a reflection.`
-      );
-    }
-
-    if (key === "mirror") {
-      unlock("flag_mirror");
-      return (
-        `DECRYPT — ${args[0]}\n` +
-        `----------\n` +
-        `[KEY ACCEPTED]\n` +
-        `Decrypting ...\n\n` +
-        `ACCESS GRANTED.\n` +
-        `------------------------------------\n` +
-        `SUBJECT 14:  NAYLA ROSS\n` +
-        `SUBJECT 27:  EMILY CARTER\n\n` +
-        `STATUS:  SILENCED\n\n` +
-        `REASON:\n` +
-        `  THEY KNOW WHAT HAPPENED ON OCTOBER 17.\n` +
-        `------------------------------------\n` +
-        `ARCHIVE SOURCE:  PROJECT MIRROR\n`
-      );
-    }
-
-    return (
-      `DECRYPT — ${args[0]}\n` +
-      `----------\n` +
-      `[KEY REJECTED: "${key}"]\n` +
-      `Encryption remains.`
-    );
-  },
-
-  /* ------------------------------------------------------------
-     PUZZLE INICIAL 2: descifrar carter_phone_log
-     Pista: "I found N." → N es Nayla. La clave es "nayla".
-     Uso: decrypt carter_phone_log nayla
-     ------------------------------------------------------------ */
-  // (comparte el mismo comando decrypt de arriba)
-
-  connect(args) {
-    if (!args[0]) return "usage: connect <target>";
-    if (args[0] === "ross_internal") {
-      return (
-        "ATTEMPTING CONNECTION TO REMOTE ARCHIVE ...\n" +
-        "[ NOT AVAILABLE YET — pending narrative unlock ]\n\n" +
-        "Hint: come back when you know what PROJECT MIRROR is."
-      );
-    }
-    return `error: unknown target "${args[0]}".`;
-  },
-
-  whoami() {
-    return (
-      "USER: DETECTIVE_047\n" +
-      "CLEARANCE: LEVEL 2\n" +
-      "SESSION: ACTIVE\n" +
-      "ACCESS LOGGED."
-    );
-  },
-
-  clear() {
-    document.getElementById("output").innerHTML = "";
-    return null;
-  },
-
-  exit() {
-    return "SESSION TERMINATED.\n(reload the page to reconnect)";
-  }
-};
-
-/* Ajuste especial: el decrypt de carter_phone_log usa la clave "nayla".
-   Lo metemos como caso extra dentro del mismo comando. */
-const _origDecrypt = COMMANDS.decrypt;
-COMMANDS.decrypt = function (args) {
-  if (args[0] === "carter_phone_log") {
-    if (!args[1]) {
-      return (
-        "DECRYPT — carter_phone_log\n" +
-        "----------\n" +
-        "Encryption detected (MIRROR-CACHE).\n" +
-        "Usage: decrypt carter_phone_log <key>\n\n" +
-        "Hint: the message says \"I found N.\"\n" +
-        "Who is N?"
-      );
-    }
-    const k = args[1].toLowerCase();
-    if (k === "nayla" || k === "ross" || k === "nayla_ross") {
-      unlock("flag_phone");
-      return (
-        "DECRYPT — carter_phone_log\n" +
-        "----------\n" +
-        "[KEY ACCEPTED]\n\n" +
-        "PHONE LOG RECOVERY — partial\n" +
-        "------------------------------------\n" +
-        "Last outgoing message (2026-09-12 22:58):\n\n" +
-        "  \"I found N.\"\n\n" +
-        "Recipient: [REDACTED]\n" +
-        "Message delivered: NO\n" +
-        "Message deleted:    YES\n" +
-        "Recovered from:     device cache\n" +
-        "------------------------------------\n" +
-        "New message available. Try: messages\n"
-      );
-    }
-    return (
-      "DECRYPT — carter_phone_log\n" +
-      "----------\n" +
-      `[KEY REJECTED: "${k}"]\n` +
-      "Encryption remains."
-    );
-  }
-  return _origDecrypt(args);
-};
-
-/* ----------------------------------------------------------------
-   6) MOTOR DE LA TERMINAL
-   ---------------------------------------------------------------- */
-(function () {
-  const bootEl    = document.getElementById("boot");
-  const bootLog   = document.getElementById("bootLog");
-  const bootCont  = document.getElementById("bootContinue");
-  const termEl    = document.getElementById("term");
-  const output    = document.getElementById("output");
-  const input     = document.getElementById("cmd");
-  const clockEl   = document.getElementById("clock");
-  const sessionEl = document.getElementById("sessionId");
-
-  /* ---------- 6.1) Animación de arranque ---------- */
-  const bootLines = [
-    "P.I.T. BIOS v2.7  (C) FICTIONAL CITY POLICE DEPT.",
-    "",
-    "Memory check ......... 640K OK",
-    "Loading kernel ....... OK",
-    "Mounting encrypted volume /dev/sda1 ... OK",
-    "Verifying credentials ................ OK",
-    "",
-    "WARNING: This system contains classified material.",
-    "All access is logged. Unauthorized use is a crime.",
-    "",
-    "Connecting to case database ...",
-    "  > CASE_01947  ... FOUND",
-    "  > CASE_02647  ... FOUND",
-    "  > ARCHIVE_??  ... RESTRICTED",
-    "",
-    "SIGN-IN OK  —  DETECTIVE_047",
-    ""
-  ];
-
-  let bi = 0, bj = 0;
-  function typeBoot() {
-    if (bi >= bootLines.length) {
-      bootCont.classList.add("show");
-      return;
-    }
-    const cur = bootLines[bi];
-    if (bj <= cur.length) {
-      bootLog.textContent =
-        bootLines.slice(0, bi).join("\n") +
-        (bi > 0 ? "\n" : "") +
-        cur.slice(0, bj);
-      bj++;
-      setTimeout(typeBoot, cur.startsWith("  >") ? 55 : 12);
-    } else {
-      bi++; bj = 0;
-      setTimeout(typeBoot, 110);
-    }
-  }
-  typeBoot();
-
-  /* ---------- 6.2) Al pulsar ENTER, entramos ---------- */
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && bootCont.classList.contains("show")
-        && !termEl.classList.contains("show")) {
-      bootEl.classList.add("hide");
-      termEl.classList.add("show");
-      setTimeout(() => {
-        bootEl.style.display = "none";
-        input.focus();
-        startTerminal();
-      }, 600);
-    }
-  });
-
-  /* ---------- 6.3) Arranque de la terminal ---------- */
-  function startTerminal() {
-    sessionEl.textContent =
-      "S-" + Math.random().toString(36).slice(2, 8).toUpperCase();
-
-    function tick() {
-      clockEl.textContent = new Date().toTimeString().slice(0, 8);
-    }
-    tick();
-    setInterval(tick, 1000);
-
-    printBlock(
-`POLICE INVESTIGATION TERMINAL v2.7
-USER: DETECTIVE_047   DATABASE: ONLINE
-
-Type "help" to see available commands.
-`
-    );
-  }
-
-  /* ---------- 6.4) Impresión ---------- */
-  function print(text, cls) {
-    if (text == null) return;
-    const d = document.createElement("div");
-    d.className = "line " + (cls || "");
-    d.textContent = text;
-    output.appendChild(d);
-    output.scrollTop = output.scrollHeight;
-  }
-
-  function printBlock(text) {
-    if (text == null) return;
-    const d = document.createElement("div");
-    d.className = "line";
-    d.style.whiteSpace = "pre-wrap";
-    d.textContent = text;
-    output.appendChild(d);
-    output.scrollTop = output.scrollHeight;
-  }
-
-  /* ---------- 6.5) Ejecutar comando ---------- */
-  function run(raw) {
-    const line = raw.trim();
-    if (!line) return;
-
-    print("> " + line, "dim");
-
-    const parts = line.split(/\s+/);
-    const cmd = parts[0].toLowerCase();
-    const args = parts.slice(1);
-
-    const fn = COMMANDS[cmd];
-    if (!fn) {
-      print(`unknown command: "${cmd}". Type "help".`, "err");
-      return;
-    }
-
-    try {
-      const res = fn(args);
-      if (res != null) printBlock(res);
-    } catch (e) {
-      print("internal error: " + e.message, "err");
-    }
-  }
-
-  /* ---------- 6.6) Input + historial ---------- */
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      const v = input.value;
-      input.value = "";
-      if (v.trim()) {
-        state.history.push(v);
-        state.histIdx = state.history.length;
-      }
-      run(v);
-    } else if (e.key === "ArrowUp") {
-      if (state.histIdx > 0) {
-        state.histIdx--;
-        input.value = state.history[state.histIdx];
-        e.preventDefault();
-      }
-    } else if (e.key === "ArrowDown") {
-      if (state.histIdx < state.history.length - 1) {
-        state.histIdx++;
-        input.value = state.history[state.histIdx];
-      } else {
-        state.histIdx = state.history.length;
-        input.value = "";
-      }
-      e.preventDefault();
-    }
-  });
-
-  // Cualquier clic devuelve el foco al input
-  document.addEventListener("click", () => input.focus());
-
-})();
-</script>
+<script src="data/cases.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
